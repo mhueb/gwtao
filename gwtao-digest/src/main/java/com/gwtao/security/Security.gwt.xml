@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.gwtaf.emul.Emul' />
+
+	<super-source path="emul" />
+
+	<script src="gwtao/js/md5.js" />
+	<script src="gwtao/js/webtoolkit.sha256.js" />
+</module>

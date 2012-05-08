@@ -1,0 +1,42 @@
+/* 
+ * GWTAO
+ * 
+ * Copyright (C) 2012 Matthias Huebner
+ * 
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+ */
+package com.gwtao.common.server.i18n;
+
+import java.util.Locale;
+
+final class LocaleGetter implements ILocaleGetter {
+  private final ThreadLocal<Locale> locales = new ThreadLocal<Locale>();
+
+  public LocaleGetter() {
+  }
+
+  public Locale getLocale() {
+    Locale locale = locales.get();
+    if (locale == null)
+      return Locale.getDefault();
+    return locale;
+  }
+
+  public void setLocale(Locale locale) {
+    locales.set(locale);
+  }
+}
