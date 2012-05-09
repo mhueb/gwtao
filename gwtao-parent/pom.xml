@@ -17,13 +17,13 @@
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
-	<modules>
-		<module>gwtao-common</module>
-		<module>gwtao-emul</module>
-		<module>gwtao-ui</module>
-		<module>gwtao-digest</module>
-		<module>gwtao-showcase</module>
-	</modules>
+	<!-- <modules> -->
+	<!-- <module>../gwtao-emul</module> -->
+	<!-- <module>../gwtao-common</module> -->
+	<!-- <module>../gwtao-ui</module> -->
+	<!-- <module>../gwtao-digest</module> -->
+	<!-- <module>../gwtao-showcase</module> -->
+	<!-- </modules> -->
 
 	<dependencies>
 		<dependency>
@@ -56,18 +56,35 @@
 			<version>2.6</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory> src/java </directory>
+				<excludes>
+					<exclude>**/emul/**</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.1</version>
 					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>${maven.compiler.source}</source>
+						<target>${maven.compiler.target}</target>
 						<debug>true</debug>
+						<excludes>
+							<exclude>**/emul/**</exclude>
+						</excludes>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -84,6 +101,102 @@
 						</execution>
 					</executions>
 				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.bsc.maven</groupId>
+										<artifactId>
+											maven-processor-plugin
+										</artifactId>
+										<versionRange>
+											[2.0.5,)
+										</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>false</downloadJavadocs>
+						<wtpversion>2.0</wtpversion>
+						<additionalBuildcommands>
+							<buildCommand>
+								<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
+							</buildCommand>
+						</additionalBuildcommands>
+						<additionalProjectnatures>
+							<projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>
+						</additionalProjectnatures>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>gwt-maven-plugin</artifactId>
+					<version>2.4.0</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.google.gwt</groupId>
+							<artifactId>gwt-user</artifactId>
+							<version>${gwtVersion}</version>
+						</dependency>
+						<dependency>
+							<groupId>com.google.gwt</groupId>
+							<artifactId>gwt-dev</artifactId>
+							<version>${gwtVersion}</version>
+						</dependency>
+						<dependency>
+							<groupId>com.google.gwt</groupId>
+							<artifactId>gwt-servlet</artifactId>
+							<version>${gwtVersion}</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>resources</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.4.1</version>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>tomcat</directory>
+							</fileset>
+							<fileset>
+								<directory>www-test</directory>
+							</fileset>
+							<fileset>
+								<directory>.gwt-tmp</directory>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
