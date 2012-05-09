@@ -21,6 +21,8 @@
  */
 package java.util;
 
+import java.util.Date;
+
 
 /**
  * Emulation of java Gregorian calendar for use in gwt javascript.<br>

@@ -22,6 +22,7 @@
 package java.util;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Emulation of java Calendar class for use in gwt javascript.<br>
