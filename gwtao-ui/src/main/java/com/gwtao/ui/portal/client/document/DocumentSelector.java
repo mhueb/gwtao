@@ -1,28 +1,22 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.portal.client.document;
 
-import com.gwtao.common.shared.permission.IPermissionDelegate;
-import com.gwtao.common.shared.permission.Permission;
+import com.gwtao.ui.context.client.ContextActionAdapter;
+import com.gwtao.ui.context.client.ContextImageBundle;
 import com.gwtao.ui.context.client.selectioncontext.ISelectionContext;
 import com.gwtao.ui.dialog.client.AsyncYESNOAnswere;
 import com.gwtao.ui.dialog.client.MessageDialog;
@@ -32,23 +26,25 @@ import com.gwtao.ui.portal.client.i18n.PortalConstants;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.util.client.action.IPrivilegedAction;
+import com.gwtao.utils.shared.permission.IPermissionDelegate;
+import com.gwtao.utils.shared.permission.Permission;
 
 public abstract class DocumentSelector<T> extends Document implements IDocumentSelector {
   private static boolean globalUseDoubleClick = true;
 
-  private final IAction searchAction = new Action(PortalConstants.c.search(), GWTAFImageBundle.SEARCH_ICON) {
+  private final IAction searchAction = new Action(PortalConstants.c.search(), ContextImageBundle.SEARCH_ICON) {
     public void execute(Object... data) {
       search();
     }
   };
 
-  private final IPrivilegedAction actionCreate = new Action(PortalConstants.c.create(), GWTAFImageBundle.NEW_ICON) {
+  private final IPrivilegedAction actionCreate = new Action(PortalConstants.c.create(), ContextImageBundle.NEW_ICON) {
     public void execute(Object... data) {
       create();
     }
   };
 
-  private final IAction actionOpen = new Action(PortalConstants.c.open(), GWTAFImageBundle.EDIT_ICON) {
+  private final IAction actionOpen = new Action(PortalConstants.c.open(), ContextImageBundle.EDIT_ICON) {
     @SuppressWarnings("unchecked")
     public void execute(Object... data) {
       if (data != null && data.length == 1) {
@@ -63,7 +59,7 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
     }
   };
 
-  private final IPrivilegedAction actionDelete = new Action(PortalConstants.c.deletE(), GWTAFImageBundle.DELETE_ICON) {
+  private final IPrivilegedAction actionDelete = new Action(PortalConstants.c.deletE(), ContextImageBundle.DELETE_ICON) {
     @SuppressWarnings("unchecked")
     public void execute(Object... data) {
       delete((T) data[0]);
@@ -109,7 +105,9 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
   }
 
   /**
-   * @param mode Action configuration <br/>{@link #ALL} Use all default actions <br/>{@link #NONE} Use no default action
+   * @param mode Action configuration <br/>
+   *          {@link #ALL} Use all default actions <br/>
+   *          {@link #NONE} Use no default action
    *          <p>
    *          <br/>
    *          {@link #ACREATE} adds a create action <br/>
@@ -190,8 +188,9 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
    * @param t The model to open
    */
   protected void open(T t) {
-    if (t instanceof IModel)
-      Portal.get().openDocument(((IModel) t).getId());
+    Object parameter = Portal.get().mapObject2Parameter(t);
+    if (parameter != null)
+      Portal.get().openDocument(parameter);
   }
 
   /**

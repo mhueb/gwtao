@@ -1,34 +1,30 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.context.client.editcontext;
+
+import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.message.IMessageReceiver;
+import org.shu4j.utils.message.IMessageSource;
+import org.shu4j.utils.message.Message;
+import org.shu4j.utils.message.MessageLevel;
+import org.shu4j.utils.message.MessageList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.gwtao.common.shared.message.IMessageReceiver;
-import com.gwtao.common.shared.message.IMessageSource;
-import com.gwtao.common.shared.message.Message;
-import com.gwtao.common.shared.message.MessageBag;
-import com.gwtao.common.shared.message.MessageLevel;
 import com.gwtao.ui.context.client.i18n.ContextConstants;
 import com.gwtao.ui.dialog.client.AsyncYESNOAnswere;
 import com.gwtao.ui.dialog.client.MessageDialog;
@@ -40,8 +36,8 @@ import com.gwtao.ui.dialog.client.MessageDialog;
  */
 public abstract class EditContext<T> extends AbstractEditContext<T> {
   private IEditContextOwner editor;
-  private MessageBag messages;
-  private MessageBag serverMessages;
+  private MessageList messages;
+  private MessageList serverMessages;
   private boolean validate = true;
 
   protected abstract class AsyncEditCallback implements AsyncCallback<T> {
@@ -56,7 +52,7 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
    */
   public EditContext(IEditContextOwner editor) {
     this.editor = editor;
-    this.messages = new MessageBag();
+    this.messages = new MessageList();
 
     addStateProvider(new IEditStateProvider() {
       public boolean isDirty() {
@@ -76,16 +72,16 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
   public void onServiceFailure(Throwable caught) {
     if (caught instanceof ValidateException) {
       ValidateException validateException = (ValidateException) caught;
-      serverMessages = validateException.getMessages();
+      serverMessages = new MessageList(validateException.getMessages());
 
       if (serverMessages != null && serverMessages.getWorstLevel() == MessageLevel.FATAL)
         setState(State.FAILURE, true);
       getStateListener().callOnServiceFailed();
-      MessageDialog.alert(ContextConstants.c.serverValidateMessage(), validateException, MessageDialog.OK);
+      MessageDialog.alert(ContextConstants.c.serverValidateMessage(), validateException.getMessages(), MessageDialog.OK);
     }
     else {
       setState(State.FAILURE, true);
-      serverMessages = new MessageBag();
+      serverMessages = new MessageList();
       serverMessages.add(new Message(ContextConstants.c.editorFailure(), MessageLevel.FATAL));
       getStateListener().callOnServiceFailed();
       UncaughtExceptionHandler uncaughtExceptionHandler = GWT.getUncaughtExceptionHandler();

@@ -1,70 +1,63 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.portal.client.document;
 
-import org.apache.commons.lang.StringUtils;
-import org.mortbay.util.StringUtil;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.portal.client.view.AbstractPortalView;
 
 public class InvalidDocumentView extends AbstractPortalView implements IDocument, IDocumentDescriptor {
-  private final HistoryToken token;
-  private final Throwable t;
+  private final Token token;
+  private final String errorMessage;
   private ScrollPanel scroll;
 
-  public InvalidDocumentView(HistoryToken token, Throwable t) {
+  public InvalidDocumentView(Token token, String errorMessage) {
     this.token = token;
-    this.t = t;
+    this.errorMessage = errorMessage;
   }
 
   @Override
   public void init() {
-    StringBuffer sb = new StringBuffer();
-    sb.append("<div style='padding:8px;'>");
-    sb.append("<div style='font-weight:bold;'>Failed to open document</div>");
-    if (StringUtils.isNotEmpty(t.getMessage())) {
-      sb.append("<div style='font-style:italic;'>");
-      sb.append(HTMLUtil.inactivateAndNewline(t.getMessage()));
-      sb.append("</div>");
+    SafeHtmlBuilder sb = new SafeHtmlBuilder();
+
+    sb.appendHtmlConstant("<div style='padding:8px;'>");
+    sb.appendHtmlConstant("<div style='font-weight:bold;'>Failed to open document</div>");
+    if (StringUtils.isNotEmpty(this.errorMessage)) {
+      sb.appendHtmlConstant("<div style='font-style:italic;'>");
+      sb.appendEscapedLines(this.errorMessage);
+      sb.appendHtmlConstant("</div>");
     }
-    sb.append("<br/>");
+    sb.appendHtmlConstant("<br/>");
 
     if (StringUtils.isNotEmpty(token.getValue())) {
-      sb.append("<div style='font-weight:bold;'>Token</div>");
-      sb.append("<div style='font-style:italic;'>");
-      sb.append(HTMLUtil.inactivateAndNewline(token.getValue()));
-      sb.append("</div>");
-      sb.append("<br/>");
+      sb.appendHtmlConstant("<div style='font-weight:bold;'>Token</div>");
+      sb.appendHtmlConstant("<div style='font-style:italic;'>");
+      sb.appendEscaped(token.getValue());
+      sb.appendHtmlConstant("</div>");
+      sb.appendHtmlConstant("<br/>");
     }
 
-    String stackTrace = ExceptionUtil.dumpStackTraceHTML(t);
-    if (StringUtils.isNotEmpty(stackTrace)) {
-      sb.append("<div style='font-weight:bold;'>Stacktrace</div>");
-      sb.append(stackTrace);
-    }
-    sb.append("</div>");
+    sb.appendHtmlConstant("</div>");
 
     HTML html = new HTML(sb.toString());
 
@@ -144,12 +137,12 @@ public class InvalidDocumentView extends AbstractPortalView implements IDocument
   }
 
   @Override
-  public Object decodeParameter(IInputParameter param) {
+  public Object decodeParameter(List<Token.Parameter> param) {
     return null;
   }
 
   @Override
-  public void encodeParameter(IParameterMap params, Object param) {
+  public void encodeParameter(List<Token.Parameter> params, Object param) {
   }
 
   @Override

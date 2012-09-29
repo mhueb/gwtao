@@ -1,23 +1,17 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.portal.client.document;
 
@@ -26,9 +20,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.catalina.util.ParameterMap;
-
-import com.google.gwt.core.ext.typeinfo.NotFoundException;
+import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.portal.client.document.IDocumentDescriptor.Accordance;
 import com.gwtao.ui.portal.client.factory.GenericRegistry;
 
@@ -53,7 +45,7 @@ public class DocumentRegistry extends GenericRegistry<IDocument, IDocumentDescri
   public IDocument create(Object parameter) {
     List<LookupItem> result = lookup(parameter);
     if (result.isEmpty())
-      throw new NotFoundException("No proper document found for parameter '" + (parameter == null ? "null" : parameter.toString()) + "'. Please register with DocumentRegistry::register(U descriptor).");
+      throw new IllegalArgumentException("No proper document found for parameter '" + (parameter == null ? "null" : parameter.toString()) + "'. Please register with DocumentRegistry::register(U descriptor).");
     return create(result.get(0).getDescriptor().getId(), parameter);
   }
 
@@ -61,11 +53,11 @@ public class DocumentRegistry extends GenericRegistry<IDocument, IDocumentDescri
   public String buildToken(String id, Object parameter) {
     IDocumentDescriptor descriptor = lookup(id);
     if (descriptor == null)
-      throw new NotFoundException("No proper document found for id '" + id + "'");
+      throw new DocumentFoundException("No proper document found for id '" + id + "'");
 
-    ParameterMap map = new ParameterMap();
+    List<Token.Parameter> map = new ArrayList<Token.Parameter>();
     descriptor.encodeParameter(map, parameter);
-    return URLUtil.assembleToken(id, map);
+    return Token.create(id, map);
   }
 
   @Override

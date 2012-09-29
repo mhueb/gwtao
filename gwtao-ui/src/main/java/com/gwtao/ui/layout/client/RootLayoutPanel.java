@@ -1,43 +1,42 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.layout.client;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.gwtao.ui.util.client.Size;
 
-@SuppressWarnings("deprecation")
 public class RootLayoutPanel extends LayoutPanel {
-  private final WindowResizeListener handler = new WindowResizeListener() {
-    @Override
-    public void onWindowResized(int width, int height) {
-      RootLayoutPanel.this.onResize();
-    }
-  };
+  private static RootLayoutPanel singleton;
 
-  public RootLayoutPanel(Widget w) {
+  public static RootLayoutPanel get() {
+    if (singleton == null) {
+      singleton = new RootLayoutPanel();
+      RootPanel.get().add(singleton);
+    }
+    return singleton;
+  }
+
+  private HandlerRegistration resizeHandler;
+
+  private RootLayoutPanel() {
     setLayout(new RootLayout());
-    add(w);
   }
 
   @Override
@@ -52,14 +51,18 @@ public class RootLayoutPanel extends LayoutPanel {
   protected void onLoad() {
     Window.enableScrolling(false);
     Window.setMargin("0");
-
-    Window.addWindowResizeListener(handler);
+    resizeHandler = Window.addResizeHandler(new ResizeHandler() {
+      public void onResize(ResizeEvent event) {
+        RootLayoutPanel.this.onResize();
+      }
+    });
     super.onLoad();
   }
 
   @Override
   protected void onUnload() {
-    Window.removeWindowResizeListener(handler);
+    resizeHandler.removeHandler();
+    resizeHandler = null;
     super.onUnload();
   }
 

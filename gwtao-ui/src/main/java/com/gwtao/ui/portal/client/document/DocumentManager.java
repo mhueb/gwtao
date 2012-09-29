@@ -1,23 +1,17 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.portal.client.document;
 
@@ -26,8 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
+import org.shu4j.utils.util.SafeIterator;
 
-import com.gwtao.common.shared.util.SafeIterator;
 import com.gwtao.ui.portal.client.IPortalListener;
 import com.gwtao.ui.portal.client.frame.IDocumentManager;
 import com.gwtao.ui.portal.client.layout.IPortalLayout;
@@ -147,4 +142,16 @@ public final class DocumentManager implements IDocumentManager {
     freeDocs.clear();
   }
 
+  @Override
+  public String canClose() {
+    String message = activeDocument == null ? null : activeDocument.canClose();
+    if (StringUtils.isBlank(message)) {
+      for (IDocument doc : getAllDocuments()) {
+        message = doc.canClose();
+        if (StringUtils.isNotBlank(message))
+          break;
+      }
+    }
+    return message;
+  }
 }
