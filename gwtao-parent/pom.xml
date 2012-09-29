@@ -16,14 +16,15 @@
 		<maven.compiler.debug>true</maven.compiler.debug>
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
-
-	<!-- <modules> -->
-	<!-- <module>../gwtao-emul</module> -->
-	<!-- <module>../gwtao-common</module> -->
-	<!-- <module>../gwtao-ui</module> -->
-	<!-- <module>../gwtao-digest</module> -->
-	<!-- <module>../gwtao-showcase</module> -->
-	<!-- </modules> -->
+	
+	<modules>
+		<module>../gwtao-emul</module>
+		<module>../gwtao-utils</module>
+		<module>../gwtao-digest</module>
+		<module>../gwtao-rest</module>
+		<module>../gwtao-ui</module>
+		<module>../gwtao-showcase</module>
+	</modules>
 
 	<dependencies>
 		<dependency>
@@ -56,11 +57,7 @@
 			<version>2.6</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
-		</dependency>
+
 	</dependencies>
 
 	<build>

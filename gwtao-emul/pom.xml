@@ -5,7 +5,7 @@
 	<artifactId>gwtao-emul</artifactId>
 	<packaging>jar</packaging>
 	<name>gwtao emul</name>
-	<description>emulation of common apis</description>
+	<description>emulation of some common used api</description>
 
 	<parent>
 		<groupId>com.gwtao</groupId>

@@ -1,36 +1,33 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.portal.client.frame;
 
 import org.apache.commons.lang.StringUtils;
-import org.mortbay.util.StringUtil;
+import org.shu4j.utils.util.ExceptionUtil;
 
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.context.client.ContextImageBundle;
 import com.gwtao.ui.layout.client.FlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
 import com.gwtao.ui.layout.client.LayoutPanel;
 import com.gwtao.ui.portal.client.part.AbstractPortalPart;
+import com.gwtao.ui.util.client.BorderlessButton;
 import com.gwtao.ui.util.client.action.Action;
 
 public class BrokenPortalPart extends AbstractPortalPart {
@@ -46,7 +43,7 @@ public class BrokenPortalPart extends AbstractPortalPart {
   @Override
   protected void init() {
     HTML title = new HTML("<div style='padding:2px 0 0 8px; font-weight:bold;'>This part is broken!</div>");
-    BorderlessButton closeButton = new BorderlessButton(new Action(null, GWTAFImageBundle.CLOSE_ICON) {
+    BorderlessButton closeButton = new BorderlessButton(new Action(null, ContextImageBundle.CLOSE_ICON) {
       @Override
       public void execute(Object... data) {
         getPartContext().close();
@@ -72,27 +69,27 @@ public class BrokenPortalPart extends AbstractPortalPart {
   }
 
   private String createMessage() {
-    StringBuffer sb = new StringBuffer();
-    sb.append("<div style='padding:8px;'>");
+    SafeHtmlBuilder sb = new SafeHtmlBuilder();
+    sb.appendHtmlConstant("<div style='padding:8px;'>");
     if (StringUtils.isNotEmpty(e.getMessage())) {
-      sb.append("<div style='font-style:italic;'>");
-      sb.append(HTMLUtil.inactivateAndNewline(e.getMessage()));
-      sb.append("</div>");
+      sb.appendHtmlConstant("<div style='font-style:italic;'>");
+      sb.appendEscapedLines(e.getMessage());
+      sb.appendHtmlConstant("</div>");
     }
-    sb.append("<br/>");
+    sb.appendHtmlConstant("<br/>");
 
-    sb.append("<div style='font-weight:bold;'>Part id</div>");
-    sb.append("<div style='font-style:italic;'>");
-    sb.append(HTMLUtil.inactivateAndNewline(getId()));
-    sb.append("</div>");
-    sb.append("<br/>");
+    sb.appendHtmlConstant("<div style='font-weight:bold;'>Part id</div>");
+    sb.appendHtmlConstant("<div style='font-style:italic;'>");
+    sb.appendEscaped(getId());
+    sb.appendHtmlConstant("</div>");
+    sb.appendHtmlConstant("<br/>");
 
     String stackTrace = ExceptionUtil.dumpStackTraceHTML(e);
     if (StringUtils.isNotEmpty(stackTrace)) {
-      sb.append("<div style='font-weight:bold;'>Stacktrace</div>");
-      sb.append(stackTrace);
+      sb.appendHtmlConstant("<div style='font-weight:bold;'>Stacktrace</div>");
+      sb.appendHtmlConstant(stackTrace);
     }
-    sb.append("</div>");
+    sb.appendHtmlConstant("</div>");
     return sb.toString();
   }
 

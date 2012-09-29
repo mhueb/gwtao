@@ -1,35 +1,30 @@
 /* 
- * GWTAO
+ * Copyright 2012 Matthias Huebner
  * 
- * Copyright (C) 2012 Matthias Huebner
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 3 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.gwtao.ui.portal.client;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.util.ParameterMap;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
+import com.gwtao.ui.location.client.IPresenterManager;
+import com.gwtao.ui.location.client.LocationManager;
+import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.portal.client.document.DocumentRegistry;
 import com.gwtao.ui.portal.client.document.IDocument;
 import com.gwtao.ui.portal.client.document.IDocumentDescriptor;
@@ -47,17 +42,19 @@ import com.gwtao.ui.portal.client.portlet.PortletRegistry;
 import com.gwtao.ui.portal.client.util.PortletOpenAction;
 import com.gwtao.ui.portal.client.view.IPortalViewStackFactory;
 import com.gwtao.ui.portal.client.view.PortalViewStack;
-import com.gwtao.ui.util.client.GWTUtil;
+import com.gwtao.ui.util.client.SplashManager;
 import com.gwtao.ui.util.client.action.IActionInfo;
 import com.gwtao.ui.util.client.action.IActionSupplier;
 
 public class Portal implements IPortal {
 
-  private static final IPortal instance = new Portal();
+  private static final IPortal INSTANCE = new Portal();
 
   public static IPortal get() {
-    return instance;
+    return INSTANCE;
   }
+
+  private final LocationManager<IDocument> manager;
 
   private IPortalViewStackFactory stackFactory = PortalViewStack.FACTORY;
 
@@ -95,6 +92,47 @@ public class Portal implements IPortal {
   private boolean showDocumentsSeparate = true;
 
   private Portal() {
+    manager = new LocationManager<IDocument>(new IPresenterManager<IDocument>() {
+
+      @Override
+      public boolean deactivate(IDocument location) {
+        return true;
+      }
+
+      @Override
+      public IDocument createLocation(Token token) {
+        String id = token.getId();
+        if (StringUtils.isEmpty(id))
+          return null;
+
+        IDocumentDescriptor descr = DocumentRegistry.get().lookup(id);
+        if (descr == null)
+          throw new java.lang.IllegalArgumentException("Document with id=" + token.getId() + " does not exists!");
+        Object parameter = descr.decodeParameter(token.getParameters());
+        return openDocument(token.getId(), parameter);
+      }
+
+      @Override
+      public IDocument createErrorLocation(Token token, String errorMessage) {
+        // TODO das sollte eigentlich unnötig sein....
+        if (frame instanceof NotstartedFrame)
+          throw new IllegalStateException();
+
+        InvalidDocumentView invalidDocumentRequest = new InvalidDocumentView(token, errorMessage);
+        frame.getDocumentManager().addDocument(invalidDocumentRequest, true);
+        return invalidDocumentRequest;
+      }
+
+      @Override
+      public String canClose(IDocument location) {
+        return frame.getDocumentManager().canClose();
+      }
+
+      @Override
+      public void activate(IDocument location) {
+        location.getViewContext().activate();
+      }
+    });
   }
 
   public void initLook(String lookId) {
@@ -103,12 +141,11 @@ public class Portal implements IPortal {
     this.lookId = lookId;
   }
 
-  @Override
-  public void onStartup() {
+  public void startup() {
     if (!(frame instanceof NotstartedFrame))
       throw new IllegalStateException("Portal already started!");
 
-    GWTUtil.removeLoadingInfo();
+    SplashManager.removeSplash();
 
     listeners.add(new IPortalListener() {
       @Override
@@ -121,73 +158,28 @@ public class Portal implements IPortal {
 
       @Override
       public void onDocumentSwitch(IDocument doc) {
-        notifyActivation(doc);
+        manager.notifyActivation(doc);
       }
 
       @Override
       public void onDocumentClose(IDocument doc) {
-        notifyRemove(doc);
+        manager.notifyRemove(doc);
       }
     });
 
     frame = new PortalFrame(stackFactory, listeners);
-    RootPanelEx.setRoot(new RootLayoutPanel(frame.getWidget()));
+    RootLayoutPanel.get().add(frame.getWidget());
     applyLook(lookId);
+
+    manager.startup();
   }
 
-  @Override
-  public void onReset() {
-    RootPanelEx.clear();
+  public void reset() {
+    RootLayoutPanel.get().clear();
     frame = new NotstartedFrame();
     // lookId = null; TODO hie initiale wird nur bei startup übergeben. die sollte ggf. hier wieder verwen det
     // werdeen, da die aktuelle was anderes sein kann...
     listeners.clear();
-  }
-
-  @Override
-  protected void activate(IDocument target, HistoryToken token, boolean subChange) {
-    if (!subChange)
-      target.getViewContext().activate();
-  }
-
-  @Override
-  protected boolean deactivate(IDocument target) {
-    return true;
-  }
-
-  @Override
-  protected IDocument createState(HistoryToken token) {
-    String id = token.getId();
-    if (StringUtils.isEmpty(id))
-      return null;
-
-    IDocumentDescriptor descr = DocumentRegistry.get().lookup(id);
-    if (descr == null)
-      throw new NotFoundException("Document with id=" + token.getId() + " not found!");
-    IInputParameter ip = new ParameterMap(URLUtil.decodeParamter(token.getParams()));
-    Object parameter = descr.decodeParameter(ip);
-    return openDocument(token.getId(), parameter);
-  }
-
-  @Override
-  protected IDocument createErrorState(HistoryToken token, Throwable t) {
-    // TODO das sollte eigentlich unnötig sein....
-    if (frame instanceof NotstartedFrame)
-      throw new IllegalStateException();
-
-    InvalidDocumentView invalidDocumentRequest = new InvalidDocumentView(token, t);
-    frame.getDocumentManager().addDocument(invalidDocumentRequest, true);
-    return invalidDocumentRequest;
-  }
-
-  @Override
-  public String buildToken(String id, Object param) {
-    return URLUtil.assembleContextToken(getContextId(), DocumentRegistry.get().buildToken(id, param));
-  }
-
-  @Override
-  public String buildSubStateTokens(String id, IDocument state) {
-    return null;
   }
 
   @Override
@@ -308,5 +300,10 @@ public class Portal implements IPortal {
   @Override
   public void setViewStackFactory(IPortalViewStackFactory factory) {
     stackFactory = factory;
+  }
+
+  @Override
+  public Object mapObject2Parameter(Object obj) {
+    throw new IllegalStateException("Not Implemented Yet");
   }
 }

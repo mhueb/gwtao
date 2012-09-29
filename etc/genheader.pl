@@ -3,7 +3,7 @@ use Cwd;
 
 print( "\generate file header comment\n" );
 
-$ret = GetOptions ( 'Help!', \$Help, 'C:s', \$icopyright, 'P:s', \$iproject, 'R!', \$rekursiv, 'L:s', \$ilicense);
+$ret = GetOptions ( 'Help!', \$Help, 'C:s', \$icopyright, 'P:s', \$iproject, 'R!', \$rekursiv, 'L:s', \$ilicense, 'M:s', \$modulepath);
 ($ret) or die "invalid arguments. -help for help\n";
 
 if( $Help ) {
@@ -17,11 +17,13 @@ if( $Help ) {
 }
 
 $d = d;
-$CurrentDir = `cd`;
-$CurrentDir =~ tr/\\/\//;
-chomp $CurrentDir;
 
-$root = getcwd();
+if( $modulepath ) {
+	$root=$modulepath;
+}
+else {
+	$root = getcwd();
+}
 $root=~s/\\/\//;
 
 processdir( $root );
@@ -163,6 +165,21 @@ sub processfile( ) {
 				print OUTPUT " * License along with this software; if not, write to the Free\n";
 				print OUTPUT " * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA\n";
 				print OUTPUT " * 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n *\n";
+			}
+			elsif( $license =~ /APACHE/ ) {
+				print OUTPUT <<"END";
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+END
 			}
 			else {
 				print OUTPUT " * $license\n * \n"; 

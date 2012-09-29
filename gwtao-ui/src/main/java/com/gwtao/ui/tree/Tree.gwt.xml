@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='dadi'>
+	<inherits name='com.google.gwt.activity.Activity' />
+	<inherits name='com.google.gwt.place.Place' />
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.google.gwt.editor.Editor' />
+	<inherits name="com.google.gwt.logging.Logging" />
+	<source path="client" />
+</module>
