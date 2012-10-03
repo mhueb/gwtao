@@ -1,7 +1,2 @@
 .metadata
-*/target/*
-*/classes/*
-*.class
-*.jar
-*.war
-*.ear
+*/target/
