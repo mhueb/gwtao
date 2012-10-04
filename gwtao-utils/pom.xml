@@ -4,8 +4,8 @@
 
 	<artifactId>gwtao-utils</artifactId>
 	<packaging>jar</packaging>
-	<name>gwtao common</name>
-	<description>Common parts for server and client</description>
+	<name>gwtao utils</name>
+	<description>gwt utilities</description>
 
 	<parent>
 		<groupId>com.gwtao</groupId>
