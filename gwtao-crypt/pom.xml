@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>gwtao-digest</artifactId>
+	<artifactId>gwtao-crypt</artifactId>
 	<packaging>jar</packaging>
-	<name>gwtao digest</name>
-	<description>Digest add ons</description>
+	<name>gwtao crypt</name>
+	<description>Crypt add ons</description>
 
 	<parent>
 		<groupId>com.gwtao</groupId>
