@@ -15,10 +15,10 @@ public class DigestUtils {
   private static final MD5 MD5 = new MD5();
 
   public static String md5Hex(String data) {
-    return MD5.hex_md5(text);
+    return new MD5().hex_md5(data);
   };
 
   public static String sha256Hex(String data) {
-    return SHA256.sha256(text);
+    return new SHA256().sha256(data);
   };
 }
