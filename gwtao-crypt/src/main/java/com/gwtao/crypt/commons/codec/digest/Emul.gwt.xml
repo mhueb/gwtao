@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<inherits name='com.google.gwt.user.User' />
-	<inherits name='com.gwtao.digest.md5.MD5' />
-	<inherits name='com.gwtao.digest.sha256.SHA256' />
+	<inherits name='com.gwtao.crypt.md5.MD5' />
+	<inherits name='com.gwtao.crypt.sha256.SHA256' />
 	<super-source path="emul" />
 </module>
