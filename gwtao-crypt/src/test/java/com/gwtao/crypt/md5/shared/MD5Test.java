@@ -10,8 +10,8 @@ public class MD5Test {
    */
   @Test
   public void md5_vm_test() {
-    Assert.assertEquals("900150983cd24fb0d6963f7d28e17f72", new MD5().hex_md5("abc"));
-    Assert.assertEquals("7dc0898a1c0dcc36313970d5db996ea7", new MD5().hex_md5("sdfkdsjfsdkljfäööw33"));
+    Assert.assertEquals("900150983cd24fb0d6963f7d28e17f72", new MD5().hex("abc"));
+    Assert.assertEquals("7dc0898a1c0dcc36313970d5db996ea7", new MD5().hex("sdfkdsjfsdkljfäööw33"));
   }
 
 }

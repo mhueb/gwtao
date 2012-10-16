@@ -17,43 +17,43 @@ public class MD5 {
   private boolean hexcase;
 
   /** base-64 pad character. "=" for strict RFC compliance */
-  private String b64pad = "";
+  private final String b64pad = "";
 
   /** bits per input character. 8 - ASCII; 16 - Unicode */
-  private int chrsz = 8;
+  private final int chrsz = 8;
 
   /**
    * These are the functions you'll usually want to call They take string arguments and return either hex or
    * base-64 encoded strings
    */
-  public String hex_md5(String s) {
-    return Util.binl2hex(core_md5(Util.str2binl(s, chrsz), s.length() * chrsz), hexcase);
+  public String hex(String s) {
+    return Util.binl2hex(core(Util.str2binl(s, chrsz), s.length() * chrsz), hexcase);
   }
 
-  public String b64_md5(String s) {
-    return Util.binl2b64(core_md5(Util.str2binl(s, chrsz), s.length() * chrsz), b64pad);
+  public String b64(String s) {
+    return Util.binl2b64(core(Util.str2binl(s, chrsz), s.length() * chrsz), b64pad);
   }
 
-  public String str_md5(String s) {
-    return Util.binl2str(core_md5(Util.str2binl(s, chrsz), s.length() * chrsz), chrsz);
+  public String str(String s) {
+    return Util.binl2str(core(Util.str2binl(s, chrsz), s.length() * chrsz), chrsz);
   }
 
-  public String hex_hmac_md5(String key, String data) {
-    return Util.binl2hex(core_hmac_md5(key, data), hexcase);
+  public String hex_hmac(String key, String data) {
+    return Util.binl2hex(core_hmac(key, data), hexcase);
   }
 
-  public String b64_hmac_md5(String key, String data) {
-    return Util.binl2b64(core_hmac_md5(key, data), b64pad);
+  public String b64_hmac(String key, String data) {
+    return Util.binl2b64(core_hmac(key, data), b64pad);
   }
 
-  public String str_hmac_md5(String key, String data) {
-    return Util.binl2str(core_hmac_md5(key, data), chrsz);
+  public String str_hmac(String key, String data) {
+    return Util.binl2str(core_hmac(key, data), chrsz);
   }
 
   /*
    * Calculate the MD5 of an array of little-endian words, and a bit length
    */
-  private int[] core_md5(int[] x, int len) {
+  private int[] core(int[] x, int len) {
     /* append padding */
     x[len >> 5] |= 0x80 << ((len) % 32);
     int ts = (((len + 64) >>> 9) << 4) + 14;
@@ -178,10 +178,10 @@ public class MD5 {
   /*
    * Calculate the HMAC-MD5, of a key and some data
    */
-  private int[] core_hmac_md5(String key, String data) {
+  private int[] core_hmac(String key, String data) {
     int[] bkey = Util.str2binl(key, chrsz);
     if (bkey.length > 16)
-      bkey = core_md5(bkey, key.length() * chrsz);
+      bkey = core(bkey, key.length() * chrsz);
 
     int[] ipad = new int[16];
     int[] opad = new int[16];
@@ -190,8 +190,8 @@ public class MD5 {
       opad[i] = bkey[i] ^ 0x5C5C5C5C;
     }
 
-    int[] hash = core_md5(Util.join(ipad, Util.str2binl(data, chrsz)), 512 + data.length() * chrsz);
-    return core_md5(Util.join(opad, hash), 512 + 128);
+    int[] hash = core(Util.join(ipad, Util.str2binl(data, chrsz)), 512 + data.length() * chrsz);
+    return core(Util.join(opad, hash), 512 + 128);
   }
 
 }
