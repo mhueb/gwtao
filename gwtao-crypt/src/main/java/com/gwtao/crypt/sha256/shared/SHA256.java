@@ -82,7 +82,7 @@ public class SHA256 {
 
   public String sha256(String s) {
     String s8 = Util.Utf8Encode(s);
-    return Util.binb2hex(core_sha256(Util.str2binb(s8, chrsz), s8.length() * chrsz), hexcase);
+    return Util.binb2hex(core(Util.str2binb(s8, chrsz), s8.length() * chrsz), hexcase);
   }
 
   private static int S(int X, int n) {
@@ -117,7 +117,7 @@ public class SHA256 {
     return (S(x, 17) ^ S(x, 19) ^ R(x, 10));
   }
 
-  private int[] core_sha256(int[] m, int l) {
+  private int[] core(int[] m, int l) {
     int[] HASH = new int[] {
         0x6A09E667,
         0xBB67AE85,
@@ -127,24 +127,24 @@ public class SHA256 {
         0x9B05688C,
         0x1F83D9AB,
         0x5BE0CD19 };
-    
+
     int[] W = new int[64];
 
     m[l >> 5] |= 0x80 << (24 - l % 32);
-    
+
     int sz = ((l + 64 >> 9) << 4) + 15;
-    m = Util.extend(m, sz+1);
+    m = Util.extend(m, sz + 1);
     m[sz] = l;
 
     for (int i = 0; i < m.length; i += 16) {
-      int  a = HASH[0];
-      int  b = HASH[1];
-      int  c = HASH[2];
-      int  d = HASH[3];
-      int  e = HASH[4];
-      int   f = HASH[5];
-      int  g = HASH[6];
-      int   h = HASH[7];
+      int a = HASH[0];
+      int b = HASH[1];
+      int c = HASH[2];
+      int d = HASH[3];
+      int e = HASH[4];
+      int f = HASH[5];
+      int g = HASH[6];
+      int h = HASH[7];
 
       for (int j = 0; j < 64; j++) {
         if (j < 16)

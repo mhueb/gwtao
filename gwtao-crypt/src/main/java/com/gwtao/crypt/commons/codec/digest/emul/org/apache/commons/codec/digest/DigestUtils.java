@@ -15,7 +15,7 @@ public class DigestUtils {
   private static final MD5 MD5 = new MD5();
 
   public static String md5Hex(String data) {
-    return new MD5().hex_md5(data);
+    return new MD5().hex(data);
   };
 
   public static String sha256Hex(String data) {
