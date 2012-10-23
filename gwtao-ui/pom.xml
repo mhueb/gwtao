@@ -18,14 +18,10 @@
 		<dependency>
 			<groupId>com.gwtao</groupId>
 			<artifactId>gwtao-utils</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.shu4j</groupId>
 			<artifactId>shu4j-utils</artifactId>
-			<version>0.1.0</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
