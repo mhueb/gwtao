@@ -15,7 +15,7 @@
  */
 package com.gwtao.ui.util.client.action;
 
-import com.gwtao.utils.shared.permission.IPermissionDelegate;
+import org.shu4j.utils.permission.IPermissionDelegate;
 
 public interface IPrivilegedAction extends IAction {
   IPrivilegedAction setPermissionDelegate(IPermissionDelegate delegate);

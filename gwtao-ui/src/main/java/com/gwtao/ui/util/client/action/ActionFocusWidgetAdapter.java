@@ -22,11 +22,12 @@
  */
 package com.gwtao.ui.util.client.action;
 
+import org.shu4j.utils.permission.Permission;
+
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.gwtao.utils.shared.permission.Permission;
 
 public class ActionFocusWidgetAdapter implements IActionWidgetAdapter {
-  private FocusWidget widget;
+  private final FocusWidget widget;
   private final IAction action;
   private final Object[] data;
 
@@ -59,7 +60,6 @@ public class ActionFocusWidgetAdapter implements IActionWidgetAdapter {
       show(true);
       enable(true);
       break;
-    case UNALLOWED:
     case READONLY:
       show(true);
       enable(false);

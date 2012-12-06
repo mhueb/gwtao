@@ -16,6 +16,7 @@
 package org.apache.commons.lang;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -324,4 +325,20 @@ public class StringUtils {
     return str.indexOf(searchStr) >= 0;
   }
 
+
+  public static String join(Object[] items, String separator) {
+    return join(Arrays.asList(items,separator));
+  }
+  
+  public static String join(Collection<?> items, String separator) {
+    StringBuilder buff = new StringBuilder();
+    while (items.hasNext()) {
+      String next = items.next();
+      if (next != null)
+        buff.append(next);
+      if (items.hasNext())
+        buff.append(separator);
+    }
+    return buff.toString();
+  }
 }

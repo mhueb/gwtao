@@ -10,7 +10,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
-		<gwtVersion>2.4.0</gwtVersion>
+		<gwtVersion>2.5.0</gwtVersion>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<maven.compiler.debug>true</maven.compiler.debug>
@@ -19,10 +19,13 @@
 
 	<modules>
 		<module>../gwtao-emul</module>
+		<module>../gwtao-cdi</module>
 		<module>../gwtao-utils</module>
 		<module>../gwtao-crypt</module>
 		<module>../gwtao-rest</module>
 		<module>../gwtao-ui</module>
+		<module>../gwtao-app</module>
+		<module>../gwtao-portalapp</module>
 		<module>../gwtao-showcase</module>
 	</modules>
 
@@ -56,12 +59,28 @@
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.6</version>
-				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.shu4j</groupId>
 				<artifactId>shu4j-utils</artifactId>
 				<version>0.1.1-SNAPSHOT</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.gwtao</groupId>
+				<artifactId>gwtao-emul</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.gwtao</groupId>
+				<artifactId>gwtao-cdi</artifactId>
+				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -129,53 +148,6 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.bsc.maven</groupId>
-										<artifactId>
-											maven-processor-plugin
-										</artifactId>
-										<versionRange>
-											[2.0.5,)
-										</versionRange>
-										<goals>
-											<goal>process</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-eclipse-plugin</artifactId>
-					<version>2.9</version>
-					<configuration>
-						<downloadSources>true</downloadSources>
-						<downloadJavadocs>false</downloadJavadocs>
-						<wtpversion>2.0</wtpversion>
-						<additionalBuildcommands>
-							<buildCommand>
-								<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
-							</buildCommand>
-						</additionalBuildcommands>
-						<additionalProjectnatures>
-							<projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>
-						</additionalProjectnatures>
-					</configuration>
-				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>gwt-maven-plugin</artifactId>
@@ -227,5 +199,52 @@
 
 			</plugins>
 		</pluginManagement>
+		<!--This plugin's configuration is used to store Eclipse m2e settings only. 
+			It has no influence on the Maven build itself. -->
+		<plugin>
+			<groupId>org.eclipse.m2e</groupId>
+			<artifactId>lifecycle-mapping</artifactId>
+			<version>1.0.0</version>
+			<configuration>
+				<lifecycleMappingMetadata>
+					<pluginExecutions>
+						<pluginExecution>
+							<pluginExecutionFilter>
+								<groupId>org.bsc.maven</groupId>
+								<artifactId>
+									maven-processor-plugin
+								</artifactId>
+								<versionRange>
+									[2.0.5,)
+								</versionRange>
+								<goals>
+									<goal>process</goal>
+								</goals>
+							</pluginExecutionFilter>
+							<action>
+								<ignore></ignore>
+							</action>
+						</pluginExecution>
+					</pluginExecutions>
+				</lifecycleMappingMetadata>
+			</configuration>
+		</plugin>
+		<plugin>
+			<artifactId>maven-eclipse-plugin</artifactId>
+			<version>2.9</version>
+			<configuration>
+				<downloadSources>true</downloadSources>
+				<downloadJavadocs>false</downloadJavadocs>
+				<wtpversion>2.0</wtpversion>
+				<additionalBuildcommands>
+					<buildCommand>
+						<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
+					</buildCommand>
+				</additionalBuildcommands>
+				<additionalProjectnatures>
+					<projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>
+				</additionalProjectnatures>
+			</configuration>
+		</plugin>
 	</build>
 </project>

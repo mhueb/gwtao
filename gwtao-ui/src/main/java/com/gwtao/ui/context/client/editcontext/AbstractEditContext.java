@@ -18,8 +18,9 @@ package com.gwtao.ui.context.client.editcontext;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.shu4j.utils.permission.Permission;
+
 import com.gwtao.ui.context.client.datacontext.ConcreteDataContext;
-import com.gwtao.utils.shared.permission.Permission;
 
 public abstract class AbstractEditContext<T> extends ConcreteDataContext<T> implements IEditContext<T> {
   private EditContextListenerCaller listeners = new EditContextListenerCaller();

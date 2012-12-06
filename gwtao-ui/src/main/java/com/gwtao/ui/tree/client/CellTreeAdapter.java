@@ -21,107 +21,111 @@ import java.util.List;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.TreeNode;
 
-public class CellTreeAdapter extends
-		AbstractTreeAdapter<CellTree, TreeNode> {
+public class CellTreeAdapter implements ITreeAdapter<CellTree, TreeNode> {
 
-	public CellTreeAdapter(CellTree treePanel) {
-		super(treePanel);
-	}
+  private final CellTree treePanel;
 
-	@Override
-	protected TreeNode getRootNode() {
-		return getTree().getRootTreeNode();
-	}
+  public CellTreeAdapter(CellTree treePanel) {
+    this.treePanel = treePanel;
+  }
 
-	@Override
-	protected List<TreeNode> getChildNodes(TreeNode parent) {
-		
-		return null;
-	}
+  @Override
+  public CellTree getTree() {
+    return treePanel;
+  }
 
-	@Override
-	protected Object getUserObject(TreeNode node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public TreeNode getRootNode() {
+    return treePanel.getRootTreeNode();
+  }
 
-	@Override
-	protected void setUserObject(TreeNode node, Object data) {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  public List<TreeNode> getChildNodes(TreeNode parent) {
 
-	@Override
-	protected void refreshNode(TreeNode node, Object data) {
-		// TODO Auto-generated method stub
-		
-	}
+    return null;
+  }
 
-	@Override
-	protected void removeChild(TreeNode parent, TreeNode node) {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  public Object getUserObject(TreeNode node) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	protected void appendChild(TreeNode parent, TreeNode node) {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  public void setUserObject(TreeNode node, Object data) {
+    // TODO Auto-generated method stub
 
-	@Override
-	protected void showLoadSign(TreeNode treeNode) {
-		// TODO Auto-generated method stub
-		
-	}
+  }
 
-	@Override
-	protected void removeLoadSign(TreeNode treeNode) {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  public void refreshNode(TreeNode node, Object data) {
+    // TODO Auto-generated method stub
 
-	@Override
-	protected void updateExpandIcon(TreeNode node, boolean expandable) {
-		// TODO Auto-generated method stub
-		
-	}
+  }
 
-	@Override
-	protected void select(TreeNode parent) {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  public void removeChild(TreeNode parent, TreeNode node) {
+    // TODO Auto-generated method stub
 
-	@Override
-	protected boolean isExpanded(TreeNode treeNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  }
 
-	@Override
-	protected void collapse(TreeNode parent) {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  public void appendChild(TreeNode parent, TreeNode node) {
+    // TODO Auto-generated method stub
 
-	@Override
-	protected void expand(TreeNode parent) {
-		// TODO Auto-generated method stub
-		
-	}
+  }
 
-	@Override
-	protected TreeNode createNode(Object data) {
-		return null;//new CellTreeNode(data);
-	}
+  @Override
+  public void showLoadSign(TreeNode treeNode) {
+    // TODO Auto-generated method stub
 
-	@Override
-	protected void sort(TreeNode parent, Comparator<TreeNode> comparator) {
-		// TODO Auto-generated method stub
-		
-	}
+  }
 
-	
+  @Override
+  public void removeLoadSign(TreeNode treeNode) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void updateExpandIcon(TreeNode node, boolean expandable) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void select(TreeNode parent) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public boolean isExpanded(TreeNode treeNode) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public void collapse(TreeNode parent) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void expand(TreeNode parent) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public TreeNode createNode(Object data) {
+    return null;// new CellTreeNode(data);
+  }
+
+  @Override
+  public void sort(TreeNode parent, Comparator<TreeNode> comparator) {
+    // TODO Auto-generated method stub
+
+  }
 
 }

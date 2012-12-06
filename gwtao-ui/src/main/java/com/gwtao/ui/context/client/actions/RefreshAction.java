@@ -15,12 +15,13 @@
  */
 package com.gwtao.ui.context.client.actions;
 
+import org.shu4j.utils.permission.Permission;
+
 import com.gwtao.ui.context.client.ContextImageBundle;
 import com.gwtao.ui.context.client.editcontext.IEditContext;
 import com.gwtao.ui.context.client.editcontext.IEditContextOwner;
 import com.gwtao.ui.context.client.i18n.ContextConstants;
 import com.gwtao.ui.util.client.action.Action;
-import com.gwtao.utils.shared.permission.Permission;
 
 public final class RefreshAction extends Action {
   private final IEditContextOwner owner;

@@ -15,8 +15,9 @@
  */
 package com.gwtao.ui.context.client.editcontext;
 
+import org.shu4j.utils.permission.Permission;
+
 import com.gwtao.ui.context.client.editcontext.IEditContext.State;
-import com.gwtao.utils.shared.permission.Permission;
 
 public interface IEditContextPermission {
   IEditContextPermission ALL = new IEditContextPermission() {
@@ -32,28 +33,28 @@ public interface IEditContextPermission {
   IEditContextPermission NOTNEW = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return ctx.isDataNull() || ctx.isNew() ? Permission.UNALLOWED : Permission.ALLOWED;
+      return ctx.isDataNull() || ctx.isNew() ? Permission.READONLY : Permission.ALLOWED;
     }
   };
 
   IEditContextPermission EDIT = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return !ctx.isDataNull() && ctx.getState() == State.EDIT ? Permission.ALLOWED : Permission.UNALLOWED;
+      return !ctx.isDataNull() && ctx.getState() == State.EDIT ? Permission.ALLOWED : Permission.READONLY;
     }
   };
 
   IEditContextPermission EDITNEW = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return !ctx.isDataNull() && ctx.getState() == State.EDIT && ctx.isNew() ? Permission.ALLOWED : Permission.UNALLOWED;
+      return !ctx.isDataNull() && ctx.getState() == State.EDIT && ctx.isNew() ? Permission.ALLOWED : Permission.READONLY;
     }
   };
 
   IEditContextPermission NOEDIT = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return !ctx.isDataNull() && ctx.getState() == State.EDIT ? Permission.UNALLOWED : Permission.ALLOWED;
+      return !ctx.isDataNull() && ctx.getState() == State.EDIT ? Permission.READONLY : Permission.ALLOWED;
     }
   };
 
