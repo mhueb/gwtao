@@ -16,6 +16,7 @@
 package com.gwtao.ui.util.client;
 
 import org.apache.commons.lang.StringUtils;
+import org.shu4j.utils.permission.Permission;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,7 +25,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.gwtao.ui.util.client.action.ActionFocusWidgetAdapter;
 import com.gwtao.ui.util.client.action.ActionUtil;
 import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.utils.shared.permission.Permission;
 
 public class BorderlessButton extends Button {
   public static final int ICON = 0x01;

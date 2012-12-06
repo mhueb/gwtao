@@ -25,5 +25,5 @@ package com.gwtao.ui.location.client;
  */
 public interface ILocationChangeInterceptor {
 
-  boolean before(Token token);
+  boolean before(Location location);
 }

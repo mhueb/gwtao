@@ -15,7 +15,7 @@
  */
 package com.gwtao.ui.context.client.datacontext;
 
-import com.gwtao.utils.shared.permission.Permission;
+import org.shu4j.utils.permission.Permission;
 
 public interface IDataContext<T> {
   T getData();

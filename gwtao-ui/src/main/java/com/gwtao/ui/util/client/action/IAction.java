@@ -15,7 +15,7 @@
  */
 package com.gwtao.ui.util.client.action;
 
-import com.gwtao.utils.shared.permission.Permission;
+import org.shu4j.utils.permission.Permission;
 
 public interface IAction extends IActionInfo {
   final Object[] NODATA = new Object[0];

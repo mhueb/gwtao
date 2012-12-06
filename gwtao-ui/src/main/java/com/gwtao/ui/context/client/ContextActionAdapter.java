@@ -15,11 +15,12 @@
  */
 package com.gwtao.ui.context.client;
 
+import org.shu4j.utils.permission.Permission;
+
 import com.gwtao.ui.context.client.datacontext.IDataChangeListener;
 import com.gwtao.ui.context.client.datacontext.IDataContext;
 import com.gwtao.ui.util.client.action.ActionAdapter;
 import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.utils.shared.permission.Permission;
 
 public class ContextActionAdapter extends ActionAdapter implements IDataChangeListener {
   private final IDataContext<?> ctx;

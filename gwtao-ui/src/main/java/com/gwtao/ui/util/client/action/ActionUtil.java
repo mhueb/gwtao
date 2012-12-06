@@ -15,10 +15,11 @@
  */
 package com.gwtao.ui.util.client.action;
 
+import org.shu4j.utils.permission.Permission;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.gwtao.ui.util.client.EventInfo;
-import com.gwtao.utils.shared.permission.Permission;
 
 public class ActionUtil {
 

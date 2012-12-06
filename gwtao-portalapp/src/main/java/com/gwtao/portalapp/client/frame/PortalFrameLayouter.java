@@ -1,0 +1,51 @@
+/* 
+ * Copyright 2012 Matthias Huebner
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package com.gwtao.portalapp.client.frame;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwtao.portalapp.client.layout.PartLayout;
+import com.gwtao.portalapp.client.layout.PortalLayout;
+import com.gwtao.portalapp.client.layout.PortletStackLayout;
+
+public class PortalFrameLayouter {
+  private final boolean documents;
+  private final List<PortletStackLayout> portletLayoutList = new ArrayList<PortletStackLayout>();
+  private final List<PartLayout> partLayoutList = new ArrayList<PartLayout>();
+
+  public PortalFrameLayouter(PortalLayout layout) {
+    documents = layout.isShowDocuments();
+    partLayoutList.addAll(layout.getPartLayoutList());
+
+    for (PartLayout part : partLayoutList) {
+      if (part instanceof PortletStackLayout)
+        portletLayoutList.add((PortletStackLayout) part);
+    }
+  }
+
+  public boolean isShowDocuments() {
+    return documents;
+  }
+
+  public List<PartLayout> getPartLayoutList() {
+    return partLayoutList;
+  }
+
+  public List<PortletStackLayout> getPortletLayoutList() {
+    return portletLayoutList;
+  }
+}

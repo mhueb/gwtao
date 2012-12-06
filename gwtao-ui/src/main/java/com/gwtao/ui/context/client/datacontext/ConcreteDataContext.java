@@ -15,7 +15,7 @@
  */
 package com.gwtao.ui.context.client.datacontext;
 
-import com.gwtao.utils.shared.permission.Permission;
+import org.shu4j.utils.permission.Permission;
 
 public class ConcreteDataContext<T> extends DataContext<T> {
   private T data;

@@ -15,7 +15,7 @@
  */
 package com.gwtao.ui.util.client.action;
 
-import com.gwtao.utils.shared.permission.Permission;
+import org.shu4j.utils.permission.Permission;
 
 public class ActionAdapter implements IAction {
   private final IAction action;

@@ -16,13 +16,13 @@
 package com.gwtao.ui.location.client;
 
 public interface IPresenterManager<T> {
-  T createLocation(Token token);
+  T createPresenter(Location token);
 
-  void activate(T location);
+  void activate(T presenter);
 
-  boolean deactivate(T location);
+  boolean deactivate(T presenter);
 
-  T createErrorLocation(Token token, String errorMessage);
+  T createErrorPresenter(Location location, String errorMessage);
 
-  String canClose(T location);
+  String canClose(T presenter);
 }

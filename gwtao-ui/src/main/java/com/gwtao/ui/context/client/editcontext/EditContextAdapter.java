@@ -16,9 +16,9 @@
 package com.gwtao.ui.context.client.editcontext;
 
 import org.shu4j.utils.message.IMessageSource;
+import org.shu4j.utils.permission.Permission;
 
 import com.gwtao.ui.context.client.datacontext.IDataChangeListener;
-import com.gwtao.utils.shared.permission.Permission;
 
 public abstract class EditContextAdapter<T> implements IEditContext<T> {
   private final IEditContext<?> inner;

@@ -15,8 +15,8 @@
  */
 package com.gwtao.ui.util.client.action;
 
-import com.gwtao.utils.shared.permission.IPermissionDelegate;
-import com.gwtao.utils.shared.permission.Permission;
+import org.shu4j.utils.permission.IPermissionDelegate;
+import org.shu4j.utils.permission.Permission;
 
 
 public abstract class Action implements IPrivilegedAction {

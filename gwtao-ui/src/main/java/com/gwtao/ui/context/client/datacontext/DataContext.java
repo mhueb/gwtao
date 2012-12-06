@@ -18,7 +18,8 @@ package com.gwtao.ui.context.client.datacontext;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtao.utils.shared.permission.Permission;
+import org.shu4j.utils.permission.Permission;
+
 
 public abstract class DataContext<T> implements IDataContext<T> {
   private List<IDataChangeListener> listeners;
