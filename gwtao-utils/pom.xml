@@ -16,6 +16,14 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtao</groupId>
+			<artifactId>gwtao-emul</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.shu4j</groupId>
 			<artifactId>shu4j-utils</artifactId>
 		</dependency>
