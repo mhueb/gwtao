@@ -17,6 +17,8 @@ package com.gwtao.fileio.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -25,26 +27,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.shu4j.utils.exception.InvalidSessionException;
 import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.util.LoggerUtil;
 
 public abstract class FileDownloadServlet extends HttpServlet {
   private static final long serialVersionUID = -2638224318753451420L;
 
-  private final Log log = LogFactory.getLog(FileDownloadServlet.class);
+  private final Logger log = LoggerUtil.getLogger(FileDownloadServlet.class);
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    if (this.log.isDebugEnabled())
-      this.log.debug("processing download request");
+    if (this.log.isLoggable(Level.FINER))
+      this.log.fine("processing download request");
 
     try {
       IFile item = getData(req);
       if (item != null) {
-        if (this.log.isDebugEnabled())
-          this.log.debug("sending file '" + item.getName() + "' to browser");
+        if (this.log.isLoggable(Level.FINER))
+          this.log.fine("sending file '" + item.getName() + "' to browser");
 
         if (StringUtils.isNotBlank(item.getContentType()))
           resp.setContentType(item.getContentType());
@@ -83,19 +84,19 @@ public abstract class FileDownloadServlet extends HttpServlet {
           }
         }
         out.close();
-        if (this.log.isDebugEnabled())
-          this.log.debug("sent file done.");
+        if (this.log.isLoggable(Level.FINER))
+          this.log.fine("sent file done.");
       }
       else
         resp.sendError(HttpServletResponse.SC_NO_CONTENT, "Data not available");
     }
     catch (InvalidSessionException e) {
       resp.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-      this.log.error("download failed", e);
+      this.log.log(Level.SEVERE, "download failed", e);
     }
     catch (Exception e) {
       resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-      this.log.error("download failed", e);
+      this.log.log(Level.SEVERE, "download failed", e);
     }
   }
 

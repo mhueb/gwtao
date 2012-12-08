@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,12 +34,11 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.shu4j.utils.exception.InvalidSessionException;
 import org.shu4j.utils.exception.ValidateException;
 import org.shu4j.utils.progress.AbstractProgressMonitor;
 import org.shu4j.utils.progress.IProgressMonitor;
+import org.shu4j.utils.util.LoggerUtil;
 
 import com.gwtao.fileio.server.misc.FileItemWrapper;
 import com.gwtao.fileio.server.misc.FileUploadStatusMap;
@@ -58,10 +59,10 @@ public abstract class FileUploadServlet extends HttpServlet {
     public void log(String comment, LogLevel level) {
       switch (level) {
       case ERROR:
-        FileUploadServlet.this.log.error(comment);
+        FileUploadServlet.this.log.severe(comment);
         break;
       case WARNING:
-        FileUploadServlet.this.log.warn(comment);
+        FileUploadServlet.this.log.severe(comment);
         break;
       }
     }
@@ -78,7 +79,7 @@ public abstract class FileUploadServlet extends HttpServlet {
     }
   }
 
-  private final Log log = LogFactory.getLog(FileUploadServlet.class);
+  private final Logger log = LoggerUtil.getLogger(FileUploadServlet.class);
 
   private static final long serialVersionUID = 1L;
 
@@ -92,8 +93,8 @@ public abstract class FileUploadServlet extends HttpServlet {
   @SuppressWarnings("rawtypes")
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    if (this.log.isDebugEnabled())
-      this.log.debug("processing upload request");
+    if (this.log.isLoggable(Level.FINE))
+      this.log.fine("processing upload request");
 
     response.setContentType("text/plain");
 
@@ -111,7 +112,7 @@ public abstract class FileUploadServlet extends HttpServlet {
       status = FileUploadStatusMap.get(request.getSession()).start(ident);
     }
     catch (ValidateException e) {
-      this.log.error("upload failed", e);
+      this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.VALIDATE_ERROR.encode(e.getMessage()));
       return;
     }
@@ -140,8 +141,8 @@ public abstract class FileUploadServlet extends HttpServlet {
       while (it.hasNext()) {
         FileItem item = (FileItem) it.next();
         if (acceptContentType(item.getContentType())) {
-          if (this.log.isDebugEnabled())
-            this.log.debug("received file " + item.getContentType() + ": " + item.getName());
+          if (this.log.isLoggable(Level.FINE))
+            this.log.info("received file " + item.getContentType() + ": " + item.getName());
 
           status.setFilename(item.getName());
           String data = onFileReceived(new FileItemWrapper(item), request, progress.getSubProgress(SUBPROGRESS_RANGE));
@@ -157,23 +158,23 @@ public abstract class FileUploadServlet extends HttpServlet {
       writer.write(FileIOTag.SUCCESS.encode(buff.toString()));
     }
     catch (FileSizeLimitExceededException e) {
-      this.log.error("upload failed", e);
+      this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.SIZE_ERROR.encode(e.getMessage()));
     }
     catch (FileUploadException e) {
-      this.log.error("upload failed", e);
+      this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.UPLOAD_ERROR.encode(e.getMessage()));
     }
     catch (ValidateException e) {
-      this.log.error("upload failed", e);
+      this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.VALIDATE_ERROR.encode(e.getMessage()));
     }
     catch (InvalidSessionException e) {
-      this.log.error("upload failed", e);
+      this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.NOSESSION_ERROR.encode(e.getMessage()));
     }
     catch (RuntimeException e) {
-      this.log.error("upload failed", e);
+      this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.RUNTIME_ERROR.encode(e.getMessage()));
     }
     finally {
