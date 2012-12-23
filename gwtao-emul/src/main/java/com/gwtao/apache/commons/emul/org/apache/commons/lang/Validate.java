@@ -144,26 +144,4 @@ public class Validate {
         }
     }
 
-    public static void allElementsOfType(Collection collection, Class clazz, String message) {
-        Validate.notNull(collection);
-        Validate.notNull(clazz);
-        for (Iterator it = collection.iterator(); it.hasNext(); ) {
-            if (clazz.isInstance(it.next()) == false) {
-                throw new IllegalArgumentException(message);
-            }
-        }
-    }
-
-    public static void allElementsOfType(Collection collection, Class clazz) {
-        Validate.notNull(collection);
-        Validate.notNull(clazz);
-        int i = 0;
-        for (Iterator it = collection.iterator(); it.hasNext(); i++) {
-            if (clazz.isInstance(it.next()) == false) {
-                throw new IllegalArgumentException("The validated collection contains an element not of type "
-                    + clazz.getName() + " at index: " + i);
-            }
-        }
-    }
-
 }
