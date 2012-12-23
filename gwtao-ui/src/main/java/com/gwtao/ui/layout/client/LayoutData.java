@@ -15,6 +15,7 @@
  */
 package com.gwtao.ui.layout.client;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.Size;
 
 public class LayoutData {
@@ -22,11 +23,23 @@ public class LayoutData {
   private int minWidth;
   private int minHeight;
 
+  private int initialWidgetWidth = -1;
+  private int initialWidgetHeight = -1;
+
   int effectiveMinWidth, effectiveMinHeight;
 
   public LayoutData(int minWidth, int minHeight) {
     this.minWidth = minWidth;
     this.minHeight = minHeight;
+  }
+
+  void initSize(Widget w) {
+    if (this.initialWidgetWidth == -1 && w.getOffsetHeight() != 0 && w.getOffsetWidth() != 0) {
+      this.initialWidgetWidth = w.getOffsetWidth();
+      this.initialWidgetHeight = w.getOffsetHeight();
+      this.minWidth = Math.max(this.minWidth, this.initialWidgetWidth);
+      this.minHeight = Math.max(this.minHeight, this.initialWidgetHeight);
+    }
   }
 
   public LayoutData(LayoutData o) {
@@ -48,5 +61,9 @@ public class LayoutData {
 
   public Size getEffectiveMinSize() {
     return new Size(effectiveMinWidth, effectiveMinHeight);
+  }
+
+  public Size getMinSize() {
+    return new Size(minWidth, minHeight);
   }
 }

@@ -44,7 +44,7 @@ public class RootLayoutPanel extends LayoutPanel {
     if (layout instanceof RootLayout)
       super.setLayout(layout);
     else
-      throw new IllegalArgumentException("layout not accepted");
+      throw new IllegalArgumentException("RootLayout accepted only");
   }
 
   @Override
@@ -52,6 +52,7 @@ public class RootLayoutPanel extends LayoutPanel {
     Window.enableScrolling(false);
     Window.setMargin("0");
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
+      @Override
       public void onResize(ResizeEvent event) {
         RootLayoutPanel.this.onResize();
       }
