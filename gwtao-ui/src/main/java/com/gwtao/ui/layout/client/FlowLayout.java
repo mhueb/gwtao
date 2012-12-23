@@ -44,8 +44,8 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
   }
 
   @Override
-  protected FlowLayoutData createDefaultLayoutData() {
-    return new FlowLayoutData(100, 100, 0.0f);
+  protected FlowLayoutData createDefaultLayoutData(int minWidth, int minHeight) {
+    return new FlowLayoutData(minWidth, minHeight, 0.0f);
   }
 
   @Override
@@ -81,6 +81,7 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
     }
   }
 
+  @Override
   public void measure() {
     totalRatio = calcTotalRatio();
     minSize = calcMinSize();
@@ -119,6 +120,6 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
 
   @Override
   public Size getMinSize() {
-    return minSize;
+    return minSize == null ? Size.ZERO : minSize;
   }
 }

@@ -17,9 +17,13 @@ package com.gwtao.ui.layout.client;
 
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.util.client.CSS;
 import com.gwtao.ui.util.client.Size;
 
 public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
@@ -36,12 +40,6 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
   }
 
   protected void init() {
-    // Element elem = getLayoutPanel().getElement();
-    // DOM.setStyleAttribute(elem, POSITION, "static");
-    // DOM.setStyleAttribute(elem, WIDTH, "100%");
-    // DOM.setStyleAttribute(elem, HEIGHT, "100%");
-    // DOM.setStyleAttribute(elem, LEFT, "");
-    // DOM.setStyleAttribute(elem, TOP, "");
   }
 
   @Override
@@ -50,7 +48,6 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
 
   @Override
   public void onAddChild(Widget child) {
-    // DOM.setStyleAttribute(w.getElement(), "overflow", "hidden");
   }
 
   @Override
@@ -73,17 +70,22 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
     return size;
   }
 
-  protected static Size getWidgetMinSize(Widget widget) {
+  protected Size getWidgetMinSize(Widget widget) {
     if (widget instanceof ILayoutContainer)
       return ((ILayoutContainer) widget).getMinSize();
-    return new Size(0, 0);// widget.getOffsetWidth(), widget.getOffsetHeight());
+    else if (widget instanceof Panel)
+      return Size.ZERO;
+    LayoutData fld = getWidgetData(widget);
+    fld.initSize(widget);
+
+    return fld.getMinSize(); // new Size(0, 0);// widget.getOffsetWidth(), widget.getOffsetHeight());
   }
 
   protected Size updateEffectiveMinSize(Widget widget) {
     Size minSize = getWidgetMinSize(widget);
     LayoutData fld = getWidgetData(widget);
-    fld.effectiveMinHeight = Math.max(fld.getMinHeight(), minSize.getHeight());
-    fld.effectiveMinWidth = Math.max(fld.getMinWidth(), minSize.getWidth());
+    fld.effectiveMinHeight = minSize.getHeight() > 0 ? Math.min(fld.getMinHeight(), minSize.getHeight()) : fld.getMinHeight();
+    fld.effectiveMinWidth = minSize.getWidth() > 0 ? Math.min(fld.getMinWidth(), minSize.getWidth()) : fld.getMinWidth();
     return fld.getEffectiveMinSize();
   }
 
@@ -91,28 +93,54 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
   protected T getWidgetData(Widget widget) {
     T ld = (T) widget.getLayoutData();
     if (ld == null) {
-      ld = createDefaultLayoutData();
+      ld = createDefaultLayoutData(widget.getOffsetWidth(), widget.getOffsetHeight());
       widget.setLayoutData(ld);
     }
     return ld;
   }
 
-  protected abstract T createDefaultLayoutData();
+  protected abstract T createDefaultLayoutData(int minWidth, int minHeight);
+
+  static int toPx(String s) {
+    if (StringUtils.isBlank(s))
+      return 0;
+    else if (s.contains("px")) {
+      return Integer.parseInt(s.substring(0, s.length() - 2));
+    }
+    else
+      throw new RuntimeException();
+  }
 
   protected static void placeWidget(Widget widget, int left, int top, int width, int height) {
     Element elem = widget.getElement();
+
+    int xw = calcSize(elem, "marginLeft", "marginRight");
+    xw += calcSize(elem, "paddingLeft", "paddingRight");
+
+    int yw = calcSize(elem, "marginTop", "marginBottom");
+    yw += calcSize(elem, "paddingTop", "paddingBottom");
+
+    DOM.setStyleAttribute(elem, "overflow", "hidden");
     DOM.setStyleAttribute(elem, POSITION, "absolute");
     DOM.setStyleAttribute(elem, LEFT, left + PX);
     DOM.setStyleAttribute(elem, TOP, top + PX);
-    widget.setSize(width + PX, height + PX);
-    // DOM.setStyleAttribute(elem, WIDTH, width + PX);
-    // DOM.setStyleAttribute(elem, HEIGHT, height + PX);
+    widget.setSize((width - xw) + PX, (height - yw) + PX);
+
+  }
+
+  private static int calcSize(Element elem, String a, String b) {
+    String mls = CSS.getStyleProperty(elem, a);
+    String mrs = CSS.getStyleProperty(elem, b);
+    int ml = toPx(mls);
+    ml = Math.max(0, ml);
+    int mr = toPx(mrs);
+    mr = Math.max(0, mr);
+    int xw = ml + mr;
+    return xw;
   }
 
   protected static void sizeWidget(Widget widget, int width, int height) {
     widget.setSize(width + PX, height + PX);
-    // Element elem = widget.getElement();
-    // DOM.setStyleAttribute(elem, WIDTH, width + PX);
-    // DOM.setStyleAttribute(elem, HEIGHT, height + PX);
+
   }
 }

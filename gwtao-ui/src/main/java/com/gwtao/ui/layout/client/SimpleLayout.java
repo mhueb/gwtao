@@ -29,8 +29,8 @@ public class SimpleLayout extends AbstractLayout<LayoutData> {
   }
 
   @Override
-  protected LayoutData createDefaultLayoutData() {
-    return new LayoutData(100, 100);
+  protected LayoutData createDefaultLayoutData(int minWidth, int minHeight) {
+    return new LayoutData(minWidth, minHeight);
   }
 
   @Override
@@ -55,6 +55,7 @@ public class SimpleLayout extends AbstractLayout<LayoutData> {
       minSize = new Size(0, 0);
   }
 
+  @Override
   public Size getMinSize() {
     return minSize;
   }
