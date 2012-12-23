@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 
 @Target({ TYPE })
 @Retention(RUNTIME)
-public @interface FactoryEntry {
+public @interface PageFactory {
 
   String token();
 
-  Class<? extends IDocument> doc();
+  Class<? extends IPage> doc();
 }

@@ -1,41 +1,56 @@
 package com.gwtao.app.client;
 
+import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
 import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.LocationManager;
 
-public class WebApp implements IPresenterManager<IDocument> {
+public class WebApp implements IPresenterManager<PageContext> {
+
+  private final IAppFrame frame;
+
+  private final LocationManager<PageContext> manager;
+
+  public WebApp(IAppFrame frame) {
+    this.frame = frame;
+    this.manager = new LocationManager<PageContext>(this);
+  }
 
   @Override
-  public IDocument createPresenter(Location token) {
+  public boolean beforeChange(Location location) {
+    return true;
+  }
+
+  @Override
+  public PageContext createPresenter(Location location) {
+    IPage document = Pages.REGISTRY.create(location.getId());
+    return new PageContext(frame, document, location);
+  }
+
+  @Override
+  public void activate(PageContext presenter) {
+    presenter.show();
+  }
+
+  @Override
+  public boolean deactivate(PageContext presenter) {
+    return true;// presenter.deactivate();
+  }
+
+  @Override
+  public PageContext createErrorPresenter(Location location, String errorMessage) {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public void activate(IDocument location) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public boolean deactivate(IDocument location) {
-    return location.deactivate();
-  }
-
-  @Override
-  public IDocument createErrorPresenter(Location token, String errorMessage) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public String canClose(IDocument location) {
-    return location.canClose();
+  public String canClose(PageContext presenter) {
+    return presenter.canClose();
   }
 
   public void startup() {
-    // TODO Auto-generated method stub
-
+    RootLayoutPanel.get().add(frame);
+    this.manager.startup();
   }
 
 }

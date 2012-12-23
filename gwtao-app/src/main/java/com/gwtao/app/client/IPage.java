@@ -2,9 +2,9 @@ package com.gwtao.app.client;
 
 import com.google.gwt.user.client.ui.IsWidget;
 
-public interface IDocument extends IsWidget {
+public interface IPage extends IsWidget {
 
-  void init();
+  void init(IPageContext ctx);
 
   String canClose();
 
