@@ -16,6 +16,8 @@
 package com.gwtao.ui.location.client;
 
 public interface IPresenterManager<T> {
+  boolean beforeChange(Location location);
+
   T createPresenter(Location token);
 
   void activate(T presenter);

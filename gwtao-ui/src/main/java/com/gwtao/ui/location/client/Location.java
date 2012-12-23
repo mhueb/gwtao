@@ -53,7 +53,7 @@ public final class Location {
     return id;
   }
 
-  public String getParameter() {
+  public String getParameters() {
     return parameters;
   }
 }
