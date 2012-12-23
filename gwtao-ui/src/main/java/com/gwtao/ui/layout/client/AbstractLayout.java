@@ -129,8 +129,8 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
   }
 
   private static int calcSize(Element elem, String a, String b) {
-    String mls = CSS.getStyleProperty(elem, a);
-    String mrs = CSS.getStyleProperty(elem, b);
+    String mls = CSS.getComputedStyle(elem, a);
+    String mrs = CSS.getComputedStyle(elem, b);
     int ml = toPx(mls);
     ml = Math.max(0, ml);
     int mr = toPx(mrs);
