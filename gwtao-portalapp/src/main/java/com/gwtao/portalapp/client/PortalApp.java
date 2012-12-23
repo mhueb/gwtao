@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.shu4j.utils.util.SafeIterator;
 
 import com.gwtao.portalapp.client.document.DocumentRegistry;
 import com.gwtao.portalapp.client.document.IDocument;
@@ -40,8 +41,8 @@ import com.gwtao.portalapp.client.view.IPortalViewStackFactory;
 import com.gwtao.portalapp.client.view.PortalViewStack;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
-import com.gwtao.ui.location.client.LocationManager;
 import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.LocationManager;
 import com.gwtao.ui.util.client.SplashManager;
 import com.gwtao.ui.util.client.action.IActionInfo;
 import com.gwtao.ui.util.client.action.IActionSupplier;
@@ -108,7 +109,7 @@ public class PortalApp implements IPortal {
         IDocumentDescriptor descr = DocumentRegistry.get().lookup(id);
         if (descr == null)
           throw new java.lang.IllegalArgumentException("Document with id=" + token.getId() + " does not exists!");
-        Object parameter = descr.decodeParameter(token.getParameter());
+        Object parameter = descr.decodeParameter(token.getParameters());
         return openDocument(token.getId(), parameter);
       }
 
@@ -132,6 +133,15 @@ public class PortalApp implements IPortal {
       public void activate(IDocument location) {
         location.getViewContext().activate();
       }
+
+      @Override
+      public boolean beforeChange(Location location) {
+        SafeIterator<IPortalListener> it = new SafeIterator<IPortalListener>(listeners);
+        while (it.hasNext())
+          if (!it.next().beforChange(location))
+            return false;
+        return true;
+      }
     });
   }
 
@@ -149,15 +159,7 @@ public class PortalApp implements IPortal {
 
     SplashManager.removeSplash();
 
-    listeners.add(new IPortalListener() {
-      @Override
-      public void onPortletSwitch(IPortlet portlet) {
-      }
-
-      @Override
-      public void onPortletClose(IPortlet portlet) {
-      }
-
+    listeners.add(new PortalListenerAdapter() {
       @Override
       public void onDocumentSwitch(IDocument doc) {
         manager.notifyActivation(doc);

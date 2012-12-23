@@ -17,8 +17,13 @@ package com.gwtao.portalapp.client;
 
 import com.gwtao.portalapp.client.document.IDocument;
 import com.gwtao.portalapp.client.portlet.IPortlet;
+import com.gwtao.ui.location.client.Location;
 
 public class PortalListenerAdapter implements IPortalListener {
+  @Override
+  public boolean beforChange(Location location) {
+    return true;
+  }
 
   @Override
   public void onDocumentSwitch(IDocument doc) {

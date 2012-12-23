@@ -17,6 +17,7 @@ package com.gwtao.portalapp.client.portlet;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import com.gwtao.portalapp.client.IPortalListener;
 import com.gwtao.portalapp.client.PortalApp;
 import com.gwtao.portalapp.client.PortalListenerAdapter;
 import com.gwtao.portalapp.client.document.IDocument;
@@ -54,7 +55,7 @@ public abstract class Portlet extends AbstractPortalView implements IPortlet {
 
   private final IPortletDescriptor descr;
 
-  private PortalListenerAdapter listener;
+  private IPortalListener listener;
 
   protected Portlet(IPortletDescriptor descr) {
     this.descr = descr;
