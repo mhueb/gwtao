@@ -7,8 +7,8 @@
 
 	<source path="client" />
 
-	<generate-with class="com.gwtao.app.generator.DocumentFactory">
-		<when-type-assignable class="com.gwtao.app.client.Documents" />
+	<generate-with class="com.gwtao.app.generator.PageFactoryGenerator">
+		<when-type-assignable class="com.gwtao.app.client.Pages" />
 	</generate-with>
 
 </module>

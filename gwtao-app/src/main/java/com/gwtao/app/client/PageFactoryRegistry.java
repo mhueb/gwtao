@@ -3,12 +3,11 @@ package com.gwtao.app.client;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public final class DocumentRegistry {
+public final class PageFactoryRegistry {
   public interface Entry {
     String getToken();
 
-    IDocument create();
+    IPage create();
   }
 
   private final Map<String, Entry> descriptorMap = new HashMap<String, Entry>();
@@ -17,12 +16,7 @@ public final class DocumentRegistry {
     descriptorMap.put(entry.getToken(), entry);
   }
 
-  public void register(Documents docs) {
-    for (Entry entry : docs.getEntries())
-      register(entry);
-  }
-
-  public IDocument create(String token) {
+  public IPage create(String token) {
     Entry factory = descriptorMap.get(token);
     if (factory == null)
       throw new RuntimeException();

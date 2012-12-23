@@ -1,12 +1,13 @@
 package com.gwtao.app.client;
 
-
-public interface IDocumentContext {
+public interface IPageContext {
   void switchParameter(String parameter);
+
+  String getParameter();
 
   void close();
 
   void show();
 
-  void update(String title);
+  void updateTitle(String title);
 }
