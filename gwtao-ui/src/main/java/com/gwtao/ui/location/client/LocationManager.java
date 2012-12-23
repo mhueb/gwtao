@@ -52,8 +52,6 @@ public final class LocationManager<T> {
 
   private HandlerRegistration addWindowClosingHandler;
 
-  private ILocationChangeInterceptor locationChangeInterceptor;
-
   public LocationManager(IPresenterManager<T> presenterManager) {
     this.presenterManager = presenterManager;
   }
@@ -110,7 +108,7 @@ public final class LocationManager<T> {
       if (location == null)
         return;
 
-      if (locationChangeInterceptor != null && locationChangeInterceptor.before(location))
+      if (presenterManager.beforeChange(location))
         return;
 
       if (currentLocation != null) {
@@ -202,9 +200,5 @@ public final class LocationManager<T> {
       }
     }
     return null;
-  }
-
-  public void setLocationInterceptor(ILocationChangeInterceptor interceptor) {
-    locationChangeInterceptor = interceptor;
   }
 }
