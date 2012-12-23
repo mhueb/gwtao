@@ -48,7 +48,7 @@ public class StringUtils {
       return true;
     }
     for (int i = 0; i < strLen; i++) {
-      if ((Character.isWhitespace(str.charAt(i)) == false)) {
+      if ((isWhitespace(str.charAt(i)) == false)) {
         return false;
       }
     }
@@ -103,7 +103,7 @@ public class StringUtils {
     }
     int start = 0;
     if (stripChars == null) {
-      while ((start != strLen) && Character.isWhitespace(str.charAt(start))) {
+      while ((start != strLen) && isWhitespace(str.charAt(start))) {
         start++;
       }
     }
@@ -125,7 +125,7 @@ public class StringUtils {
     }
 
     if (stripChars == null) {
-      while ((end != 0) && Character.isWhitespace(str.charAt(end - 1))) {
+      while ((end != 0) && isWhitespace(str.charAt(end - 1))) {
         end--;
       }
     }
@@ -325,20 +325,7 @@ public class StringUtils {
     return str.indexOf(searchStr) >= 0;
   }
 
-
-  public static String join(Object[] items, String separator) {
-    return join(Arrays.asList(items,separator));
-  }
-  
-  public static String join(Collection<?> items, String separator) {
-    StringBuilder buff = new StringBuilder();
-    while (items.hasNext()) {
-      String next = items.next();
-      if (next != null)
-        buff.append(next);
-      if (items.hasNext())
-        buff.append(separator);
-    }
-    return buff.toString();
+  private static boolean isWhitespace(char c) {
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
   }
 }
