@@ -16,6 +16,8 @@
 package com.gwtao.ui.util.client;
 
 public final class Size {
+  public static final Size ZERO = new Size(0, 0);
+
   private final int width;
   private final int height;
 
