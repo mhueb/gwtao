@@ -17,8 +17,6 @@ package com.gwtao.ui.layout.client;
 
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Panel;
@@ -101,24 +99,11 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
 
   protected abstract T createDefaultLayoutData(int minWidth, int minHeight);
 
-  static int toPx(String s) {
-    if (StringUtils.isBlank(s))
-      return 0;
-    else if (s.contains("px")) {
-      return Integer.parseInt(s.substring(0, s.length() - 2));
-    }
-    else
-      throw new RuntimeException();
-  }
-
   protected static void placeWidget(Widget widget, int left, int top, int width, int height) {
     Element elem = widget.getElement();
 
-    int xw = calcSize(elem, "marginLeft", "marginRight");
-    xw += calcSize(elem, "paddingLeft", "paddingRight");
-
-    int yw = calcSize(elem, "marginTop", "marginBottom");
-    yw += calcSize(elem, "paddingTop", "paddingBottom");
+    int xw = CSS.calcWidthOffset(elem);
+    int yw = CSS.calcHeightOffset(elem);
 
     DOM.setStyleAttribute(elem, "overflow", "hidden");
     DOM.setStyleAttribute(elem, POSITION, "absolute");
@@ -128,19 +113,18 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
 
   }
 
-  private static int calcSize(Element elem, String a, String b) {
-    String mls = CSS.getComputedStyle(elem, a);
-    String mrs = CSS.getComputedStyle(elem, b);
-    int ml = toPx(mls);
-    ml = Math.max(0, ml);
-    int mr = toPx(mrs);
-    mr = Math.max(0, mr);
-    int xw = ml + mr;
-    return xw;
-  }
-
   protected static void sizeWidget(Widget widget, int width, int height) {
     widget.setSize(width + PX, height + PX);
+  }
 
+  @Override
+  public void measure() {
+    Iterator<Widget> it = iterateWidgets();
+    while (it.hasNext()) {
+      Widget widget = it.next();
+      if (widget instanceof ILayoutContainer) {
+        ((ILayoutContainer) widget).measure();
+      }
+    }
   }
 }

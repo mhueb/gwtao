@@ -78,14 +78,17 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
   }
 
   private void adjustLayout() {
-    if (isAttached())
+    if (isAttached() && !doing) {
+      doing = true;
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         @Override
         public void execute() {
           layout.measure();
           onResize();
+          doing = false;
         }
       });
+    }
   }
 
   @Override
@@ -94,9 +97,16 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
     super.onAttach();
   }
 
+  private static boolean doing;
+
   @Override
   protected void onLoad() {
     super.onLoad();
+
+    if (doing)
+      return;
+    doing = true;
+
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
@@ -106,6 +116,7 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
         else
           onResize();
         attaching = false;
+        doing = false;
       }
     });
   }
@@ -119,6 +130,11 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
       ((ILayoutContainer) getParent()).layout();
     else
       onResize();
+  }
+
+  @Override
+  public void measure() {
+    layout.measure();
   }
 
   @Override

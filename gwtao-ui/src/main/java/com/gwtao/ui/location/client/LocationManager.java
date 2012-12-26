@@ -108,7 +108,7 @@ public final class LocationManager<T> {
       if (location == null)
         return;
 
-      if (presenterManager.beforeChange(location))
+      if (!presenterManager.beforeChange(location))
         return;
 
       if (currentLocation != null) {

@@ -16,6 +16,7 @@
 package com.gwtao.ui.layout.client;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.util.client.CSS;
 import com.gwtao.ui.util.client.Size;
 
 public class SimpleLayout extends AbstractLayout<LayoutData> {
@@ -39,24 +40,31 @@ public class SimpleLayout extends AbstractLayout<LayoutData> {
       Size size = getClientSize();
       Widget widget = getLayoutPanel().getWidget(0);
       LayoutData widgetData = getWidgetData(widget);
-      int width = Math.max(widgetData.effectiveMinWidth, size.getWidth());
-      int height = Math.max(widgetData.effectiveMinHeight, size.getHeight());
+      int width = Math.max(widgetData.effectiveMinWidth, size.getWidth() - CSS.calcWidthOffset(widget.getElement()));
+      int height = Math.max(widgetData.effectiveMinHeight, size.getHeight() - CSS.calcHeightOffset(widget.getElement()));
       sizeWidget(widget, width, height);
     }
   }
 
   @Override
   public void measure() {
+    super.measure();
     if (getLayoutPanel().getWidgetCount() > 0) {
       Widget widget = getLayoutPanel().getWidget(0);
       minSize = updateEffectiveMinSize(widget);
     }
     else
       minSize = new Size(0, 0);
+
+    int xw = CSS.calcWidthOffset(getLayoutPanel().getElement());
+    int yw = CSS.calcHeightOffset(getLayoutPanel().getElement());
+
+    minSize = new Size(minSize.getWidth() + xw, minSize.getHeight() + yw);
+
   }
 
   @Override
   public Size getMinSize() {
-    return minSize;
+    return minSize == null ? Size.ZERO : minSize;
   }
 }

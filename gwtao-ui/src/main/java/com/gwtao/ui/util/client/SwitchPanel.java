@@ -36,6 +36,12 @@ public class SwitchPanel extends ComplexPanel implements ILayoutContainer, Requi
     super.add(w, getElement());
   }
 
+  @Override
+  public void measure() {
+    // TODO Auto-generated method stub
+
+  }
+
   public void insert(Widget w, int beforeIndex) {
     prepareWidget(w);
     super.insert(w, getElement(), beforeIndex, true);

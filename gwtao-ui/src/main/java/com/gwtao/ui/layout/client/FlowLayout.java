@@ -20,6 +20,7 @@ import java.util.Iterator;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.util.client.CSS;
 import com.gwtao.ui.util.client.Size;
 
 public class FlowLayout extends AbstractLayout<FlowLayoutData> {
@@ -60,8 +61,8 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
       freeSize = 0;
 
     int otherSize = Math.max(totalSize.get(!horizontal), minSize.get(!horizontal));
-    int left = 0;
-    int top = 0;
+    int left = CSS.calcLeftOffset(getLayoutPanel().getElement());
+    int top = CSS.calcTopOffset(getLayoutPanel().getElement());
 
     Iterator<Widget> it = iterateWidgets();
     while (it.hasNext()) {
@@ -83,6 +84,7 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
 
   @Override
   public void measure() {
+    super.measure();
     totalRatio = calcTotalRatio();
     minSize = calcMinSize();
   }
@@ -99,7 +101,6 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
   }
 
   private Size calcMinSize() {
-    totalRatio = calcTotalRatio();
     int minWidth = 0;
     int minHeight = 0;
     Iterator<Widget> it = iterateWidgets();
@@ -115,6 +116,10 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
         minHeight += minSize.getHeight();
       }
     }
+
+    // minWidth += CSS.calcWidthOffset(getLayoutPanel().getElement());
+    // minHeight += CSS.calcHeightOffset(getLayoutPanel().getElement());
+
     return new Size(minWidth, minHeight);
   }
 
