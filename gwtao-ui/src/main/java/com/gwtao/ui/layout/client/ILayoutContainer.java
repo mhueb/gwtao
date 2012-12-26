@@ -17,9 +17,10 @@ package com.gwtao.ui.layout.client;
 
 import com.gwtao.ui.util.client.Size;
 
-
 public interface ILayoutContainer {
   void layout();
 
   Size getMinSize();
+
+  void measure();
 }

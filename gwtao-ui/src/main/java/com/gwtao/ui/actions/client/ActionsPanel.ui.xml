@@ -1,0 +1,13 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.actions {
+			background-color: #fefe80;
+			border-right: solid 1px #8080ff;
+			margin-right: 20px;
+		}
+	</ui:style>
+	<g:HTMLPanel styleName="{style.actions}">
+	</g:HTMLPanel>
+</ui:UiBinder> 
