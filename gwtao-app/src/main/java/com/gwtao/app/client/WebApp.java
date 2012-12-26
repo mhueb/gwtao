@@ -22,9 +22,13 @@ public class WebApp implements IPresenterManager<PageContext> {
   }
 
   @Override
-  public PageContext createPresenter(Location location) {
-    IPage document = Pages.REGISTRY.create(location.getId());
+  public final PageContext createPresenter(Location location) {
+    IPage document = createPage(location.getId());
     return new PageContext(frame, document, location);
+  }
+
+  protected IPage createPage(String id) {
+    return Pages.REGISTRY.create(id);
   }
 
   @Override
