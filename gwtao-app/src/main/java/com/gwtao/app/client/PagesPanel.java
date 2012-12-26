@@ -23,4 +23,11 @@ public class PagesPanel implements IsWidget {
     }
   }
 
+  public void close(IPage page) {
+    int idx = switchPanel.getWidgetIndex(page);
+    if (idx == -1) {
+      switchPanel.remove(idx);
+    }
+  }
+
 }

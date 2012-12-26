@@ -16,4 +16,9 @@ public class NavigatorPanel extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
+  public void updateTitle(String token, String title) {
+    // TODO Auto-generated method stub
+
+  }
+
 }
