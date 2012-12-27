@@ -66,11 +66,10 @@ public class PageFactoryGenerator extends Generator {
 
     src.println("  public %s() {", simpleName);
     for (PageFactory entry : entries.value()) {
-      src.println("    PageFactoryRegistry.Entry entry = new PageFactoryRegistry.Entry() {");
+      src.println("    Pages.REGISTRY.register( new PageFactoryRegistry.Entry() {");
       src.println("      public String getToken() { return \"%s\"; }", entry.token());
       src.println("      public IPage create() { return GWT.create( %s.class ); }", entry.doc().getName());
-      src.println("    };");
-      src.println("    Pages.REGISTRY.register(entry);");
+      src.println("    } );");
     }
     src.println("  }");
 
