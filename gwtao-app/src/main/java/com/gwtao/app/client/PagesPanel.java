@@ -32,10 +32,9 @@ public class PagesPanel implements IsWidget {
     int idx = switchPanel.getWidgetIndex(page);
     if (idx == -1) {
       switchPanel.add(page);
+      idx = switchPanel.getWidgetIndex(page);
     }
-    else {
-      switchPanel.showWidget(idx);
-    }
+    switchPanel.showWidget(idx);
   }
 
   public void close(IPage page) {
