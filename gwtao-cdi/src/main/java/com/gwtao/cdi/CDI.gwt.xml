@@ -6,6 +6,6 @@
 	<source path="client" />
 
 	<generate-with class="com.gwtao.cdi.generator.Injector">
-		<when-type-assignable class="com.gwtao.cdi.client.IConsumer" />
+		<when-type-assignable class="com.gwtao.cdi.client.Producer" />
 	</generate-with>
 </module>
