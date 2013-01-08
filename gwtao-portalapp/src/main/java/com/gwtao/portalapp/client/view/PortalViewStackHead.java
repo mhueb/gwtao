@@ -35,6 +35,7 @@ import com.gwtao.portalapp.client.part.IPortalPart;
 import com.gwtao.portalapp.client.part.IPortalPartContext;
 import com.gwtao.ui.dialog.client.MessageDialog;
 import com.gwtao.ui.toolbar.client.Toolbar;
+import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IActionInfo;
 
@@ -185,7 +186,7 @@ public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite
           tabbar.selectTab(idx);
       }
       else
-        MessageDialog.alert("Close", closeMessage, MessageDialog.OK);
+        MessageDialog.alert("Close", closeMessage, AsyncOKAnswere.OK);
     }
   }
 

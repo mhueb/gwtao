@@ -54,14 +54,14 @@ public class EditContextActionAdapter extends ActionAdapter {
   public void execute(Object... data) {
     if (data != null && data.length != 0)
       throw new RuntimeException("unexpected input data");
-    super.execute(ctx.getData());
+    super.execute(ctx.getModel());
   }
 
   @Override
   public Permission getPermission(Object... data) {
     if (data != null && data.length != 0)
       throw new RuntimeException("unexpected input data");
-    Permission perm = super.getPermission(ctx.getData());
+    Permission perm = super.getPermission(ctx.getModel());
     return perm.add(filter.getPermission(ctx));
   }
 

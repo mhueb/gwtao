@@ -4,5 +4,6 @@
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.gwtao.apache.commons.Emul" />
 	<inherits name="com.gwtao.ui.util.Util" />
+	<inherits name="org.shu4j.utils.Utils" />
 	<source path="client" />
 </module>

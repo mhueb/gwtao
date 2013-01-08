@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.shu4j.utils.permission.Permission;
 
-import com.gwtao.ui.context.client.datacontext.ConcreteDataContext;
+import com.gwtao.ui.model.client.source.SimpleModelSource;
 
-public abstract class AbstractEditContext<T> extends ConcreteDataContext<T> implements IEditContext<T> {
+public abstract class AbstractEditContext<T> extends SimpleModelSource<T> implements IEditContext<T> {
   private EditContextListenerCaller listeners = new EditContextListenerCaller();
   private List<IEditStateProvider> providers;
 

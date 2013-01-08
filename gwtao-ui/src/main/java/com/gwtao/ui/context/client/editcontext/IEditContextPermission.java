@@ -33,28 +33,28 @@ public interface IEditContextPermission {
   IEditContextPermission NOTNEW = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return ctx.isDataNull() || ctx.isNew() ? Permission.READONLY : Permission.ALLOWED;
+      return ctx.isNull() || ctx.isNew() ? Permission.READONLY : Permission.ALLOWED;
     }
   };
 
   IEditContextPermission EDIT = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return !ctx.isDataNull() && ctx.getState() == State.EDIT ? Permission.ALLOWED : Permission.READONLY;
+      return !ctx.isNull() && ctx.getState() == State.EDIT ? Permission.ALLOWED : Permission.READONLY;
     }
   };
 
   IEditContextPermission EDITNEW = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return !ctx.isDataNull() && ctx.getState() == State.EDIT && ctx.isNew() ? Permission.ALLOWED : Permission.READONLY;
+      return !ctx.isNull() && ctx.getState() == State.EDIT && ctx.isNew() ? Permission.ALLOWED : Permission.READONLY;
     }
   };
 
   IEditContextPermission NOEDIT = new IEditContextPermission() {
     @Override
     public Permission getPermission(IEditContext<?> ctx) {
-      return !ctx.isDataNull() && ctx.getState() == State.EDIT ? Permission.READONLY : Permission.ALLOWED;
+      return !ctx.isNull() && ctx.getState() == State.EDIT ? Permission.READONLY : Permission.ALLOWED;
     }
   };
 

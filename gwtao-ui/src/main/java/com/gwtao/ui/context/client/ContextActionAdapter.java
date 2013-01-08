@@ -15,32 +15,32 @@
  */
 package com.gwtao.ui.context.client;
 
+import com.gwtao.ui.model.client.source.events.ModelChangedEvent;
 import org.shu4j.utils.permission.Permission;
 
-import com.gwtao.ui.context.client.datacontext.IDataChangeListener;
-import com.gwtao.ui.context.client.datacontext.IDataContext;
+import com.gwtao.ui.model.client.source.IModelSource;
 import com.gwtao.ui.util.client.action.ActionAdapter;
 import com.gwtao.ui.util.client.action.IAction;
 
-public class ContextActionAdapter extends ActionAdapter implements IDataChangeListener {
-  private final IDataContext<?> ctx;
+public class ContextActionAdapter extends ActionAdapter implements ModelChangedEvent.Handler {
+  private final IModelSource<?> ctx;
   private boolean respectContextPermission = true;
 
-  public ContextActionAdapter(IAction action, IDataContext<?> ctx) {
+  public ContextActionAdapter(IAction action, IModelSource<?> ctx) {
     super(action);
     this.ctx = ctx;
     if (this.ctx == null)
       throw new IllegalArgumentException("ContextActionAdapter: ctx is null.");
-    ctx.addChangeListener(this);
+    ctx.addHandler(this, ModelChangedEvent.TYPE);
   }
 
-  public ContextActionAdapter(IAction action, IDataContext<?> ctx, boolean respectContextPermission) {
+  public ContextActionAdapter(IAction action, IModelSource<?> ctx, boolean respectContextPermission) {
     this(action, ctx);
     this.respectContextPermission = respectContextPermission;
   }
 
   @Override
-  public void onDataChange() {
+  public void onModelChanged() {
     getWidgetHandler().update();
   }
 
@@ -48,7 +48,7 @@ public class ContextActionAdapter extends ActionAdapter implements IDataChangeLi
   public void execute(Object... data) {
     if (data != null && data.length != 0)
       throw new RuntimeException("unexpected input data");
-    Object obj = ctx.getData();
+    Object obj = ctx.getModel();
     if (obj instanceof Object[])
       super.execute((Object[]) obj);
     else
@@ -61,7 +61,7 @@ public class ContextActionAdapter extends ActionAdapter implements IDataChangeLi
       throw new RuntimeException("unexpected input data");
 
     Permission perm;
-    Object obj = ctx.getData();
+    Object obj = ctx.getModel();
     if (obj instanceof Object[])
       perm = super.getPermission((Object[]) obj);
     else if (obj != null)

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;
 
@@ -51,6 +52,8 @@ public final class LocationManager<T> {
   private HandlerRegistration addValueChangeHandler;
 
   private HandlerRegistration addWindowClosingHandler;
+
+  private Location postponedChange;
 
   public LocationManager(IPresenterManager<T> presenterManager) {
     this.presenterManager = presenterManager;
@@ -103,42 +106,49 @@ public final class LocationManager<T> {
   }
 
   private void onHistoryChange(String token) {
-    Location location = LocationUtils.buildLocation(token);
+    onHistoryChange(LocationUtils.buildLocation(token));
+  }
+
+  private void onHistoryChange(Location location) {
     try {
-      if (location == null)
-        return;
+      if (ObjectUtils.equals(location, postponedChange) || presenterManager.beforeChange(location)) {
+        postponedChange = null;
+        if (currentLocation != null) {
+          if (currentLocation.equals(location)) {
+            return;
+          }
 
-      if (!presenterManager.beforeChange(location))
-        return;
-
-      if (currentLocation != null) {
-        if (currentLocation.equals(location)) {
-          return;
+          if (!presenterManager.deactivate(currentPresenter)) {
+            History.back();
+            return;
+          }
         }
 
-        if (!presenterManager.deactivate(currentPresenter)) {
-          History.back();
-          return;
+        T presenter = presenters.get(location);
+        if (presenter == null) {
+          presenter = presenterManager.createPresenter(location);
+          if (presenter == null)
+            throw new IllegalStateException("Unhandled location='" + location + "'");
+          presenters.put(location, presenter);
         }
-      }
 
-      T presenter = presenters.get(location);
-      if (presenter == null) {
-        presenter = presenterManager.createPresenter(location);
-        if (presenter == null)
-          throw new IllegalStateException("Unhandled location='" + location + "'");
-        presenters.put(location, presenter);
+        currentLocation = location;
+        currentPresenter = presenter;
+        presenterManager.activate(currentPresenter);
       }
-
-      currentLocation = location;
-      currentPresenter = presenter;
-      presenterManager.activate(currentPresenter);
+      else {
+        postponedChange = location;
+      }
     }
     catch (Exception e) {
       currentLocation = location;
       currentPresenter = null;
 
-      String error = "Failed to open presenter for location = " + location + ": " + e.toString();
+      String error;
+      if (StringUtils.isNotBlank(e.getMessage()))
+        error = e.getMessage();
+      else
+        error = e.toString();
 
       try {
         currentPresenter = presenterManager.createErrorPresenter(location, error);
@@ -152,6 +162,14 @@ public final class LocationManager<T> {
         else
           throw fatal;
       }
+    }
+  }
+
+  public void proceedChange() {
+    if (postponedChange != null) {
+      Location location = postponedChange;
+      postponedChange = null;
+      onHistoryChange(location);
     }
   }
 

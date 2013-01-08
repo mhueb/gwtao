@@ -27,5 +27,5 @@ public @interface PageFactory {
 
   String token();
 
-  Class<? extends IPage> doc();
+  Class<? extends IPage> page();
 }
