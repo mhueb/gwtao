@@ -38,4 +38,8 @@ public final class PageFactoryRegistry {
 
     return factory.create();
   }
+
+  public boolean hasToken(String token) {
+    return descriptorMap.containsKey(token);
+  }
 }

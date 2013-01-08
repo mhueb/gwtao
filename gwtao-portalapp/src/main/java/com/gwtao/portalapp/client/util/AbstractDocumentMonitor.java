@@ -15,23 +15,24 @@
  */
 package com.gwtao.portalapp.client.util;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.gwtao.portalapp.client.document.IDocument;
 import com.gwtao.portalapp.client.document.IDocumentEditor;
 import com.gwtao.portalapp.client.document.IDocumentSelector;
-import com.gwtao.ui.context.client.datacontext.IDataChangeListener;
 import com.gwtao.ui.context.client.editcontext.EditContextListenerAdapter;
 import com.gwtao.ui.context.client.editcontext.IEditContextListener;
-import com.gwtao.ui.context.client.selectioncontext.ISelectionContext;
+import com.gwtao.ui.model.client.selection.IModelSelection;
+import com.gwtao.ui.model.client.source.events.ModelChangedEvent;
 
 public abstract class AbstractDocumentMonitor {
   private final Timer selectTimer = new Timer() {
     @Override
     public void run() {
       if (lastDoc instanceof IDocumentSelector) {
-        ISelectionContext selectionContext = ((IDocumentSelector) lastDoc).getSelectionContext();
-        if (selectionContext.getData().length == 1) {
-          Object data = selectionContext.getData()[0];
+        IModelSelection selectionContext = ((IDocumentSelector) lastDoc).getSelectionContext();
+        if (selectionContext.getModel().length == 1) {
+          Object data = selectionContext.getModel()[0];
           handleDataSwitch(data);
         }
         else
@@ -39,7 +40,7 @@ public abstract class AbstractDocumentMonitor {
       }
       else if (lastDoc instanceof IDocumentEditor) {
         IDocumentEditor edtdoc = (IDocumentEditor) lastDoc;
-        Object data = edtdoc.getEditContext().getData();
+        Object data = edtdoc.getEditContext().getModel();
         handleDataSwitch(data);
       }
       else {
@@ -48,9 +49,9 @@ public abstract class AbstractDocumentMonitor {
     }
   };
 
-  private final IDataChangeListener selectorListener = new IDataChangeListener() {
+  private final ModelChangedEvent.Handler selectorListener = new ModelChangedEvent.Handler() {
     @Override
-    public void onDataChange() {
+    public void onModelChanged() {
       selectTimer.cancel();
       selectTimer.schedule(250);
     }
@@ -66,10 +67,16 @@ public abstract class AbstractDocumentMonitor {
 
   private IDocument lastDoc;
 
+  private HandlerRegistration addHandler;
+
   public void onDocumentSwitch(IDocument doc) {
     if (lastDoc != null) {
-      if (lastDoc instanceof IDocumentSelector)
-        ((IDocumentSelector) lastDoc).getSelectionContext().removeChangeListener(selectorListener);
+      if (lastDoc instanceof IDocumentSelector) {
+        if (addHandler != null) {
+          addHandler.removeHandler();
+          addHandler = null;
+        }
+      }
       else if (lastDoc instanceof IDocumentEditor)
         ((IDocumentEditor) lastDoc).getEditContext().removeStateListener(editorListener);
     }
@@ -81,8 +88,8 @@ public abstract class AbstractDocumentMonitor {
     }
     else if (lastDoc instanceof IDocumentSelector) {
       IDocumentSelector seldoc = (IDocumentSelector) lastDoc;
-      seldoc.getSelectionContext().addChangeListener(selectorListener);
-      selectorListener.onDataChange();
+      addHandler = seldoc.getSelectionContext().addHandler(selectorListener, ModelChangedEvent.TYPE);
+      selectorListener.onModelChanged();
     }
     else
       handleNoData(false);

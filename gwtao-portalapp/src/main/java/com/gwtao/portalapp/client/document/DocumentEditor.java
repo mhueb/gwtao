@@ -25,12 +25,12 @@ import com.gwtao.ui.context.client.actions.CheckInAction;
 import com.gwtao.ui.context.client.actions.CheckOutAction;
 import com.gwtao.ui.context.client.actions.RefreshAction;
 import com.gwtao.ui.context.client.actions.RevertAction;
-import com.gwtao.ui.context.client.datacontext.IDataChangeListener;
 import com.gwtao.ui.context.client.editcontext.EditContextActionAdapter;
 import com.gwtao.ui.context.client.editcontext.EditContextListenerAdapter;
 import com.gwtao.ui.context.client.editcontext.IEditContext;
 import com.gwtao.ui.context.client.editcontext.IEditContextOwner;
 import com.gwtao.ui.context.client.i18n.ContextConstants;
+import com.gwtao.ui.model.client.source.events.ModelChangedEvent;
 import com.gwtao.ui.util.client.mask.IWaitMask;
 import com.gwtao.ui.util.client.mask.WaitMask;
 
@@ -62,12 +62,12 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
       }
     });
 
-    getEditContext().addChangeListener(new IDataChangeListener() {
+    getEditContext().addHandler(new ModelChangedEvent.Handler() {
       @Override
-      public void onDataChange() {
+      public void onModelChanged() {
         getViewContext().updateTitle();
       }
-    });
+    },ModelChangedEvent.TYPE);
 
     addActions(getViewContext().getActionManager());
   }
@@ -106,7 +106,7 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
     if (getEditContext().isNew())
       buff.append(PortalConstants.c.neW()).append(":");
 
-    if (getEditContext().isDataNull()) {
+    if (getEditContext().isNull()) {
       String title = super.getTitle();
       if (StringUtils.isEmpty(title))
         buff.append("<i>").append(PortalConstants.c.unknown()).append("</i>");
@@ -114,7 +114,7 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
         buff.append(title);
     }
     else {
-      String title = getTitle(getEditContext().getData());
+      String title = getTitle(getEditContext().getModel());
       if (StringUtils.isEmpty(title))
         buff.append("<i>").append(ContextConstants.c.emptyTitle()).append("</i>");
       else

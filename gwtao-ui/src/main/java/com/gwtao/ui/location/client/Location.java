@@ -15,8 +15,10 @@
  */
 package com.gwtao.ui.location.client;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.shu4j.utils.util.Hasher;
 
 /**
  * This class represents a item of the browser history.<br>
@@ -36,17 +38,23 @@ import org.apache.commons.lang.Validate;
  * 
  */
 public final class Location {
+  public static final Location NOWHERE = new Location("", null);
+
   private final String id;
   private final String parameters;
 
   protected Location(String id, String parameters) {
-    Validate.notEmpty(id);
+    Validate.notNull(id);
     this.id = id;
     this.parameters = StringUtils.trimToNull(parameters);
   }
 
   public String getValue() {
     return parameters == null ? id : id + "?" + parameters;
+  }
+
+  public boolean isNoWhere() {
+    return id.length() == 0;
   }
 
   public String getId() {
@@ -56,4 +64,27 @@ public final class Location {
   public String getParameters() {
     return parameters;
   }
+
+  @Override
+  public int hashCode() {
+    return new Hasher().add(id).add(parameters).getHash();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Location other = (Location) obj;
+    return ObjectUtils.equals(id, other.id) && ObjectUtils.equals(parameters, other.parameters);
+  }
+
+  @Override
+  public String toString() {
+    return "Location [id=" + id + ", parameters=" + parameters + "]";
+  }
+
 }

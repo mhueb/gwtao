@@ -17,23 +17,22 @@ package com.gwtao.ui.dialog.client;
 
 import org.shu4j.utils.message.IMessageSource;
 
+import com.gwtao.ui.util.client.AsyncOKAnswere;
+import com.gwtao.ui.util.client.AsyncYESNOAnswere;
+
 public class MessageDialog {
 
-	public static final String OK = null;
+  public static void confirm(String title, String areYouSureToDelete, AsyncYESNOAnswere asyncYESNOAnswere) {
+  }
 
-	public static void confirm(String title, String areYouSureToDelete,
-			AsyncYESNOAnswere asyncYESNOAnswere) {
-	}
+  public static void alert(String string, String closeMessage, AsyncOKAnswere answere) {
+    // TODO Auto-generated method stub
 
-	public static void alert(String string, String closeMessage, String ok2) {
-		// TODO Auto-generated method stub
+  }
 
-	}
+  public static void alert(String title, IMessageSource messages, AsyncOKAnswere answere) {
+    // TODO Auto-generated method stub
 
-	public static void alert(String title,
-			IMessageSource messages, String ok2) {
-		// TODO Auto-generated method stub
-
-	}
+  }
 
 }

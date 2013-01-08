@@ -26,8 +26,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtao.ui.context.client.i18n.ContextConstants;
-import com.gwtao.ui.dialog.client.AsyncYESNOAnswere;
 import com.gwtao.ui.dialog.client.MessageDialog;
+import com.gwtao.ui.util.client.AsyncOKAnswere;
+import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 
 /**
  * 
@@ -77,7 +78,7 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
       if (serverMessages != null && serverMessages.getWorstLevel() == MessageLevel.FATAL)
         setState(State.FAILURE, true);
       getStateListener().callOnServiceFailed();
-      MessageDialog.alert(ContextConstants.c.serverValidateMessage(), validateException.getMessages(), MessageDialog.OK);
+      MessageDialog.alert(ContextConstants.c.serverValidateMessage(), validateException.getMessages(), AsyncOKAnswere.OK);
     }
     else {
       setState(State.FAILURE, true);
@@ -162,10 +163,10 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
       if (valid)
         doCheckIn();
       else
-        MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.validateErrorsOnSave(), MessageDialog.OK);
+        MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
     }
     else
-      MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.nothingToSave(), MessageDialog.OK);
+      MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.nothingToSave(), AsyncOKAnswere.OK);
   }
 
   private void doCheckIn() {

@@ -17,16 +17,19 @@ package com.gwtao.ui.location.client;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.gwtao.ui.util.client.ParameterList;
+import com.gwtao.ui.util.client.ParameterList.Builder;
+
 public class LocationUtils {
 
   public static Location buildLocation(String token) {
     if (StringUtils.isEmpty(token))
-      return null;
+      return Location.NOWHERE;
 
     String id;
     String params;
     int idx = token.indexOf('?');
-    if (idx > 0) {
+    if (idx >= 0) {
       id = token.substring(0, idx);
       params = token.substring(idx);
     }
@@ -42,6 +45,25 @@ public class LocationUtils {
     if (StringUtils.isEmpty(id))
       return null;
     return new Location(id, params);
+  }
+
+  public static ParameterList parse(String parameter) {
+    Builder builder = new ParameterList.Builder();
+    if (StringUtils.isNotBlank(parameter)) {
+      String[] items = parameter.split("&");
+      for (String item : items) {
+        item = item.trim();
+        String[] parts = item.split("=");
+        if (parts.length == 2)
+          builder.add(normalize(parts[0]), normalize(parts[1]));
+        builder.add(normalize(item));
+      }
+    }
+    return builder.build();
+  }
+
+  private static String normalize(String string) {
+    return string;
   }
 
 }

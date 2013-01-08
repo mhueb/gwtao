@@ -15,12 +15,37 @@
  */
 package com.gwtao.ui.model.client.i18n;
 
-import com.google.gwt.core.shared.GWT;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.Constants;
 
-public interface ModelConstants {
+public interface ModelConstants extends Constants {
+  public final static ModelConstants c =   GWT.create(ModelConstants.class);
 
-  ModelConstants c = GWT.create(ModelConstants.class);
+  String save();
 
-  String valueMustNotNull();
+  String revert();
 
+  String refresh();
+
+  String remove();
+
+  String edit();
+
+  String refreshing();
+
+  String refreshQuestion();
+
+  String reverting();
+
+  String revertQuestion();
+  
+  String removeQuestion();
+
+  String loading();
+
+  String saving();
+
+  String validateErrorsOnSave();
+
+  String nothingToSave();
 }

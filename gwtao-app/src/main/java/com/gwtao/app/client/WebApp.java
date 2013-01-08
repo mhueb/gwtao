@@ -19,21 +19,24 @@ import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
 import com.gwtao.ui.location.client.Location;
 import com.gwtao.ui.location.client.LocationManager;
+import com.gwtao.ui.location.client.UnkownLocation;
 
-public class WebApp implements IPresenterManager<PageContext> {
+public abstract class WebApp implements IPresenterManager<PageContext> {
 
   private final IAppFrame frame;
 
-  private final LocationManager<PageContext> manager;
+  private final LocationManager<PageContext> locationManager;
 
   public WebApp(IAppFrame frame) {
     this.frame = frame;
-    this.manager = new LocationManager<PageContext>(this);
+    this.locationManager = new LocationManager<PageContext>(this);
   }
 
   @Override
   public boolean beforeChange(Location location) {
-    return true;
+    if (!Pages.REGISTRY.hasToken(location.getId()))
+      throw new UnkownLocation(location);
+    return false;
   }
 
   @Override
@@ -58,18 +61,24 @@ public class WebApp implements IPresenterManager<PageContext> {
 
   @Override
   public PageContext createErrorPresenter(Location location, String errorMessage) {
-    // TODO Auto-generated method stub
-    return null;
+    IPage document = createErrorPage(location, errorMessage);
+    return new PageContext(frame, document, location);
   }
+
+  protected abstract IPage createErrorPage(Location location, String errorMessage);
 
   @Override
   public String canClose(PageContext presenter) {
     return presenter.canClose();
   }
 
+  public void proceedChange() {
+    locationManager.proceedChange();
+  }
+
   public void startup() {
     RootLayoutPanel.get().add(frame);
-    this.manager.startup();
+    this.locationManager.startup();
   }
 
 }

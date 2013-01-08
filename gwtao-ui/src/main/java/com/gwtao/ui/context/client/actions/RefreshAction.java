@@ -37,6 +37,6 @@ public final class RefreshAction extends Action {
 
   @Override
   public Permission getPermission(Object... data) {
-    return owner.getEditContext().getState() == IEditContext.State.VIEW && !owner.getEditContext().isDataNull() ? super.getPermission(data) : Permission.HIDDEN;
+    return owner.getEditContext().getState() == IEditContext.State.VIEW && !owner.getEditContext().isNull() ? super.getPermission(data) : Permission.HIDDEN;
   }
 }
