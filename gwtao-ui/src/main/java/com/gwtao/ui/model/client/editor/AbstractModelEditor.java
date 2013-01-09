@@ -168,11 +168,11 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
       else {
         handleDriverErrors();
         fireEvent(new EditorSaveEvent(false));
-        view.alert(ModelConstants.c.save(), ModelConstants.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
+        view.alert(ModelConstants.c.store(), ModelConstants.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
       }
     }
     else
-      view.alert(ModelConstants.c.save(), ModelConstants.c.nothingToSave(), AsyncOKAnswere.OK);
+      view.alert(ModelConstants.c.store(), ModelConstants.c.nothingToSave(), AsyncOKAnswere.OK);
   }
 
   protected abstract void setConstraintViolations(Set<ConstraintViolation<?>> constraintViolations);

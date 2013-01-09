@@ -21,7 +21,7 @@ import com.google.gwt.i18n.client.Constants;
 public interface ModelConstants extends Constants {
   public final static ModelConstants c =   GWT.create(ModelConstants.class);
 
-  String save();
+  String store();
 
   String revert();
 
