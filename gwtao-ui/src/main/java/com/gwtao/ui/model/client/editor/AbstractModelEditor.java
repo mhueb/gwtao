@@ -8,6 +8,7 @@ import javax.validation.Validator;
 
 import org.apache.commons.lang.Validate;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtao.ui.model.client.editor.events.EditorRefreshEvent;
 import com.gwtao.ui.model.client.editor.events.EditorRemoveEvent;
@@ -22,7 +23,9 @@ import com.gwtao.ui.util.client.GlassPane;
 import com.gwtao.ui.util.client.ParameterList;
 
 public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> implements IModelEditor<M> {
+  private final static ModelConstants c =   GWT.create(ModelConstants.class);
 
+  
   protected abstract class Callback<T> implements AsyncCallback<T> {
     public void onFailure(Throwable caught) {
       onServiceFailure(caught);
@@ -113,7 +116,7 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
     this.state = State.LOADING;
     this.params = param;
     fireEvent(new EditorStartEvent(true));
-    mask(ModelConstants.c.loading());
+    mask(AbstractModelEditor.c.loading());
     service.read(params, new Callback<M>() {
       @Override
       public void onSuccess(M result) {
@@ -137,7 +140,7 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
       model = flush();
       if (!hasErrors() && validate(model)) {
         this.state = State.SAVING;
-        mask(ModelConstants.c.saving());
+        mask(AbstractModelEditor.c.saving());
         AsyncCallback<M> callback = new Callback<M>() {
           @Override
           public void onSuccess(M result) {
@@ -168,11 +171,11 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
       else {
         handleDriverErrors();
         fireEvent(new EditorSaveEvent(false));
-        view.alert(ModelConstants.c.store(), ModelConstants.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
+        view.alert(AbstractModelEditor.c.save(), AbstractModelEditor.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
       }
     }
     else
-      view.alert(ModelConstants.c.store(), ModelConstants.c.nothingToSave(), AsyncOKAnswere.OK);
+      view.alert(AbstractModelEditor.c.save(), AbstractModelEditor.c.nothingToSave(), AsyncOKAnswere.OK);
   }
 
   protected abstract void setConstraintViolations(Set<ConstraintViolation<?>> constraintViolations);
@@ -180,7 +183,7 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
   @Override
   public void refresh() {
     if (isDirty()) {
-      view.confirm(ModelConstants.c.refresh(), ModelConstants.c.refreshQuestion(), new AsyncYESNOAnswere() {
+      view.confirm(AbstractModelEditor.c.refresh(), AbstractModelEditor.c.refreshQuestion(), new AsyncYESNOAnswere() {
         @Override
         public void onYes() {
           doRefresh();
@@ -193,7 +196,7 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
 
   private void doRefresh() {
     fireEvent(new EditorRefreshEvent(true));
-    mask(ModelConstants.c.reverting());
+    mask(AbstractModelEditor.c.reverting());
     final State old = state;
     state = State.REFRESHING;
     service.read(params, new Callback<M>() {
@@ -211,12 +214,12 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
   public void revert() {
     Validate.isTrue(this.state == State.EDIT);
     if (isDirty()) {
-      view.confirm(ModelConstants.c.revert(), ModelConstants.c.revertQuestion(), new AsyncYESNOAnswere() {
+      view.confirm(AbstractModelEditor.c.revert(), AbstractModelEditor.c.revertQuestion(), new AsyncYESNOAnswere() {
         @Override
         public void onYes() {
           state = State.REVERTING;
           fireEvent(new EditorRevertEvent(true));
-          mask(ModelConstants.c.reverting());
+          mask(AbstractModelEditor.c.reverting());
           service.read(params, new Callback<M>() {
             @Override
             public void onSuccess(M result) {
@@ -240,7 +243,7 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
   public void remove() {
     Validate.isTrue(this.state == State.VIEW || this.state == State.EDIT);
     if (isDirty()) {
-      view.confirm(ModelConstants.c.remove(), ModelConstants.c.removeQuestion(), new AsyncYESNOAnswere() {
+      view.confirm(AbstractModelEditor.c.remove(), AbstractModelEditor.c.removeQuestion(), new AsyncYESNOAnswere() {
         @Override
         public void onYes() {
           doRemove();
@@ -256,7 +259,7 @@ public abstract class AbstractModelEditor<M> extends AbstractModelSource<M> impl
   private void doRemove() {
     state = State.REMOVING;
     fireEvent(new EditorRemoveEvent(true));
-    mask(ModelConstants.c.reverting());
+    mask(AbstractModelEditor.c.reverting());
     service.remove(model, new Callback<Void>() {
       @Override
       public void onSuccess(Void result) {
