@@ -15,6 +15,8 @@
  */
 package com.gwtao.app.client;
 
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
 import com.gwtao.ui.location.client.Location;
@@ -23,13 +25,19 @@ import com.gwtao.ui.location.client.UnkownLocation;
 
 public abstract class WebApp implements IPresenterManager<PageContext> {
 
-  private final IAppFrame frame;
+  private IAppFrame frame;
 
   private final LocationManager<PageContext> locationManager;
 
-  public WebApp(IAppFrame frame) {
-    this.frame = frame;
+  private final EventBus eventbus;
+
+  protected WebApp() {
     this.locationManager = new LocationManager<PageContext>(this);
+    this.eventbus = new SimpleEventBus();
+  }
+  
+  protected void initFrame(IAppFrame frame) {
+    this.frame = frame;
   }
 
   @Override
@@ -42,12 +50,14 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
   @Override
   public final PageContext createPresenter(Location location) {
     IPage document = createPage(location.getId());
-    return new PageContext(frame, document, location);
+    return new PageContext(eventbus, frame, document, location);
   }
 
   protected IPage createPage(String id) {
     return Pages.REGISTRY.create(id);
   }
+  
+  
 
   @Override
   public void activate(PageContext presenter) {
@@ -56,13 +66,14 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
 
   @Override
   public boolean deactivate(PageContext presenter) {
+    presenter.close();
     return true;// presenter.deactivate();
   }
 
   @Override
   public PageContext createErrorPresenter(Location location, String errorMessage) {
     IPage document = createErrorPage(location, errorMessage);
-    return new PageContext(frame, document, location);
+    return new PageContext(eventbus, frame, document, location);
   }
 
   protected abstract IPage createErrorPage(Location location, String errorMessage);
@@ -81,4 +92,7 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
     this.locationManager.startup();
   }
 
+  public EventBus getEventBus() {
+    return eventbus;
+  }
 }

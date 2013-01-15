@@ -13,22 +13,23 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.navigator.client;
+package com.gwtao.ui.breadcrumb.client;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.ComplexPanel;
 
-public class NavigatorPanel extends Composite {
+public class BreadCrumbPanel extends ComplexPanel {
 
-  private static NavigatorPanelUiBinder uiBinder = GWT.create(NavigatorPanelUiBinder.class);
+  public interface IBreadCrumbItem {
+    String getTitle();
 
-  interface NavigatorPanelUiBinder extends UiBinder<Widget, NavigatorPanel> {
+    String getToken();
+    // IActionSoure getActions();
   }
 
-  public NavigatorPanel() {
-    initWidget(uiBinder.createAndBindUi(this));
+  public BreadCrumbPanel() {
+    setElement(DOM.createDiv());
+    getElement().getStyle().setBackgroundColor("#f0f0f0");
   }
 
   public void updateTitle(String token, String title) {

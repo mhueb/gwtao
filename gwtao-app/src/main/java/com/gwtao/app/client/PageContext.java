@@ -15,6 +15,7 @@
  */
 package com.gwtao.app.client;
 
+import com.google.gwt.event.shared.EventBus;
 import com.gwtao.ui.location.client.Location;
 
 public class PageContext implements IPageContext {
@@ -22,8 +23,10 @@ public class PageContext implements IPageContext {
   private final IPage document;
   private final Location location;
   private final IAppFrame frame;
+  private final EventBus eventBus;
 
-  public PageContext(IAppFrame frame, IPage document, Location location) {
+  public PageContext(EventBus eventBus, IAppFrame frame, IPage document, Location location) {
+    this.eventBus = eventBus;
     this.frame = frame;
     this.document = document;
     this.location = location;
@@ -44,6 +47,7 @@ public class PageContext implements IPageContext {
   @Override
   public void show() {
     frame.show(document);
+    document.activate();
   }
 
   @Override
@@ -60,4 +64,8 @@ public class PageContext implements IPageContext {
     return location.getParameters();
   }
 
+  @Override
+  public EventBus getEventBus() {
+    return eventBus;
+  }
 }

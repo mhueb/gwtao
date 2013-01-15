@@ -5,8 +5,10 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.gwtao.ui.layout.client.ILayoutContainer;
+import com.gwtao.ui.util.client.Size;
 
-public class AbstractPage extends Composite implements IPage, RequiresResize, ProvidesResize {
+public abstract class AbstractPage extends Composite implements IPage, RequiresResize, ProvidesResize, ILayoutContainer {
 
   private IPageContext ctx;
 
@@ -36,6 +38,10 @@ public class AbstractPage extends Composite implements IPage, RequiresResize, Pr
   public String canClose() {
     return null;
   }
+  
+  @Override
+  public void activate() {
+  }
 
   @Override
   public boolean deactivate() {
@@ -46,6 +52,29 @@ public class AbstractPage extends Composite implements IPage, RequiresResize, Pr
   public void onResize() {
     if (getWidget() instanceof RequiresResize) {
       ((RequiresResize) getWidget()).onResize();
+    }
+  }
+
+  @Override
+  public Size getMinSize() {
+    if (getWidget() instanceof ILayoutContainer) {
+      return ((ILayoutContainer) getWidget()).getMinSize();
+    }
+    else
+      return Size.ZERO;
+  }
+
+  @Override
+  public void layout() {
+    if (getWidget() instanceof ILayoutContainer) {
+      ((ILayoutContainer) getWidget()).layout();
+    }
+  }
+
+  @Override
+  public void measure() {
+    if (getWidget() instanceof ILayoutContainer) {
+      ((ILayoutContainer) getWidget()).measure();
     }
   }
 

@@ -13,21 +13,21 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.actions.client;
+package com.gwtao.ui.navigation.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ActionsPanel extends Composite {
+public class NavigationPanel extends Composite {
 
-  private static ActionsPanelUiBinder uiBinder = GWT.create(ActionsPanelUiBinder.class);
+  private static NavigationPanelUiBinder uiBinder = GWT.create(NavigationPanelUiBinder.class);
 
-  interface ActionsPanelUiBinder extends UiBinder<Widget, ActionsPanel> {
+  interface NavigationPanelUiBinder extends UiBinder<Widget, NavigationPanel> {
   }
 
-  public ActionsPanel() {
+  public NavigationPanel() {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
