@@ -15,6 +15,7 @@
  */
 package com.gwtao.app.client;
 
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.SwitchPanel;
@@ -22,6 +23,10 @@ import com.gwtao.ui.util.client.SwitchPanel;
 public class PagesPanel implements IsWidget {
 
   private final SwitchPanel switchPanel = new SwitchPanel();
+
+  public PagesPanel() {
+    switchPanel.getElement().getStyle().setOverflow(Overflow.AUTO);
+  }
 
   @Override
   public Widget asWidget() {
@@ -39,7 +44,7 @@ public class PagesPanel implements IsWidget {
 
   public void close(IPage page) {
     int idx = switchPanel.getWidgetIndex(page);
-    if (idx == -1) {
+    if (idx != -1) {
       switchPanel.remove(idx);
     }
   }

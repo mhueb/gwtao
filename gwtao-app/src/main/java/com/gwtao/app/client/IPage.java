@@ -22,6 +22,8 @@ public interface IPage extends IsWidget {
   void init(IPageContext ctx);
 
   String canClose();
+  
+  void activate();
 
   boolean deactivate();
 }

@@ -15,6 +15,8 @@
  */
 package com.gwtao.app.client;
 
+import com.google.gwt.event.shared.EventBus;
+
 public interface IPageContext {
   void switchParameter(String parameter);
 
@@ -25,4 +27,6 @@ public interface IPageContext {
   void show();
 
   void updateTitle(String title);
+  
+  EventBus getEventBus();
 }
