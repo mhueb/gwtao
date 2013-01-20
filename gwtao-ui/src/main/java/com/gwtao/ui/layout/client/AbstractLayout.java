@@ -105,7 +105,7 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
     int xw = CSS.calcWidthOffset(elem);
     int yw = CSS.calcHeightOffset(elem);
 
-    DOM.setStyleAttribute(elem, "overflow", "hidden");
+    DOM.setStyleAttribute(elem, "overflow", "auto");
     DOM.setStyleAttribute(elem, POSITION, "absolute");
     DOM.setStyleAttribute(elem, LEFT, left + PX);
     DOM.setStyleAttribute(elem, TOP, top + PX);

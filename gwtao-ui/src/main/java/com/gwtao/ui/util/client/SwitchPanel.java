@@ -54,6 +54,8 @@ public class SwitchPanel extends ComplexPanel implements ILayoutContainer, Requi
     style.clearLeft();
     if (getWidgetCount() > 0)
       doHideWidget(w);
+  //  if (w instanceof ILayoutContainer)
+    //  ((ILayoutContainer) w).measure();
   }
 
   private void doHideWidget(Widget w) {

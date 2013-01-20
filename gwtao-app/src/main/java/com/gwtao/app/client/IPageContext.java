@@ -26,7 +26,7 @@ public interface IPageContext {
 
   void show();
 
-  void updateTitle(String title);
+  void updateTitle();
   
   EventBus getEventBus();
 }

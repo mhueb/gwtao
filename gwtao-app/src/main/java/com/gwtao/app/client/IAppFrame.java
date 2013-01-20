@@ -22,6 +22,7 @@ public interface IAppFrame extends IsWidget {
 
   void show(IPage page);
 
-  void updateTitle(IPage page, String title);
+  void updateTitle(IPage page);
 
+  WebApp getApp();
 }

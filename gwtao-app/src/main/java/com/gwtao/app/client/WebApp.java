@@ -15,6 +15,9 @@
  */
 package com.gwtao.app.client;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
@@ -31,11 +34,13 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
 
   private final EventBus eventbus;
 
+  private String appTitle;
+
   protected WebApp() {
     this.locationManager = new LocationManager<PageContext>(this);
     this.eventbus = new SimpleEventBus();
   }
-  
+
   protected void initFrame(IAppFrame frame) {
     this.frame = frame;
   }
@@ -56,12 +61,11 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
   protected IPage createPage(String id) {
     return Pages.REGISTRY.create(id);
   }
-  
-  
 
   @Override
   public void activate(PageContext presenter) {
     presenter.show();
+    updateWindowTitle(presenter.asDisplayableItem().getTitle());
   }
 
   @Override
@@ -88,11 +92,22 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
   }
 
   public void startup() {
+    appTitle = StringUtils.trimToNull(Document.get().getTitle());
     RootLayoutPanel.get().add(frame);
     this.locationManager.startup();
   }
 
   public EventBus getEventBus() {
     return eventbus;
+  }
+
+  protected void updateWindowTitle(String title) {
+    if (appTitle != null) {
+      String windowTitle = appTitle;
+      if (StringUtils.isNotBlank(title)) {
+        windowTitle = windowTitle + " - " + title;
+      }
+      Document.get().setTitle(windowTitle);
+    }
   }
 }
