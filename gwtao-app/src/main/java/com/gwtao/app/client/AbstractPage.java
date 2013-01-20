@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.gwtao.ui.layout.client.ILayoutContainer;
+import com.gwtao.ui.util.client.DisplayableItem;
+import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.Size;
 
 public abstract class AbstractPage extends Composite implements IPage, RequiresResize, ProvidesResize, ILayoutContainer {
@@ -26,7 +28,7 @@ public abstract class AbstractPage extends Composite implements IPage, RequiresR
 
   protected void init() {
   }
-
+  
   protected IPageContext getCtx() {
     return ctx;
   }
@@ -38,7 +40,7 @@ public abstract class AbstractPage extends Composite implements IPage, RequiresR
   public String canClose() {
     return null;
   }
-  
+
   @Override
   public void activate() {
   }

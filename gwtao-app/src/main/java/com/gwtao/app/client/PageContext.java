@@ -17,6 +17,7 @@ package com.gwtao.app.client;
 
 import com.google.gwt.event.shared.EventBus;
 import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.util.client.IDisplayableItem;
 
 public class PageContext implements IPageContext {
 
@@ -31,6 +32,10 @@ public class PageContext implements IPageContext {
     this.document = document;
     this.location = location;
     document.init(this);
+  }
+
+  public IDisplayableItem asDisplayableItem() {
+    return document.asDisplayableItem();
   }
 
   @Override
@@ -51,8 +56,9 @@ public class PageContext implements IPageContext {
   }
 
   @Override
-  public void updateTitle(String title) {
-    frame.updateTitle(document, title);
+  public void updateTitle() {
+    frame.updateTitle(document);
+    frame.getApp().updateWindowTitle(asDisplayableItem().getTitle());
   }
 
   public String canClose() {

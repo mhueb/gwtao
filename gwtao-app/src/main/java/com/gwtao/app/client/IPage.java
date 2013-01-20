@@ -16,6 +16,7 @@
 package com.gwtao.app.client;
 
 import com.google.gwt.user.client.ui.IsWidget;
+import com.gwtao.ui.util.client.IDisplayableItem;
 
 public interface IPage extends IsWidget {
 
@@ -26,4 +27,6 @@ public interface IPage extends IsWidget {
   void activate();
 
   boolean deactivate();
+  
+  IDisplayableItem asDisplayableItem();
 }
