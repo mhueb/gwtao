@@ -13,18 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.util.client.action;
+package com.gwtao.ui.util.client.card;
 
-import org.shu4j.utils.permission.Permission;
 
-import com.gwtao.ui.util.client.IDisplayableItem;
-
-public interface IAction extends IDisplayableItem {
-  final Object[] NODATA = new Object[0];
-
-  void execute(Object... data);
-
-  Permission getPermission(Object... data);
-
-  IActionWidgetHandler getWidgetHandler();
+public interface ICardSupplier {
+  ICard getCard(Object... selection);
 }

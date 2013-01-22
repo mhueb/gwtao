@@ -15,9 +15,6 @@
  */
 package com.gwtao.portalapp.client.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -26,7 +23,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.portalapp.client.actionmanager.IActionManager;
 import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.SwitchPanel;
-import com.gwtao.ui.util.client.action.IActionInfo;
+import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.client.card.Card;
+import com.gwtao.ui.util.client.card.ICard;
 
 public class ViewStackItem<T extends IPortalView> implements IViewNavigatorItem, IPortalViewContext, IActionManager {
 
@@ -45,7 +44,7 @@ public class ViewStackItem<T extends IPortalView> implements IViewNavigatorItem,
   private final WrapperPanel wrapper = new WrapperPanel();
   private final T view;
   private final SwitchPanel target;
-  private final List<IActionInfo> actions = new ArrayList<IActionInfo>();
+  private final Card actions = new Card();
   private boolean created;
   private IViewNavigator navigator;
 
@@ -95,7 +94,12 @@ public class ViewStackItem<T extends IPortalView> implements IViewNavigatorItem,
   }
 
   @Override
-  public void addAction(IActionInfo action) {
+  public void addAction(Card action) {
+    actions.add(action);
+  }
+
+  @Override
+  public void addAction(IAction action) {
     actions.add(action);
   }
 
@@ -131,7 +135,7 @@ public class ViewStackItem<T extends IPortalView> implements IViewNavigatorItem,
   }
 
   @Override
-  public List<IActionInfo> getActions() {
+  public ICard getActions() {
     return actions;
   }
 

@@ -17,7 +17,8 @@ package com.gwtao.ui.toolbar.client;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.util.client.action.IActionInfo;
+import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.client.card.ICard;
 
 public class Toolbar implements IsWidget {
 
@@ -27,12 +28,12 @@ public class Toolbar implements IsWidget {
     return null;
   }
 
-  public void add(IActionInfo action) {
+  public void update(ICard actions) {
     // TODO Auto-generated method stub
     
   }
 
-  public void clear() {
+  public void add(IAction action) {
     // TODO Auto-generated method stub
     
   }

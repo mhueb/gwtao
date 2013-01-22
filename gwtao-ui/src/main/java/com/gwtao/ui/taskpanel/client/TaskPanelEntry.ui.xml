@@ -1,0 +1,32 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.set {
+			margin-left: 16px;
+			margin-bottom: 16px;
+		}
+		
+		.header {
+			font-weight: 500;
+			font-size: 16px;
+			margin-bottom: 4px;
+		}
+		
+		.tasks {
+			font-size: 12px;
+		}
+		
+		.item {
+			margin-right: 12px;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<div class="{style.set}">
+			<div class="{style.header}" ui:field="headLine" />
+			<div class="{style.tasks}" ui:field="tasks">
+				<span class="{style.item}"></span>
+			</div>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>

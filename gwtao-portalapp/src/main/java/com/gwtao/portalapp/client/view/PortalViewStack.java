@@ -23,7 +23,7 @@ import org.shu4j.utils.util.SafeIterator;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.portalapp.client.part.AbstractPortalPart;
-import com.gwtao.ui.layout.client.FlowLayout;
+import com.gwtao.ui.layout.client.FlowLayout.VerticalFlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
 import com.gwtao.ui.layout.client.LayoutPanel;
 import com.gwtao.ui.util.client.SwitchPanel;
@@ -37,7 +37,7 @@ public class PortalViewStack<T extends IPortalView> extends AbstractPortalPart i
   };
 
   private final List<IPortalViewStackListener> listeners = new ArrayList<IPortalViewStackListener>();
-  private final LayoutPanel root = new LayoutPanel(new FlowLayout(false));
+  private final LayoutPanel root = new LayoutPanel(new VerticalFlowLayout());
   private final SwitchPanel content = new SwitchPanel();
   private PortalViewStackHead<ViewStackItem<T>> header;
 
