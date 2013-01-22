@@ -37,7 +37,7 @@ import com.gwtao.ui.dialog.client.MessageDialog;
 import com.gwtao.ui.toolbar.client.Toolbar;
 import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.action.Action;
-import com.gwtao.ui.util.client.action.IActionInfo;
+import com.gwtao.ui.util.client.card.ICard;
 
 public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite implements IViewNavigator {
 
@@ -232,9 +232,7 @@ public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite
   @Override
   public void updateActions(IViewNavigatorItem item) {
     if (isActivate(item)) {
-      actionbar.clear();
-      for (IActionInfo ai : item.getActions())
-        actionbar.add(ai);
+      actionbar.update(item.getActions());
     }
   }
 
@@ -246,10 +244,8 @@ public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite
 
   }
 
-  public void updateActions(List<IActionInfo> actions) {
-    actionbar.clear();
-    for (IActionInfo ai : actions)
-      actionbar.add(ai);
+  public void updateActions(ICard actions) {
+    actionbar.update(actions);
   }
 
   public List<T> getViewItems() {

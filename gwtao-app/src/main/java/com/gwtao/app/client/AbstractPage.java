@@ -6,8 +6,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.gwtao.ui.layout.client.ILayoutContainer;
-import com.gwtao.ui.util.client.DisplayableItem;
-import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.Size;
 
 public abstract class AbstractPage extends Composite implements IPage, RequiresResize, ProvidesResize, ILayoutContainer {

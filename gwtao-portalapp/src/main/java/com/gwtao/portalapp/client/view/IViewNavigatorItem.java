@@ -15,17 +15,15 @@
  */
 package com.gwtao.portalapp.client.view;
 
-import java.util.List;
-
 import com.gwtao.ui.util.client.IDisplayableItem;
-import com.gwtao.ui.util.client.action.IActionInfo;
+import com.gwtao.ui.util.client.card.ICard;
 
 public interface IViewNavigatorItem {
   void init(IViewNavigator navigator);
 
   IDisplayableItem getDisplayInfo();
 
-  List<IActionInfo> getActions();
+  ICard getActions();
 
   boolean isCloseable();
 

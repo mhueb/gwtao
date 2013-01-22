@@ -43,9 +43,11 @@ import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
 import com.gwtao.ui.location.client.Location;
 import com.gwtao.ui.location.client.LocationManager;
+import com.gwtao.ui.util.client.DisplayableItem;
 import com.gwtao.ui.util.client.SplashManager;
-import com.gwtao.ui.util.client.action.IActionInfo;
-import com.gwtao.ui.util.client.action.IActionSupplier;
+import com.gwtao.ui.util.client.card.Card;
+import com.gwtao.ui.util.client.card.ICardSupplier;
+import com.gwtao.ui.util.client.card.ICard;
 
 public class PortalApp implements IPortal {
 
@@ -63,26 +65,12 @@ public class PortalApp implements IPortal {
   private final List<IPortalListener> listeners = new ArrayList<IPortalListener>();
   private String lookId;
 
-  private final IActionSupplier portletOpenActions = new IActionSupplier() {
+  private final ICardSupplier portletOpenActions = new ICardSupplier() {
+    private DisplayableItem info = new DisplayableItem("Portlet");
 
     @Override
-    public String getTooltip() {
-      return null;
-    }
-
-    @Override
-    public String getTitle() {
-      return "Portlets";
-    }
-
-    @Override
-    public String getIcon() {
-      return null;
-    }
-
-    @Override
-    public List<IActionInfo> getActions(Object... selection) {
-      List<IActionInfo> actions = new ArrayList<IActionInfo>();
+    public ICard getCard(Object... selection) {
+      Card actions = new Card(info);
       for (IPortletDescriptor pd : PortletRegistry.get().getDescriptors()) {
         actions.add(new PortletOpenAction(pd));
       }
@@ -294,7 +282,7 @@ public class PortalApp implements IPortal {
   }
 
   @Override
-  public IActionSupplier getPortletOpenActions() {
+  public ICardSupplier getPortletOpenActions() {
     return portletOpenActions;
   }
 

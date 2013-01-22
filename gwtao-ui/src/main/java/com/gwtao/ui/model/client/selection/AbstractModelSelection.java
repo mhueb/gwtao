@@ -17,19 +17,19 @@ package com.gwtao.ui.model.client.selection;
 
 import com.gwtao.ui.model.client.source.AbstractModelSource;
 import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.ui.util.client.action.IActionSupplier;
+import com.gwtao.ui.util.client.card.ICardSupplier;
 
 public abstract class AbstractModelSelection extends AbstractModelSource<Object[]> implements IModelSelection {
   private IAction doubleClickAction;
   private IAction openAction;
-  private IActionSupplier contextActions;
+  private ICardSupplier contextActions;
 
   @Override
-  public void setContextMenuBuilder(IActionSupplier actions) {
+  public void setContextMenuBuilder(ICardSupplier actions) {
     contextActions = actions;
   }
 
-  public IActionSupplier getContextActions() {
+  public ICardSupplier getContextActions() {
     return contextActions;
   }
 

@@ -15,10 +15,9 @@
  */
 package com.gwtao.portalapp.client.actionmanager;
 
-import java.util.List;
-
 import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.ui.util.client.action.IActionInfo;
+import com.gwtao.ui.util.client.card.Card;
+import com.gwtao.ui.util.client.card.ICard;
 
 public interface IActionManager {
 
@@ -28,7 +27,9 @@ public interface IActionManager {
    * 
    * @param action Action
    */
-  void addAction(IActionInfo action);
+  void addAction(Card action);
+
+  void addAction(IAction action);
 
   /**
    * Call this if you add new {@link IAction}s (via {@link #addAction}) after your component was initialized
@@ -36,5 +37,5 @@ public interface IActionManager {
    */
   void updateActions();
 
-  List<IActionInfo> getActions();
+  ICard getActions();
 }

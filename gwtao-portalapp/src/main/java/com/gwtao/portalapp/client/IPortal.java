@@ -24,7 +24,7 @@ import com.gwtao.portalapp.client.part.IPortalPart;
 import com.gwtao.portalapp.client.portlet.IPortlet;
 import com.gwtao.portalapp.client.portlet.PortletRegistry;
 import com.gwtao.portalapp.client.view.IPortalViewStackFactory;
-import com.gwtao.ui.util.client.action.IActionSupplier;
+import com.gwtao.ui.util.client.card.ICardSupplier;
 
 /**
  * A portal is the main application view
@@ -89,7 +89,7 @@ public interface IPortal {
 
   List<IPortlet> getVisiblePortlets();
 
-  IActionSupplier getPortletOpenActions();
+  ICardSupplier getPortletOpenActions();
 
   IPortalPart getPart(String id);
 

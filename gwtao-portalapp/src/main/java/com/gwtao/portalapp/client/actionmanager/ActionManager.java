@@ -15,26 +15,29 @@
  */
 package com.gwtao.portalapp.client.actionmanager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.gwtao.ui.util.client.action.IActionInfo;
+import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.client.card.Card;
+import com.gwtao.ui.util.client.card.ICard;
 
 public class ActionManager implements IActionManager {
-  private final List<IActionInfo> actions = new ArrayList<IActionInfo>();
+  private final Card actions = new Card();
 
   @Override
   public void updateActions() {
   }
 
   @Override
-  public List<IActionInfo> getActions() {
-    return Collections.unmodifiableList(actions);
+  public ICard getActions() {
+    return actions;
   }
 
   @Override
-  public void addAction(IActionInfo action) {
+  public void addAction(Card actions) {
+    actions.add(actions);
+  }
+
+  @Override
+  public void addAction(IAction action) {
     actions.add(action);
   }
 }

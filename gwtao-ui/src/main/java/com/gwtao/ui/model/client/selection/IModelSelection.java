@@ -17,7 +17,7 @@ package com.gwtao.ui.model.client.selection;
 
 import com.gwtao.ui.model.client.source.IModelSource;
 import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.ui.util.client.action.IActionSupplier;
+import com.gwtao.ui.util.client.card.ICardSupplier;
 
 /**
  * A selection context reflects the selection of some data.
@@ -46,5 +46,5 @@ public interface IModelSelection extends IModelSource<Object[]> {
   /**
    * @param builder
    */
-  void setContextMenuBuilder(IActionSupplier builder);
+  void setContextMenuBuilder(ICardSupplier builder);
 }

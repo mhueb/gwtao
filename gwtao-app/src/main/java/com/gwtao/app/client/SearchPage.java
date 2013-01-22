@@ -1,7 +1,7 @@
 package com.gwtao.app.client;
 
 import com.google.gwt.dom.client.Style.Overflow;
-import com.gwtao.ui.layout.client.FlowLayout;
+import com.gwtao.ui.layout.client.FlowLayout.VerticalFlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
 import com.gwtao.ui.layout.client.LayoutPanel;
 
@@ -11,7 +11,7 @@ public abstract class SearchPage<T> extends AbstractPage {
   }
 
   protected void init(SearchParamView<T> paramView, SearchResultView resultView) {
-    LayoutPanel frame = new LayoutPanel(new FlowLayout(false));
+    LayoutPanel frame = new LayoutPanel(new VerticalFlowLayout());
     paramView.setLayoutData(new FlowLayoutData(100, 0));
     paramView.getElement().getStyle().setOverflow(Overflow.AUTO);
     frame.add(paramView);

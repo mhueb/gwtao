@@ -24,7 +24,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.portalapp.client.part.AbstractPortalPart;
 import com.gwtao.ui.context.client.ContextImageBundle;
-import com.gwtao.ui.layout.client.FlowLayout;
+import com.gwtao.ui.layout.client.FlowLayout.HorizontalFlowLayout;
+import com.gwtao.ui.layout.client.FlowLayout.VerticalFlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
 import com.gwtao.ui.layout.client.LayoutPanel;
 import com.gwtao.ui.util.client.BorderlessButton;
@@ -32,7 +33,7 @@ import com.gwtao.ui.util.client.action.Action;
 
 public class BrokenPortalPart extends AbstractPortalPart {
   private final ScrollPanel scroll = new ScrollPanel();
-  private final LayoutPanel root = new LayoutPanel(new FlowLayout(false));
+  private final LayoutPanel root = new LayoutPanel(new VerticalFlowLayout());
   private Throwable e;
 
   public BrokenPortalPart(String id, Throwable e) {
@@ -50,7 +51,7 @@ public class BrokenPortalPart extends AbstractPortalPart {
       }
     }, BorderlessButton.ICON);
 
-    LayoutPanel head = new LayoutPanel(new FlowLayout(true));
+    LayoutPanel head = new LayoutPanel(new HorizontalFlowLayout());
     title.setLayoutData(new FlowLayoutData(100, 20, 1.0f));
     head.add(title);
     closeButton.setLayoutData(new FlowLayoutData(20, 20));
