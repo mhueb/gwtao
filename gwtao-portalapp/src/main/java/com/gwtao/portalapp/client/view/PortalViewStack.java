@@ -26,7 +26,7 @@ import com.gwtao.portalapp.client.part.AbstractPortalPart;
 import com.gwtao.ui.layout.client.FlowLayout.VerticalFlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
 import com.gwtao.ui.layout.client.LayoutPanel;
-import com.gwtao.ui.util.client.SwitchPanel;
+import com.gwtao.ui.widgets.client.SwitchPanel;
 
 public class PortalViewStack<T extends IPortalView> extends AbstractPortalPart implements IPortalViewStack<T> {
   public static final IPortalViewStackFactory FACTORY = new IPortalViewStackFactory() {

@@ -28,8 +28,8 @@ import com.gwtao.ui.layout.client.FlowLayout.HorizontalFlowLayout;
 import com.gwtao.ui.layout.client.FlowLayout.VerticalFlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
 import com.gwtao.ui.layout.client.LayoutPanel;
-import com.gwtao.ui.util.client.BorderlessButton;
 import com.gwtao.ui.util.client.action.Action;
+import com.gwtao.ui.widgets.client.BorderlessButton;
 
 public class BrokenPortalPart extends AbstractPortalPart {
   private final ScrollPanel scroll = new ScrollPanel();

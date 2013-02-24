@@ -15,7 +15,7 @@
  */
 package com.gwtao.portalapp.client.document;
 
-import com.gwtao.ui.model.client.selection.IModelSelection;
+import com.gwtao.ui.data.client.selection.IModelSelection;
 
 
 public interface IDocumentSelector extends IDocument {

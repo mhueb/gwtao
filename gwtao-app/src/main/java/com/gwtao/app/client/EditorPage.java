@@ -1,26 +1,26 @@
 package com.gwtao.app.client;
 
 import com.gwtao.ui.location.client.LocationUtils;
-import com.gwtao.ui.model.client.editor.IEditorView;
-import com.gwtao.ui.model.client.editor.IModelEditor;
-import com.gwtao.ui.model.client.editor.IServiceAdapter;
-import com.gwtao.ui.model.client.editor.ModelEditor;
-import com.gwtao.ui.model.client.mgr.IViewManager;
+import com.gwtao.ui.task.client.IServiceAdapter;
+import com.gwtao.ui.task.client.ITaskController;
+import com.gwtao.ui.task.client.ITaskView;
+import com.gwtao.ui.task.client.TaskController;
 import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 import com.gwtao.ui.util.client.ParameterList;
+import com.gwtao.ui.viewdriver.client.IViewDriver;
 
-public abstract class EditorPage<M> extends AbstractPage implements IEditorView {
+public abstract class EditorPage<M> extends AbstractPage implements ITaskView {
 
-  private IModelEditor<M> editor;
+  private ITaskController<M> editor;
 
-  protected void initEditor(IViewManager<M> viewMgr,IServiceAdapter<M> serviceAdapter) {
-    ModelEditor<M> modelEditor = new ModelEditor<M>(viewMgr,serviceAdapter);
+  protected void initEditor(IViewDriver<M> viewMgr,IServiceAdapter<M> serviceAdapter) {
+    TaskController<M> modelEditor = new TaskController<M>(viewMgr,serviceAdapter);
     modelEditor.initView(this);
     this.editor = modelEditor;
   }
   
-  public IModelEditor<M> getEditor() {
+  public ITaskController<M> getEditor() {
     return editor;
   }
 

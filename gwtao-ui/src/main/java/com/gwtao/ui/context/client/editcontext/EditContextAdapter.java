@@ -18,7 +18,7 @@ package com.gwtao.ui.context.client.editcontext;
 import org.shu4j.utils.message.IMessageSource;
 import org.shu4j.utils.permission.Permission;
 
-import com.gwtao.ui.model.client.source.events.AbstractModelSourceEvent;
+import com.gwtao.ui.data.client.source.events.AbstractDataSourceEvent;
 
 public abstract class EditContextAdapter<T> implements IEditContext<T> {
   private final IEditContext<?> inner;
@@ -119,7 +119,7 @@ public abstract class EditContextAdapter<T> implements IEditContext<T> {
 
   @Override
   public boolean isNull() {
-    return getModel() == null;
+    return getData() == null;
   }
 
   @Override
@@ -152,7 +152,7 @@ public abstract class EditContextAdapter<T> implements IEditContext<T> {
     return inner.wantValidToCheckIn();
   }
 
-  public <H extends AbstractModelSourceEvent.Handler> com.google.gwt.event.shared.HandlerRegistration addHandler(H handler, AbstractModelSourceEvent.Type<H> type) {
+  public <H extends AbstractDataSourceEvent.Handler> com.google.gwt.event.shared.HandlerRegistration addHandler(H handler, AbstractDataSourceEvent.Type<H> type) {
     return inner.addHandler(handler, type);
   }
 }

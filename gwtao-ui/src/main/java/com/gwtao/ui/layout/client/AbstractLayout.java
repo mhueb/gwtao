@@ -21,7 +21,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.util.client.CSS;
+import com.gwtao.ui.util.client.CSSUtils;
 import com.gwtao.ui.util.client.Size;
 
 public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
@@ -102,8 +102,8 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
   protected static void placeWidget(Widget widget, int left, int top, int width, int height) {
     Element elem = widget.getElement();
 
-    int xw = CSS.calcWidthOffset(elem);
-    int yw = CSS.calcHeightOffset(elem);
+    int xw = CSSUtils.calcWidthOffset(elem);
+    int yw = CSSUtils.calcHeightOffset(elem);
 
     DOM.setStyleAttribute(elem, "overflow", "auto");
     DOM.setStyleAttribute(elem, POSITION, "absolute");

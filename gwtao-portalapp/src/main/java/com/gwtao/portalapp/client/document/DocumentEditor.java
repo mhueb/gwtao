@@ -30,7 +30,7 @@ import com.gwtao.ui.context.client.editcontext.EditContextListenerAdapter;
 import com.gwtao.ui.context.client.editcontext.IEditContext;
 import com.gwtao.ui.context.client.editcontext.IEditContextOwner;
 import com.gwtao.ui.context.client.i18n.ContextConstants;
-import com.gwtao.ui.model.client.source.events.ModelChangedEvent;
+import com.gwtao.ui.data.client.source.events.DataChangedEvent;
 import com.gwtao.ui.util.client.mask.IWaitMask;
 import com.gwtao.ui.util.client.mask.WaitMask;
 
@@ -62,12 +62,12 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
       }
     });
 
-    getEditContext().addHandler(new ModelChangedEvent.Handler() {
+    getEditContext().addHandler(new DataChangedEvent.Handler() {
       @Override
       public void onModelChanged() {
         getViewContext().updateTitle();
       }
-    },ModelChangedEvent.TYPE);
+    },DataChangedEvent.TYPE);
 
     addActions(getViewContext().getActionManager());
   }
@@ -114,7 +114,7 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
         buff.append(title);
     }
     else {
-      String title = getTitle(getEditContext().getModel());
+      String title = getTitle(getEditContext().getData());
       if (StringUtils.isEmpty(title))
         buff.append("<i>").append(ContextConstants.c.emptyTitle()).append("</i>");
       else

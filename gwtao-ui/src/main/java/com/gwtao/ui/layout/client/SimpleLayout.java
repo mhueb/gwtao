@@ -16,7 +16,7 @@
 package com.gwtao.ui.layout.client;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.util.client.CSS;
+import com.gwtao.ui.util.client.CSSUtils;
 import com.gwtao.ui.util.client.Size;
 
 public class SimpleLayout extends AbstractLayout<LayoutData> {
@@ -40,8 +40,8 @@ public class SimpleLayout extends AbstractLayout<LayoutData> {
       Size size = getClientSize();
       Widget widget = getLayoutPanel().getWidget(0);
       LayoutData widgetData = getWidgetData(widget);
-      int width = Math.max(widgetData.effectiveMinWidth, size.getWidth() - CSS.calcWidthOffset(widget.getElement()));
-      int height = Math.max(widgetData.effectiveMinHeight, size.getHeight() - CSS.calcHeightOffset(widget.getElement()));
+      int width = Math.max(widgetData.effectiveMinWidth, size.getWidth() - CSSUtils.calcWidthOffset(widget.getElement()));
+      int height = Math.max(widgetData.effectiveMinHeight, size.getHeight() - CSSUtils.calcHeightOffset(widget.getElement()));
       sizeWidget(widget, width, height);
     }
   }
@@ -56,8 +56,8 @@ public class SimpleLayout extends AbstractLayout<LayoutData> {
     else
       minSize = new Size(0, 0);
 
-    int xw = CSS.calcWidthOffset(getLayoutPanel().getElement());
-    int yw = CSS.calcHeightOffset(getLayoutPanel().getElement());
+    int xw = CSSUtils.calcWidthOffset(getLayoutPanel().getElement());
+    int yw = CSSUtils.calcHeightOffset(getLayoutPanel().getElement());
 
     minSize = new Size(minSize.getWidth() + xw, minSize.getHeight() + yw);
 

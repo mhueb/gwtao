@@ -17,9 +17,9 @@ package com.gwtao.ui.context.client.editcontext;
 
 import org.shu4j.utils.message.IMessageSource;
 
-import com.gwtao.ui.model.client.source.IModelSource;
+import com.gwtao.ui.data.client.source.IDataSource;
 
-public interface IEditContext<T> extends IModelSource<T>, IControllerContext {
+public interface IEditContext<T> extends IDataSource<T>, IControllerContext {
   public static enum State {
     INIT,
     VIEW,

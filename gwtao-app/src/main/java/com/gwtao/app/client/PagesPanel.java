@@ -18,7 +18,7 @@ package com.gwtao.app.client;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.util.client.SwitchPanel;
+import com.gwtao.ui.widgets.client.SwitchPanel;
 
 public class PagesPanel implements IsWidget {
 
