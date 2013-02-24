@@ -15,26 +15,27 @@
  */
 package com.gwtao.ui.context.client;
 
-import com.gwtao.ui.model.client.source.events.ModelChangedEvent;
+import com.gwtao.ui.data.client.source.IDataSource;
+import com.gwtao.ui.data.client.source.events.DataChangedEvent;
+
 import org.shu4j.utils.permission.Permission;
 
-import com.gwtao.ui.model.client.source.IModelSource;
 import com.gwtao.ui.util.client.action.ActionAdapter;
 import com.gwtao.ui.util.client.action.IAction;
 
-public class ContextActionAdapter extends ActionAdapter implements ModelChangedEvent.Handler {
-  private final IModelSource<?> ctx;
+public class ContextActionAdapter extends ActionAdapter implements DataChangedEvent.Handler {
+  private final IDataSource<?> ctx;
   private boolean respectContextPermission = true;
 
-  public ContextActionAdapter(IAction action, IModelSource<?> ctx) {
+  public ContextActionAdapter(IAction action, IDataSource<?> ctx) {
     super(action);
     this.ctx = ctx;
     if (this.ctx == null)
       throw new IllegalArgumentException("ContextActionAdapter: ctx is null.");
-    ctx.addHandler(this, ModelChangedEvent.TYPE);
+    ctx.addHandler(this, DataChangedEvent.TYPE);
   }
 
-  public ContextActionAdapter(IAction action, IModelSource<?> ctx, boolean respectContextPermission) {
+  public ContextActionAdapter(IAction action, IDataSource<?> ctx, boolean respectContextPermission) {
     this(action, ctx);
     this.respectContextPermission = respectContextPermission;
   }
@@ -48,7 +49,7 @@ public class ContextActionAdapter extends ActionAdapter implements ModelChangedE
   public void execute(Object... data) {
     if (data != null && data.length != 0)
       throw new RuntimeException("unexpected input data");
-    Object obj = ctx.getModel();
+    Object obj = ctx.getData();
     if (obj instanceof Object[])
       super.execute((Object[]) obj);
     else
@@ -61,7 +62,7 @@ public class ContextActionAdapter extends ActionAdapter implements ModelChangedE
       throw new RuntimeException("unexpected input data");
 
     Permission perm;
-    Object obj = ctx.getModel();
+    Object obj = ctx.getData();
     if (obj instanceof Object[])
       perm = super.getPermission((Object[]) obj);
     else if (obj != null)

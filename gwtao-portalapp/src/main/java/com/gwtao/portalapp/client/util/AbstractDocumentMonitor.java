@@ -22,8 +22,8 @@ import com.gwtao.portalapp.client.document.IDocumentEditor;
 import com.gwtao.portalapp.client.document.IDocumentSelector;
 import com.gwtao.ui.context.client.editcontext.EditContextListenerAdapter;
 import com.gwtao.ui.context.client.editcontext.IEditContextListener;
-import com.gwtao.ui.model.client.selection.IModelSelection;
-import com.gwtao.ui.model.client.source.events.ModelChangedEvent;
+import com.gwtao.ui.data.client.selection.IModelSelection;
+import com.gwtao.ui.data.client.source.events.DataChangedEvent;
 
 public abstract class AbstractDocumentMonitor {
   private final Timer selectTimer = new Timer() {
@@ -31,8 +31,8 @@ public abstract class AbstractDocumentMonitor {
     public void run() {
       if (lastDoc instanceof IDocumentSelector) {
         IModelSelection selectionContext = ((IDocumentSelector) lastDoc).getSelectionContext();
-        if (selectionContext.getModel().length == 1) {
-          Object data = selectionContext.getModel()[0];
+        if (selectionContext.getData().length == 1) {
+          Object data = selectionContext.getData()[0];
           handleDataSwitch(data);
         }
         else
@@ -40,7 +40,7 @@ public abstract class AbstractDocumentMonitor {
       }
       else if (lastDoc instanceof IDocumentEditor) {
         IDocumentEditor edtdoc = (IDocumentEditor) lastDoc;
-        Object data = edtdoc.getEditContext().getModel();
+        Object data = edtdoc.getEditContext().getData();
         handleDataSwitch(data);
       }
       else {
@@ -49,7 +49,7 @@ public abstract class AbstractDocumentMonitor {
     }
   };
 
-  private final ModelChangedEvent.Handler selectorListener = new ModelChangedEvent.Handler() {
+  private final DataChangedEvent.Handler selectorListener = new DataChangedEvent.Handler() {
     @Override
     public void onModelChanged() {
       selectTimer.cancel();
@@ -88,7 +88,7 @@ public abstract class AbstractDocumentMonitor {
     }
     else if (lastDoc instanceof IDocumentSelector) {
       IDocumentSelector seldoc = (IDocumentSelector) lastDoc;
-      addHandler = seldoc.getSelectionContext().addHandler(selectorListener, ModelChangedEvent.TYPE);
+      addHandler = seldoc.getSelectionContext().addHandler(selectorListener, DataChangedEvent.TYPE);
       selectorListener.onModelChanged();
     }
     else

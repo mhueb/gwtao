@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.gwtao.ui.tree.client.IDataSourceAsync.AsyncReply;
+import com.gwtao.ui.tree.client.ITreeDataSourceAsync.AsyncReply;
 
 public final class TreeManager<T, N> {
 
@@ -39,7 +39,7 @@ public final class TreeManager<T, N> {
 
   private final ITreeAdapter<T, N> adapter;
   private final Set<Object> loadSigns = new HashSet<Object>();
-  private IDataSource source = IDataSource.DUMMY;
+  private ITreeDataSource source = ITreeDataSource.DUMMY;
   private int selectCylcleId;
 
   // private IWaitMask mask = WaitMaskDummy.get();
@@ -52,7 +52,7 @@ public final class TreeManager<T, N> {
     return adapter.getTree();
   }
 
-  public void setDataSource(IDataSource source) {
+  public void setDataSource(ITreeDataSource source) {
     this.source = source;
   }
 
@@ -163,8 +163,8 @@ public final class TreeManager<T, N> {
     for (N node : oldNodes)
       adapter.removeChild(parent, node);
 
-    if (this.source instanceof IDataSourceComparator) {
-      final IDataSourceComparator comp = (IDataSourceComparator) this.source;
+    if (this.source instanceof ITreeDataSourceComparator) {
+      final ITreeDataSourceComparator comp = (ITreeDataSourceComparator) this.source;
       adapter.sort(parent, new Comparator<N>() {
         @Override
         public int compare(N o1, N o2) {
@@ -199,9 +199,9 @@ public final class TreeManager<T, N> {
     return obj1 == obj2 || obj1 != null && obj2 != null && obj1.equals(obj2);
   }
 
-  private boolean needToLoad(IDataSource source2, Object data) {
-    if (source instanceof IDataSourceAsync)
-      return ((IDataSourceAsync) source).needLoad(data);
+  private boolean needToLoad(ITreeDataSource source2, Object data) {
+    if (source instanceof ITreeDataSourceAsync)
+      return ((ITreeDataSourceAsync) source).needLoad(data);
     return false;
   }
 
@@ -227,8 +227,8 @@ public final class TreeManager<T, N> {
         return true;
       }
 
-      if (source instanceof IDataSourceAsync) {
-        IDataSourceAsync asyncSource = (IDataSourceAsync) source;
+      if (source instanceof ITreeDataSourceAsync) {
+        ITreeDataSourceAsync asyncSource = (ITreeDataSourceAsync) source;
         Object userObject = adapter.getUserObject(treeNode);
         if (asyncSource.needLoad(userObject)) {
           adapter.showLoadSign(treeNode);
@@ -309,8 +309,8 @@ public final class TreeManager<T, N> {
               }
             }
 
-            if (source instanceof IDataSourceInvalidator) {
-              ((IDataSourceInvalidator) source).invalidateChildren(adapter.getUserObject(parent));
+            if (source instanceof ITreeDataSourceInvalidator) {
+              ((ITreeDataSourceInvalidator) source).invalidateChildren(adapter.getUserObject(parent));
               update(parent, false, new AsyncCallback<Boolean>() {
 
                 @Override

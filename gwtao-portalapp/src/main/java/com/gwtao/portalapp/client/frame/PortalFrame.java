@@ -50,7 +50,7 @@ import com.gwtao.ui.layout.client.FlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
 import com.gwtao.ui.layout.client.LayoutPanel;
 import com.gwtao.ui.layout.client.SplitFlowLayout;
-import com.gwtao.ui.util.client.SwitchPanel;
+import com.gwtao.ui.widgets.client.SwitchPanel;
 
 public class PortalFrame implements IPortalFrame {
   private final IDocumentManager documentManager;

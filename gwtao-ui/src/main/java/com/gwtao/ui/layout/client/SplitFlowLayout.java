@@ -21,8 +21,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.Size;
-import com.gwtao.ui.util.client.SplitBar;
-import com.gwtao.ui.util.client.SplitBar.ISizeable;
+import com.gwtao.ui.widgets.client.SplitBar;
+import com.gwtao.ui.widgets.client.SplitBar.ISizeable;
 
 public class SplitFlowLayout extends FlowLayout {
   private final class SizerAdapter implements ISizeable {

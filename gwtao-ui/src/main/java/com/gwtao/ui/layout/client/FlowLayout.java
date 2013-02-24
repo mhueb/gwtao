@@ -20,7 +20,7 @@ import java.util.Iterator;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.util.client.CSS;
+import com.gwtao.ui.util.client.CSSUtils;
 import com.gwtao.ui.util.client.Size;
 
 public class FlowLayout extends AbstractLayout<FlowLayoutData> {
@@ -73,8 +73,8 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
       freeSize = 0;
 
     int otherSize = Math.max(totalSize.get(!horizontal), minSize.get(!horizontal));
-    int left = CSS.calcLeftOffset(getLayoutPanel().getElement());
-    int top = CSS.calcTopOffset(getLayoutPanel().getElement());
+    int left = CSSUtils.calcLeftOffset(getLayoutPanel().getElement());
+    int top = CSSUtils.calcTopOffset(getLayoutPanel().getElement());
 
     Iterator<Widget> it = iterateWidgets();
     while (it.hasNext()) {
