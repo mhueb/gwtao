@@ -55,4 +55,11 @@ public class ViewDriver<M> implements IViewDriver<M> {
     }
   }
 
+  @Override
+  public void updateModel(M data) {
+    for (IFieldAdapter<M, ?> field : fields) {
+      field.updateModel(data);
+    }
+  }
+
 }

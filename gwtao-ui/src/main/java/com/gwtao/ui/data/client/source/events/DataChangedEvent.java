@@ -4,7 +4,7 @@ public class DataChangedEvent extends AbstractDataSourceEvent<DataChangedEvent.H
   public static final Type<Handler> TYPE = new Type<Handler>();
 
   public interface Handler extends AbstractDataSourceEvent.Handler {
-    void onModelChanged();
+    void onDataChanged();
   }
 
   @Override
@@ -14,6 +14,6 @@ public class DataChangedEvent extends AbstractDataSourceEvent<DataChangedEvent.H
 
   @Override
   protected void dispatch(Handler handler) {
-    handler.onModelChanged();
+    handler.onDataChanged();
   }
 }

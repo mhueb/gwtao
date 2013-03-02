@@ -10,6 +10,7 @@ import org.apache.commons.lang.Validate;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtao.ui.data.client.source.AbstractDataSource;
 import com.gwtao.ui.data.client.source.IDataSource;
+import com.gwtao.ui.data.client.source.events.DataLoadEvent;
 
 public class CollectionPool {
   private static CollectionPool INSTANCE;
@@ -43,6 +44,7 @@ public class CollectionPool {
 
     private void triggerLoad() {
       if (needLoad) {
+        fireEvent( new DataLoadEvent());
         loader.loadAsync(this);
       }
       needLoad = false;
@@ -50,12 +52,13 @@ public class CollectionPool {
 
     @Override
     public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
+      fireEvent( new DataLoadEvent(caught));
     }
 
     @Override
     public void onSuccess(List<T> result) {
       data = result;
+      fireEvent( new DataLoadEvent(null));
       notifyChange();
     }
   }

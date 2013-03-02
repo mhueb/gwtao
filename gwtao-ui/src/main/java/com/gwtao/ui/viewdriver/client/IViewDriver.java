@@ -6,10 +6,12 @@ public interface IViewDriver<M> {
   void updateView(M model, Permission perm);
 
   void updateErrors();
-  
+
   void addPermissionHandler();
 
   boolean isDirty();
 
   void clearDirty();
+
+  void updateModel(M data);
 }

@@ -23,7 +23,7 @@ import com.gwtao.portalapp.client.actionmanager.IActionManager;
 import com.gwtao.portalapp.client.i18n.PortalConstants;
 import com.gwtao.ui.context.client.ContextActionAdapter;
 import com.gwtao.ui.context.client.ContextImageBundle;
-import com.gwtao.ui.data.client.selection.IModelSelection;
+import com.gwtao.ui.data.client.selection.IDataSelection;
 import com.gwtao.ui.dialog.client.MessageDialog;
 import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 import com.gwtao.ui.util.client.action.Action;
@@ -96,7 +96,7 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
 
   // private SearchPanel searchPanel;
 
-  private IModelSelection selectionContext;
+  private IDataSelection selectionContext;
 
   /**
    * Konstruktor der für den Selector alle verfügbaren Aktions zugänglich macht. Will man das nicht (oder
@@ -131,13 +131,13 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
   }
 
   @Override
-  public final IModelSelection getSelectionContext() {
+  public final IDataSelection getSelectionContext() {
     if (selectionContext == null)
       selectionContext = createSelectionContext();
     return selectionContext;
   }
 
-  protected abstract IModelSelection createSelectionContext();
+  protected abstract IDataSelection createSelectionContext();
 
   protected abstract void search();
 

@@ -82,7 +82,12 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
       FlowLayoutData widgetData = getWidgetData(widget);
       Size effectiveMinSize = widgetData.getEffectiveMinSize();
 
-      int size = (int) (effectiveMinSize.get(horizontal) + freeSize * widgetData.getRatio() / totalRatio + 0.5);
+      int size;
+      if( totalRatio == 0.0 )
+        size = effectiveMinSize.get(horizontal);
+      else
+        size = (int) (effectiveMinSize.get(horizontal) + freeSize * widgetData.getRatio() / totalRatio + 0.5);
+      
       if (horizontal) {
         placeWidget(widget, left, top, size, otherSize);
         left += size;

@@ -86,7 +86,7 @@ public class BorderlessButton extends Button {
       }
     });
 
-    action.getWidgetHandler().addAdapter(new ActionFocusWidgetAdapter(action, this));
+    action.getWidgetHandler().addAdapter(new ActionFocusWidgetAdapter(action, this, null));
   }
 
   private void update() {

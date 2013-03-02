@@ -34,6 +34,7 @@ import com.google.gwt.core.ext.typeinfo.JMethod;
 import com.google.gwt.core.ext.typeinfo.JType;
 import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
+import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.editor.rebind.model.ModelUtils;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
@@ -103,7 +104,7 @@ public class ViewDriverFactoryGenerator extends Generator {
     List<JField> uiFields = new ArrayList<JField>();
     JField[] fields = viewType.getFields();
     for (JField field : fields) {
-      if (field.getAnnotation(UiField.class) != null) {
+      if (field.isAnnotationPresent(UiField.class) && !field.isAnnotationPresent(Ignore.class)) {
         uiFields.add(field);
       }
     }

@@ -15,10 +15,13 @@
  */
 package com.gwtao.ui.widgets.client;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -48,8 +51,8 @@ public class SwitchPanel extends ComplexPanel implements RequiresResize, Provide
     style.clearLeft();
     if (getWidgetCount() > 0)
       doHideWidget(w);
-    if (w instanceof ILayoutContainer)
-      ((ILayoutContainer) w).measure();
+    // if (w instanceof ILayoutContainer)
+    // ((ILayoutContainer) w).measure();
   }
 
   private void doHideWidget(Widget w) {
@@ -57,20 +60,37 @@ public class SwitchPanel extends ComplexPanel implements RequiresResize, Provide
     w.getElement().getStyle().setDisplay(Display.NONE);
   }
 
-  private void doShowWidget(Widget w) {
+  private void doShowWidget(final Widget w) {
+    w.getElement().getStyle().clearDisplay();
     w.setVisible(true);
-    w.getElement().getStyle().clearVisibility();
-    String width = getOffsetWidth() + "px";
-    String height = getOffsetHeight() + "px";
+
+    if (w instanceof ILayoutContainer)
+      ((ILayoutContainer) w).measure();
+
+    Element e = getParent().getParent().getElement();
+    final String width = e.getClientWidth() + "px";
+    final String height = e.getClientHeight() + "px";
+    // String width = getOffsetWidth() + "px";
+    // String height = getOffsetHeight() + "px";
     w.setSize(width, height);
-    if (w instanceof RequiresResize)
-      ((RequiresResize) w).onResize();
+
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        if (w instanceof RequiresResize)
+          ((RequiresResize) w).onResize();
+      }
+    });
   }
 
   @Override
   public void onResize() {
-    String width = getOffsetWidth() + "px";
-    String height = getOffsetHeight() + "px";
+    Element e = getElement();
+    final String width = e.getClientWidth() + "px";
+    final String height = e.getClientHeight() + "px";
+
+    // String width = getOffsetWidth() + "px";
+    // String height = getOffsetHeight() + "px";
     for (Widget child : getChildren()) {
       if (child.isVisible()) {
         child.setSize(width, height);
