@@ -19,7 +19,7 @@ import com.gwtao.ui.data.client.source.AbstractDataSource;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.util.client.card.ICardSupplier;
 
-public abstract class AbstractModelSelection extends AbstractDataSource<Object[]> implements IModelSelection {
+public abstract class AbstractModelSelection extends AbstractDataSource<Object[]> implements IDataSelection {
   private IAction doubleClickAction;
   private IAction openAction;
   private ICardSupplier contextActions;

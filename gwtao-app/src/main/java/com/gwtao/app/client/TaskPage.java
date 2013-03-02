@@ -10,7 +10,7 @@ import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 import com.gwtao.ui.util.client.ParameterList;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 
-public abstract class EditorPage<M> extends AbstractPage implements ITaskView {
+public abstract class TaskPage<M> extends AbstractPage implements ITaskView {
 
   private ITaskController<M> editor;
 

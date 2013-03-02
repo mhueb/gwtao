@@ -18,21 +18,35 @@ package com.gwtao.ui.util.client.action;
 import org.shu4j.utils.permission.Permission;
 
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.gwtao.ui.data.client.source.IDataSource;
+import com.gwtao.ui.data.client.source.NullDataSource;
+import com.gwtao.ui.data.client.source.events.DataChangedEvent;
 
 public class ActionFocusWidgetAdapter implements IActionWidgetAdapter {
   private final FocusWidget widget;
   private final IAction action;
-  private final Object[] data;
+  private final IDataSource<?> data;
 
-  public ActionFocusWidgetAdapter(IAction action, FocusWidget widget, Object... data) {
+  public ActionFocusWidgetAdapter(IAction action, FocusWidget widget, IDataSource<?> data) {
     this.action = action;
-    this.data = data;
+    this.data = data == null ? new NullDataSource<Object>(Permission.ALLOWED) : data;
     this.widget = widget;
+    this.data.addHandler(new DataChangedEvent.Handler() {
+      
+      @Override
+      public void onDataChanged() {
+        update();
+      }
+    }, DataChangedEvent.TYPE);
   }
 
   @Override
   public void update() {
-    setPermission(action.getPermission(data));
+    Object arg = data.getData();
+    if (arg instanceof Object[])
+      setPermission(action.getPermission((Object[]) arg).add(data.getPermission()));
+    else
+      setPermission(action.getPermission(arg).add(data.getPermission()));
   }
 
   protected IAction getAction() {
@@ -41,10 +55,6 @@ public class ActionFocusWidgetAdapter implements IActionWidgetAdapter {
 
   protected FocusWidget getWidget() {
     return widget;
-  }
-
-  protected Object[] getData() {
-    return data;
   }
 
   private void setPermission(Permission permission) {

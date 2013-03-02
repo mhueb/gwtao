@@ -27,7 +27,7 @@ import com.gwtao.ui.util.client.card.ICardSupplier;
  * @author mah
  * 
  */
-public interface IModelSelection extends IDataSource<Object[]> {
+public interface IDataSelection extends IDataSource<Object[]> {
 
   /**
    * Set an action to handle double click.

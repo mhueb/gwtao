@@ -15,9 +15,12 @@
  */
 package com.gwtao.ui.layout.client;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.gwtao.ui.util.client.Size;
@@ -54,7 +57,12 @@ public class RootLayoutPanel extends LayoutPanel {
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
-        RootLayoutPanel.this.onResize();
+        new Timer() {
+          @Override
+          public void run() {
+            RootLayoutPanel.this.onResize();
+          }
+        }.schedule(500);
       }
     });
     super.onLoad();

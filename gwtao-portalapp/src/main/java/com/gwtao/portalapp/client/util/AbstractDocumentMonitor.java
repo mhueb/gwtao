@@ -22,7 +22,7 @@ import com.gwtao.portalapp.client.document.IDocumentEditor;
 import com.gwtao.portalapp.client.document.IDocumentSelector;
 import com.gwtao.ui.context.client.editcontext.EditContextListenerAdapter;
 import com.gwtao.ui.context.client.editcontext.IEditContextListener;
-import com.gwtao.ui.data.client.selection.IModelSelection;
+import com.gwtao.ui.data.client.selection.IDataSelection;
 import com.gwtao.ui.data.client.source.events.DataChangedEvent;
 
 public abstract class AbstractDocumentMonitor {
@@ -30,7 +30,7 @@ public abstract class AbstractDocumentMonitor {
     @Override
     public void run() {
       if (lastDoc instanceof IDocumentSelector) {
-        IModelSelection selectionContext = ((IDocumentSelector) lastDoc).getSelectionContext();
+        IDataSelection selectionContext = ((IDocumentSelector) lastDoc).getSelectionContext();
         if (selectionContext.getData().length == 1) {
           Object data = selectionContext.getData()[0];
           handleDataSwitch(data);
@@ -51,7 +51,7 @@ public abstract class AbstractDocumentMonitor {
 
   private final DataChangedEvent.Handler selectorListener = new DataChangedEvent.Handler() {
     @Override
-    public void onModelChanged() {
+    public void onDataChanged() {
       selectTimer.cancel();
       selectTimer.schedule(250);
     }
@@ -89,7 +89,7 @@ public abstract class AbstractDocumentMonitor {
     else if (lastDoc instanceof IDocumentSelector) {
       IDocumentSelector seldoc = (IDocumentSelector) lastDoc;
       addHandler = seldoc.getSelectionContext().addHandler(selectorListener, DataChangedEvent.TYPE);
-      selectorListener.onModelChanged();
+      selectorListener.onDataChanged();
     }
     else
       handleNoData(false);

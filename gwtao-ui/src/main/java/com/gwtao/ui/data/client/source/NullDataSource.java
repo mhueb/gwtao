@@ -18,7 +18,14 @@ package com.gwtao.ui.data.client.source;
 import org.shu4j.utils.permission.Permission;
 
 public class NullDataSource<T> extends AbstractDataSource<T> {
+  private Permission perm;
+
   public NullDataSource() {
+    this( Permission.READONLY );
+  }
+
+  public NullDataSource(Permission perm) {
+    this.perm = perm;
   }
 
   public T getData() {
@@ -32,7 +39,7 @@ public class NullDataSource<T> extends AbstractDataSource<T> {
 
   @Override
   public Permission getPermission() {
-    return Permission.READONLY;
+    return perm;
   }
 
 }

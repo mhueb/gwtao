@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.shu4j.utils.util.HasId;
 
 import com.google.gwt.editor.client.IsEditor;
@@ -24,11 +25,12 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.gwtao.ui.data.client.source.IDataSource;
 import com.gwtao.ui.data.client.source.NullDataSource;
 import com.gwtao.ui.data.client.source.events.DataChangedEvent;
+import com.gwtao.ui.data.client.source.events.DataLoadEvent;
 
 public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasConstrainedValue<T>, IsEditor<TakesValueEditor<T>> {
 
   private final List<T> values = new ArrayList<T>();
-  private final Map<Object, Integer> valueKeyToIndex = new HashMap<Object, Integer>();
+  private final Map<ID, Integer> valueKeyToIndex = new HashMap<ID, Integer>();
 
   private TakesValueEditor<T> editor;
   private T value;
@@ -38,6 +40,12 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
   private HandlerRegistration handler;
 
   private Renderer<T> renderer;
+
+  private boolean loaded;
+
+  private boolean isLoading;
+  private ID id;
+  private String initial;
 
   public IDPicker() {
     source = new NullDataSource<List<T>>();
@@ -51,6 +59,9 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
     initWidget(new ListBox());
     getListBox().addChangeHandler(new ChangeHandler() {
       public void onChange(ChangeEvent event) {
+        if (isLoading)
+          return;
+
         int selectedIndex = getListBox().getSelectedIndex();
 
         if (selectedIndex < 0) {
@@ -80,17 +91,28 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
     return value;
   }
 
+  public ID getValueId() {
+    return id;
+  }
+
   public void setAcceptableValues(Collection<T> newValues) {
-    values.clear();
-    valueKeyToIndex.clear();
-    ListBox listBox = getListBox();
-    listBox.clear();
+    if (isLoading)
+      return;
+
+    clear();
 
     for (T nextNewValue : newValues) {
       addValue(nextNewValue);
     }
 
     updateListBox();
+  }
+
+  private void clear() {
+    values.clear();
+    valueKeyToIndex.clear();
+    ListBox listBox = getListBox();
+    listBox.clear();
   }
 
   /**
@@ -101,13 +123,36 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
     setValue(value, false);
   }
 
+  public void setValueById(ID id) {
+    if (ObjectUtils.equals(id, this.id))
+      return;
+
+    this.id = id;
+    this.value = null;
+
+    if (!isLoading) {
+      if (this.id != null) {
+        if (this.value == null) {
+          Integer idx = valueKeyToIndex.get(id);
+          if (idx != null) {
+            T t = values.get(idx);
+            setValue(t);
+          }
+        }
+      }
+      else
+        setValue(null);
+    }
+  }
+
   public void setValue(T value, boolean fireEvents) {
-    if (value == this.value || (this.value != null && this.value.equals(value))) {
+    if (isLoading || value == this.value || (this.value != null && this.value.equals(value))) {
       return;
     }
 
     T before = this.value;
     this.value = value;
+    this.id = value == null ? null : value.getId();
     updateListBox();
 
     if (fireEvents) {
@@ -116,7 +161,7 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
   }
 
   private void addValue(T value) {
-    Object key = value == null ? null : value.getId();
+    ID key = value == null ? null : value.getId();
     if (valueKeyToIndex.containsKey(key)) {
       throw new IllegalArgumentException("Duplicate value: " + value);
     }
@@ -132,8 +177,26 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
   }
 
   private void updateListBox() {
-    Object key = value == null ? null : value.getId();
-    Integer index = valueKeyToIndex.get(key);
+    ID key = value == null ? null : value.getId();
+    if (key == null && id != null)
+      key = id;
+
+    Integer index = null;
+
+    if (key == null && this.initial != null) {
+      for (int i = 0; i < getListBox().getItemCount(); ++i) {
+        String itemText = getListBox().getItemText(i);
+        if (ObjectUtils.equals(itemText, initial)) {
+          index = i;
+          value = values.get(index);
+          key = value.getId();
+          break;
+        }
+      }
+    }
+    else
+      index = valueKeyToIndex.get(key);
+
     if (index == null) {
       addValue(value);
     }
@@ -149,10 +212,37 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
     this.handler = this.source.addHandler(new DataChangedEvent.Handler() {
 
       @Override
-      public void onModelChanged() {
+      public void onDataChanged() {
         updateList();
       }
     }, DataChangedEvent.TYPE);
+
+    this.handler = this.source.addHandler(new DataLoadEvent.Handler() {
+
+      @Override
+      public void onDataLoading() {
+        clear();
+        isLoading = true;
+        getListBox().addItem("Loading");
+        getListBox().setSelectedIndex(0);
+        getListBox().setEnabled(false);
+      }
+
+      @Override
+      public void onDataLoaded(boolean success) {
+        loaded = success;
+        if (success) {
+          isLoading = false;
+          updateList();
+          getListBox().setEnabled(true);
+        }
+        else {
+          clear();
+          getListBox().addItem("Load failed!");
+          getListBox().setSelectedIndex(0);
+        }
+      }
+    }, DataLoadEvent.TYPE);
     updateList();
   }
 
@@ -165,5 +255,13 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasC
     if (data == null)
       data = Collections.emptyList();
     this.setAcceptableValues(data);
+  }
+
+  public void setEnabled(boolean b) {
+    getListBox().setEnabled(!isLoading && b);
+  }
+
+  public void setInitial(String string) {
+    this.initial = string;
   }
 }

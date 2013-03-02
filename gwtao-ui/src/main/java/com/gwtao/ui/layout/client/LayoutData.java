@@ -47,6 +47,8 @@ public class LayoutData {
   public LayoutData(LayoutData o) {
     this.minWidth = o.minWidth;
     this.minHeight = o.minHeight;
+    this.initialWidgetWidth = o.initialWidgetWidth;
+    this.initialWidgetHeight = o.initialWidgetHeight;
   }
 
   public int getMinWidth() {

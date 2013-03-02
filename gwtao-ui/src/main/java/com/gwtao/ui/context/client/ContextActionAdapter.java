@@ -41,7 +41,7 @@ public class ContextActionAdapter extends ActionAdapter implements DataChangedEv
   }
 
   @Override
-  public void onModelChanged() {
+  public void onDataChanged() {
     getWidgetHandler().update();
   }
 

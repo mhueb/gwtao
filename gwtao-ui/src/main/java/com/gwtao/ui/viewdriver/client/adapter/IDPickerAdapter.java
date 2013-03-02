@@ -21,12 +21,11 @@ public abstract class IDPickerAdapter<M, T, F extends IDPicker<? extends HasId<T
   }
 
   public T getValue() {
-    HasId<T> value = getEditor().getValue();
-    return value == null ? null : value.getId();
+    return getWidget().getValueId();
   }
 
   public void setValue(T value) {
-    // getEditor().setValue(value);
+    getWidget().setValueById(value);
   }
 
   @Override
