@@ -12,14 +12,17 @@ import com.gwtao.ui.util.client.action.IAction;
 public class ButtonAdapter {
   private ActionFocusWidgetAdapter adapter;
 
-  public ButtonAdapter(Button button, final IAction action, final IDataSource<?> dto) {
-    this.adapter = new ActionFocusWidgetAdapter(action, button, dto);
-    action.getWidgetHandler().addAdapter(adapter);
+  public ButtonAdapter(Button button, final IAction action, final IDataSource<?> source) {
+    this.adapter = new ActionFocusWidgetAdapter(action, button, source);
+
+    if (button.isAttached())
+      action.getWidgetHandler().addAdapter(adapter);
+
     button.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
-        ActionUtil.saveExecute(GWTUtil.createEventInfo(event), action, dto.getData());
+        ActionUtil.saveExecute(GWTUtil.createEventInfo(event), action, source.getData());
       }
     });
 
@@ -27,7 +30,9 @@ public class ButtonAdapter {
 
       @Override
       public void onAttachOrDetach(AttachEvent event) {
-        if (!event.isAttached())
+        if (event.isAttached())
+          action.getWidgetHandler().addAdapter(adapter);
+        else
           action.getWidgetHandler().removeAdapter(adapter);
       }
     });
