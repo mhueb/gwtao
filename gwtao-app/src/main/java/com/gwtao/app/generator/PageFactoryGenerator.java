@@ -40,7 +40,7 @@ public class PageFactoryGenerator extends Generator {
     try {
       JClassType classType = context.getTypeOracle().getType(typeName);
       String packageName = classType.getPackage().getName();
-      String simpleName = classType.getSimpleSourceName() + "Impl";
+      String simpleName = classType.getName().replace('.', '_') + "Impl";
 
       PrintWriter printWriter = context.tryCreate(logger, packageName, simpleName);
       if (printWriter != null) {

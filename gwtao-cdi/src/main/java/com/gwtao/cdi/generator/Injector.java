@@ -34,7 +34,7 @@ public class Injector extends Generator {
     try {
       JClassType classType = context.getTypeOracle().getType(typeName);
       String packageName = classType.getPackage().getName();
-      String simpleName = classType.getSimpleSourceName() + "Injector";
+      String simpleName = classType.getName().replace('.', '_') + "Injector";
 
       PrintWriter printWriter = context.tryCreate(logger, packageName, simpleName);
       if (printWriter != null) {
