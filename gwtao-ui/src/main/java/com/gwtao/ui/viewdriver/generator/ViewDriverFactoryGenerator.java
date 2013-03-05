@@ -144,7 +144,7 @@ public class ViewDriverFactoryGenerator extends Generator {
       generateAdapterClasses(src, logger, uiField, modelType, context.getTypeOracle());
     }
 
-    src.println("public IViewDriver<%s> create(%s view) {", modelName, viewName, viewName);
+    src.println("public IViewDriver<%s> create(%s view) {", modelName, viewName );
     src.println("  List<IFieldAdapter<%s,%s>> adapterList = new ArrayList<IFieldAdapter<%s,%s>>();", modelName, viewName, modelName, viewName);
     src.println();
 
