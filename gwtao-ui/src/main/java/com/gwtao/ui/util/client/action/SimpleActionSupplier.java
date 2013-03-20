@@ -1,7 +1,7 @@
 package com.gwtao.ui.util.client.action;
 
-import com.gwtao.ui.util.client.card.ICardSupplier;
 import com.gwtao.ui.util.client.card.ICard;
+import com.gwtao.ui.util.client.card.ICardSupplier;
 
 public class SimpleActionSupplier implements ICardSupplier {
 

@@ -42,7 +42,7 @@ public final class DummyLayout implements ILayout {
   }
 
   @Override
-  public void layout() {
+  public void resize() {
   }
 
   @Override

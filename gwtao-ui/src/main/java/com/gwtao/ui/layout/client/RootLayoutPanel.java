@@ -15,8 +15,6 @@
  */
 package com.gwtao.ui.layout.client;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -79,7 +77,7 @@ public class RootLayoutPanel extends LayoutPanel {
   public void onResize() {
     Window.enableScrolling(false);
     super.onResize();
-    Size minSize = getMinSize();
+    Size minSize = getLayout().getMinSize();
     if (minSize.getWidth() > Window.getClientWidth() || minSize.getHeight() > Window.getClientHeight())
       Window.enableScrolling(true);
   }

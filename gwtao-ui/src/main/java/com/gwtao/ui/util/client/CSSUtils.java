@@ -19,36 +19,36 @@ import com.google.gwt.user.client.Element;
 
 public final class CSSUtils {
 
-  public static int calcHeightOffset(Element elem) {
-    int yw = calcSize(elem, "marginTop", "marginBottom", true);
-    yw += calcSize(elem, "paddingTop", "paddingBottom", true);
-    return yw;
+  public static int calcMarginHeight(Element elem) {
+    return calcSize(elem, "marginTop", true) + calcSize(elem, "marginBottom", true);
   }
 
-  public static int calcWidthOffset(Element elem) {
-    int xw = calcSize(elem, "marginLeft", "marginRight", false);
-    xw += calcSize(elem, "paddingLeft", "paddingRight", false);
-    return xw;
+  public static int calcMarginWidth(Element elem) {
+    return calcSize(elem, "marginLeft", false) + calcSize(elem, "marginRight", false);
   }
 
-  public static int calcTopOffset(Element elem) {
-    return calcSize(elem, "marginTop", "paddingTop", true);
+  public static int calcMarginLeft(Element elem) {
+    return calcSize(elem, "marginLeft", true);
   }
 
-  public static int calcLeftOffset(Element elem) {
-    return calcSize(elem, "marginLeft", "paddingLeft", false);
+  public static int calcMarginTop(Element elem) {
+    return calcSize(elem, "marginTop", true);
   }
 
-  private static int calcSize(Element elem, String a, String b, boolean vertical) {
-    String mls = CSSUtils.getComputedStyle(elem, a);
-    String mrs = CSSUtils.getComputedStyle(elem, b);
+  public static int calcPaddingHeight(Element elem) {
+    return calcSize(elem, "paddingTop", true) + calcSize(elem, "paddingBottom", true);
+  }
+
+  public static int calcPaddingWidth(Element elem) {
+    return calcSize(elem, "paddingLeft", false) + calcSize(elem, "paddingRight", false);
+  }
+  
+  private static int calcSize(Element elem, String style, boolean vertical) {
+    String mls = CSSUtils.getComputedStyle(elem, style);
     Element parent = elem.getParentElement().cast();
     int ml = UnitUtils.toPx(parent, mls, vertical);
     ml = Math.max(0, ml);
-    int mr = UnitUtils.toPx(parent, mrs, vertical);
-    mr = Math.max(0, mr);
-    int xw = ml + mr;
-    return xw;
+    return ml;
   }
 
   public static native String getComputedStyle(Element el, String prop) /*-{
@@ -62,5 +62,4 @@ public final class CSSUtils {
 		}
 		return computedStyle;
   }-*/;
-
 }
