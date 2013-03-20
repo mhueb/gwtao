@@ -25,7 +25,7 @@ public interface ILayout {
 
   void measure();
 
-  void layout();
+  void resize();
 
   void onAddChild(Widget child);
 

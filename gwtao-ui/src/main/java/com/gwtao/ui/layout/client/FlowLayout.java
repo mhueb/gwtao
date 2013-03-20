@@ -62,7 +62,7 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
   }
 
   @Override
-  public void layout() {
+  public void resize() {
     if (minSize == null)
       return;
 
@@ -73,21 +73,19 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
       freeSize = 0;
 
     int otherSize = Math.max(totalSize.get(!horizontal), minSize.get(!horizontal));
-    int left = CSSUtils.calcLeftOffset(getLayoutPanel().getElement());
-    int top = CSSUtils.calcTopOffset(getLayoutPanel().getElement());
+    int left = CSSUtils.calcMarginLeft(getLayoutPanel().getElement());
+    int top = CSSUtils.calcMarginTop(getLayoutPanel().getElement());
 
     Iterator<Widget> it = iterateWidgets();
     while (it.hasNext()) {
       Widget widget = it.next();
       FlowLayoutData widgetData = getWidgetData(widget);
-      Size effectiveMinSize = widgetData.getEffectiveMinSize();
+      Size effectiveMinSize = widgetData.getMinSize();
 
-      int size;
-      if( totalRatio == 0.0 )
-        size = effectiveMinSize.get(horizontal);
-      else
-        size = (int) (effectiveMinSize.get(horizontal) + freeSize * widgetData.getRatio() / totalRatio + 0.5);
-      
+      int size = effectiveMinSize.get(horizontal);
+      if (totalRatio > 0.0)
+        size += (int) (freeSize * widgetData.getRatio() / totalRatio + 0.5);
+
       if (horizontal) {
         placeWidget(widget, left, top, size, otherSize);
         left += size;
@@ -101,7 +99,6 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
 
   @Override
   public void measure() {
-    super.measure();
     totalRatio = calcTotalRatio();
     minSize = calcMinSize();
   }
@@ -123,7 +120,7 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
     Iterator<Widget> it = iterateWidgets();
     while (it.hasNext()) {
       Widget widget = it.next();
-      Size minSize = updateEffectiveMinSize(widget);
+      Size minSize = getWidgetMinSize(widget);
       if (horizontal) {
         minWidth += minSize.getWidth();
         minHeight = Math.max(minHeight, minSize.getHeight());

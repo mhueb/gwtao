@@ -19,7 +19,6 @@ import java.util.Iterator;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.CSSUtils;
 import com.gwtao.ui.util.client.Size;
@@ -62,36 +61,40 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
 
   protected Size getClientSize() {
     Size size;
-    // size = new Size(layoutPanel.getOffsetWidth(), layoutPanel.getOffsetHeight());
-    Element e = layoutPanel.getElement();
-    size = new Size(e.getClientWidth(), e.getClientHeight());
+     size = new Size(layoutPanel.getOffsetWidth(), layoutPanel.getOffsetHeight());
+    //size = new Size(layoutPanel.getOffsetWidth() + CSSUtils.calcMarginWidth(layoutPanel.getElement()), layoutPanel.getOffsetHeight() + CSSUtils.calcMarginHeight(layoutPanel.getElement()));
+
+    // Element e = layoutPanel.getElement();
+    // size = new Size(e.getClientWidth(), e.getClientHeight());
     return size;
   }
 
   protected Size getWidgetMinSize(Widget widget) {
-    if (widget instanceof ILayoutContainer)
-      return ((ILayoutContainer) widget).getMinSize();
-    else if (widget instanceof Panel)
-      return Size.ZERO;
+    // if (widget instanceof ILayoutContainer)
+    // return ((ILayoutContainer) widget).getMinSize();
+    // else if (widget instanceof Panel)
+    // return Size.ZERO;
     LayoutData fld = getWidgetData(widget);
-    fld.initSize(widget);
-
     return fld.getMinSize(); // new Size(0, 0);// widget.getOffsetWidth(), widget.getOffsetHeight());
   }
 
-  protected Size updateEffectiveMinSize(Widget widget) {
-    Size minSize = getWidgetMinSize(widget);
-    LayoutData fld = getWidgetData(widget);
-    fld.effectiveMinHeight = minSize.getHeight() > 0 ? Math.min(fld.getMinHeight(), minSize.getHeight()) : fld.getMinHeight();
-    fld.effectiveMinWidth = minSize.getWidth() > 0 ? Math.min(fld.getMinWidth(), minSize.getWidth()) : fld.getMinWidth();
-    return fld.getEffectiveMinSize();
-  }
+  // protected Size updateEffectiveMinSize(Widget widget) {
+  // Size minSize = getWidgetMinSize(widget);
+  // LayoutData fld = getWidgetData(widget);
+  // fld.effectiveMinHeight = minSize.getHeight() > 0 ? Math.min(fld.getMinHeight(), minSize.getHeight()) :
+  // fld.getMinHeight();
+  // fld.effectiveMinWidth = minSize.getWidth() > 0 ? Math.min(fld.getMinWidth(), minSize.getWidth()) :
+  // fld.getMinWidth();
+  // return fld.getEffectiveMinSize();
+  // }
 
   @SuppressWarnings("unchecked")
   protected T getWidgetData(Widget widget) {
     T ld = (T) widget.getLayoutData();
     if (ld == null) {
-      ld = createDefaultLayoutData(widget.getOffsetWidth(), widget.getOffsetHeight());
+      // ld = createDefaultLayoutData(widget.getOffsetWidth() + CSSUtils.calcMarginWidth(widget.getElement()),
+      // widget.getOffsetHeight() + CSSUtils.calcMarginHeight(widget.getElement()));
+      ld = createDefaultLayoutData(32, 32); // widget.getOffsetWidth(), widget.getOffsetHeight());
       widget.setLayoutData(ld);
     }
     return ld;
@@ -102,14 +105,20 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
   protected static void placeWidget(Widget widget, int left, int top, int width, int height) {
     Element elem = widget.getElement();
 
-    int xw = CSSUtils.calcWidthOffset(elem);
-    int yw = CSSUtils.calcHeightOffset(elem);
+    int cx = CSSUtils.calcMarginLeft(elem);
+    int cy = CSSUtils.calcMarginTop(elem);
+
+    int mw = CSSUtils.calcMarginWidth(elem);
+    int mh = CSSUtils.calcMarginHeight(elem);
+
+    mw += CSSUtils.calcPaddingWidth(elem);
+    mh += CSSUtils.calcPaddingHeight(elem);
 
     DOM.setStyleAttribute(elem, "overflow", "auto");
     DOM.setStyleAttribute(elem, POSITION, "absolute");
-    DOM.setStyleAttribute(elem, LEFT, left + PX);
-    DOM.setStyleAttribute(elem, TOP, top + PX);
-    widget.setSize((width - xw) + PX, (height - yw) + PX);
+    DOM.setStyleAttribute(elem, LEFT, (left + cx) + PX);
+    DOM.setStyleAttribute(elem, TOP, (top + cy) + PX);
+    widget.setSize((width - mw) + PX, (height - mh) + PX);
 
   }
 
@@ -117,14 +126,25 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
     widget.setSize(width + PX, height + PX);
   }
 
-  @Override
-  public void measure() {
-    Iterator<Widget> it = iterateWidgets();
-    while (it.hasNext()) {
-      Widget widget = it.next();
-      if (widget instanceof ILayoutContainer) {
-        ((ILayoutContainer) widget).measure();
-      }
-    }
-  }
+  // @Override
+  // public void measure() {
+  // Iterator<Widget> it = iterateWidgets();
+  // while (it.hasNext()) {
+  // measure(it.next());
+  // }
+  // }
+
+  // private void measure(Widget widget) {
+  // if (widget instanceof ILayoutContainer) {
+  // ((ILayoutContainer) widget).measure();
+  // }
+  // // else if (widget instanceof Composite) {
+  // // measure(((Composite) widget).);
+  // // }
+  // else if (widget instanceof HasWidgets) {
+  // Iterator<Widget> it = ((HasWidgets) widget).iterator();
+  // while (it.hasNext())
+  // measure(it.next());
+  // }
+  // }
 }

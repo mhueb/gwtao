@@ -35,29 +35,29 @@ public class SimpleLayout extends AbstractLayout<LayoutData> {
   }
 
   @Override
-  public void layout() {
+  public void resize() {
     if (getLayoutPanel().getWidgetCount() > 0) {
       Size size = getClientSize();
       Widget widget = getLayoutPanel().getWidget(0);
-      LayoutData widgetData = getWidgetData(widget);
-      int width = Math.max(widgetData.effectiveMinWidth, size.getWidth() - CSSUtils.calcWidthOffset(widget.getElement()));
-      int height = Math.max(widgetData.effectiveMinHeight, size.getHeight() - CSSUtils.calcHeightOffset(widget.getElement()));
+      Size minSize = getMinSize();
+      // LayoutData widgetData = getWidgetData(widget);
+      int width = Math.max(minSize.getWidth(), size.getWidth() - CSSUtils.calcMarginWidth(widget.getElement()));
+      int height = Math.max(minSize.getHeight(), size.getHeight() - CSSUtils.calcMarginHeight(widget.getElement()));
       sizeWidget(widget, width, height);
     }
   }
 
   @Override
   public void measure() {
-    super.measure();
     if (getLayoutPanel().getWidgetCount() > 0) {
       Widget widget = getLayoutPanel().getWidget(0);
-      minSize = updateEffectiveMinSize(widget);
+      minSize = getWidgetMinSize(widget);
     }
     else
-      minSize = new Size(0, 0);
+      minSize = Size.ZERO;
 
-    int xw = CSSUtils.calcWidthOffset(getLayoutPanel().getElement());
-    int yw = CSSUtils.calcHeightOffset(getLayoutPanel().getElement());
+    int xw = CSSUtils.calcMarginWidth(getLayoutPanel().getElement());
+    int yw = CSSUtils.calcMarginHeight(getLayoutPanel().getElement());
 
     minSize = new Size(minSize.getWidth() + xw, minSize.getHeight() + yw);
 

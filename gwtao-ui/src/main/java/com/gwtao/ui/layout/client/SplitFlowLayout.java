@@ -64,8 +64,8 @@ public class SplitFlowLayout extends FlowLayout {
       final Widget r = getLayoutPanel().getWidget(right);
       FlowLayoutData rd = (FlowLayoutData) r.getLayoutData();
 
-      int lsdm = -(ls - ld.getEffectiveMinSize().get(isHorizontal()));
-      int rsdm = (rs - rd.getEffectiveMinSize().get(isHorizontal()));
+      int lsdm = -(ls - ld.getMinSize().get(isHorizontal()));
+      int rsdm = (rs - rd.getMinSize().get(isHorizontal()));
 
       delta = Math.max(delta, lsdm);
       delta = Math.min(delta, rsdm);
@@ -186,7 +186,7 @@ public class SplitFlowLayout extends FlowLayout {
       FlowLayoutData widgetData = getWidgetData(child);
       if (widgetData.getRatio() == 0.0f)
         continue;
-      int min = widgetData.getEffectiveMinSize().get(isHorizontal());
+      int min = widgetData.getMinSize().get(isHorizontal());
       int size = getWidgetSize(child).get(isHorizontal());
       int wfs = size - min;
       float newRatio = 1.0f * wfs / freeSize;

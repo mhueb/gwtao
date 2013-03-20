@@ -15,7 +15,6 @@
  */
 package com.gwtao.ui.layout.client;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.Size;
 
 public class LayoutData {
@@ -23,49 +22,33 @@ public class LayoutData {
   private final int minWidth;
   private final int minHeight;
 
-  private int initialWidgetWidth = -1;
-  private int initialWidgetHeight = -1;
-
-  int effectiveMinWidth, effectiveMinHeight;
+  // int effectiveMinWidth, effectiveMinHeight;
 
   public LayoutData(int minWidth, int minHeight) {
     this.minWidth = minWidth;
     this.minHeight = minHeight;
-    this.initialWidgetWidth = minWidth;
-    this.initialWidgetHeight = minHeight;
-  }
-
-  void initSize(Widget w) {
-    if (/* this.initialWidgetWidth == -1 && */w.getOffsetHeight() != 0 && w.getOffsetWidth() != 0) {
-      this.initialWidgetWidth = w.getOffsetWidth();
-      this.initialWidgetHeight = w.getOffsetHeight();
-      this.initialWidgetWidth = Math.max(this.minWidth, this.initialWidgetWidth);
-      this.initialWidgetHeight = Math.max(this.minHeight, this.initialWidgetHeight);
-    }
   }
 
   public LayoutData(LayoutData o) {
     this.minWidth = o.minWidth;
     this.minHeight = o.minHeight;
-    this.initialWidgetWidth = o.initialWidgetWidth;
-    this.initialWidgetHeight = o.initialWidgetHeight;
   }
 
   public int getMinWidth() {
-    return initialWidgetWidth;
+    return minWidth;
   }
 
   public int getMinHeight() {
-    return initialWidgetHeight;
+    return minHeight;
   }
 
   public int getMin(boolean horizontal) {
-    return horizontal ? initialWidgetWidth : initialWidgetHeight;
+    return horizontal ? minWidth : minHeight;
   }
 
-  public Size getEffectiveMinSize() {
-    return new Size(effectiveMinWidth, effectiveMinHeight);
-  }
+  // public Size getEffectiveMinSize() {
+  // return new Size(effectiveMinWidth, effectiveMinHeight);
+  // }
 
   public Size getMinSize() {
     return new Size(minWidth, minHeight);

@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.layout.client.ILayoutContainer;
 
 public class SwitchPanel extends ComplexPanel implements RequiresResize, ProvidesResize {
   public SwitchPanel() {
@@ -61,22 +60,22 @@ public class SwitchPanel extends ComplexPanel implements RequiresResize, Provide
   }
 
   private void doShowWidget(final Widget w) {
-    w.getElement().getStyle().clearDisplay();
-    w.setVisible(true);
-
-    if (w instanceof ILayoutContainer)
-      ((ILayoutContainer) w).measure();
-
-    Element e = getParent().getParent().getElement();
-    final String width = e.getClientWidth() + "px";
-    final String height = e.getClientHeight() + "px";
-    // String width = getOffsetWidth() + "px";
-    // String height = getOffsetHeight() + "px";
-    w.setSize(width, height);
-
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
+        w.getElement().getStyle().clearDisplay();
+        w.setVisible(true);
+
+        // if (w instanceof ILayoutContainer)
+        // ((ILayoutContainer) w).measure();
+
+        // Element e = getParent().getElement();
+        // final String width = e.getClientWidth() + "px";
+        // final String height = e.getClientHeight() + "px";
+        String width = getOffsetWidth() + "px";
+        String height = getOffsetHeight() + "px";
+        w.setSize(width, height);
+
         if (w instanceof RequiresResize)
           ((RequiresResize) w).onResize();
       }
@@ -108,8 +107,8 @@ public class SwitchPanel extends ComplexPanel implements RequiresResize, Provide
       Widget current = getVisibleWidget();
       if (current != null)
         doHideWidget(current);
-      doShowWidget(getWidget(index));
     }
+    doShowWidget(getWidget(index));
   }
 
   public void showWidget(Widget w) {

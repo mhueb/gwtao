@@ -6,7 +6,6 @@ import org.shu4j.utils.permission.Permission;
 
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.datepicker.client.DatePicker;
 import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter.WidgetType;
 
 @WidgetType(DateBox.class)

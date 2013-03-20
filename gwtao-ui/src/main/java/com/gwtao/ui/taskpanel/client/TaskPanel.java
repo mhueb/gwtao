@@ -2,10 +2,10 @@ package com.gwtao.ui.taskpanel.client;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
-import com.gwtao.ui.util.client.card.CardItem;
 import com.gwtao.ui.util.client.card.Card;
-import com.gwtao.ui.util.client.card.ICardSupplier;
+import com.gwtao.ui.util.client.card.CardItem;
 import com.gwtao.ui.util.client.card.ICard;
+import com.gwtao.ui.util.client.card.ICardSupplier;
 
 /**
  * Displays a list of tasks to choose and start - mru auf erster ebene - favoriten, "sticking" *

@@ -41,14 +41,14 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
-import com.gwtao.ui.viewdriver.client.ViewDriverFactory;
 import com.gwtao.ui.viewdriver.client.ViewDriver;
+import com.gwtao.ui.viewdriver.client.ViewDriverFactory;
 import com.gwtao.ui.viewdriver.client.adapter.DateBoxAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IDPickerAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter;
+import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter.WidgetType;
 import com.gwtao.ui.viewdriver.client.adapter.ValueBoxBaseAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.ValueListBoxAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter.WidgetType;
 
 public class ViewDriverFactoryGenerator extends Generator {
 

@@ -90,7 +90,6 @@ public final class UnitUtils {
     if (unit == null) {
       return 1;
     }
-
     switch (unit) {
     case PCT:
       return (vertical ? parent.getClientHeight() : parent.getClientWidth()) / 100.0;

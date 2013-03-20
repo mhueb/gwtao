@@ -22,11 +22,12 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.util.client.Size;
+import com.gwtao.ui.util.client.CSSUtils;
 
-public class LayoutPanel extends ComplexPanel implements RequiresResize, ProvidesResize, ILayoutContainer {
+public class LayoutPanel extends ComplexPanel implements RequiresResize, ProvidesResize {
   private ILayout layout = DummyLayout.get();
-  private boolean attaching;
+  private static LayoutPanel ATTACH_ROOT;
+  private boolean requiresLayout;
 
   public LayoutPanel() {
     setElement(DOM.createDiv());
@@ -44,8 +45,10 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
       this.layout.exit();
     this.layout = layout;
     layout.init(this);
-    if (isAttached())
-      layout();
+    if (isAttached()) {
+      layout.measure();
+      onResize();
+    }
   }
 
   public ILayout getLayout() {
@@ -78,14 +81,16 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
   }
 
   private void adjustLayout() {
-    if (isAttached() && !doing) {
-      doing = true;
+    if (isAttached()) {
+      requiresLayout = true;
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         @Override
         public void execute() {
-          layout.measure();
-          onResize();
-          doing = false;
+          if (requiresLayout) {
+            requiresLayout = false;
+            layout.measure();
+            onResize();
+          }
         }
       });
     }
@@ -93,62 +98,46 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
 
   @Override
   protected void onAttach() {
-    attaching = true;
+    if (ATTACH_ROOT == null) {
+      ATTACH_ROOT = this;
+    }
     super.onAttach();
   }
 
-  private static boolean doing;
-
   @Override
   protected void onLoad() {
-    super.onLoad();
-
-    if (doing)
-      return;
-    doing = true;
-
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        layout.measure();
-        if (getParent() instanceof ILayoutContainer)
-          ((ILayoutContainer) getParent()).layout();
-        else
-          onResize();
-        attaching = false;
-        doing = false;
-      }
-    });
-  }
-
-  @Override
-  public void layout() {
-    if (attaching)
-      return;
     layout.measure();
-    if (getParent() instanceof ILayoutContainer)
-      ((ILayoutContainer) getParent()).layout();
-    else
-      onResize();
-  }
-
-  @Override
-  public void measure() {
-    layout.measure();
+    if (ATTACH_ROOT == this) {
+      ATTACH_ROOT = null;
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        @Override
+        public void execute() {
+          if (getParent() instanceof RequiresResize)
+            ((RequiresResize) getParent()).onResize();
+          else {
+            int w = getParent().getOffsetWidth();
+            int h = getParent().getOffsetHeight();
+            w += CSSUtils.calcPaddingWidth(getElement());
+            h += CSSUtils.calcPaddingHeight(getElement());
+            // w -= CSSUtils.calcMarginWidth(getElement());
+            // h -= CSSUtils.calcMarginHeight(getElement());
+            // w-=16;
+            // h-=16;
+            setSize(w + "PX", h + "PX");
+            onResize();
+          }
+        }
+      });
+    }
   }
 
   @Override
   public void onResize() {
-    layout.layout();
+    layout.resize();
     for (Widget child : getChildren()) {
       if (child instanceof RequiresResize) {
         ((RequiresResize) child).onResize();
       }
     }
-  }
-
-  @Override
-  public Size getMinSize() {
-    return layout.getMinSize();
   }
 }

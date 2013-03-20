@@ -1,7 +1,6 @@
 package com.gwtao.app.client;
 
 import com.gwtao.ui.util.client.action.Action;
-import com.gwtao.ui.util.client.action.ActionAdapter;
 import com.gwtao.ui.util.client.action.IAction;
 
 public abstract class QueryPage<T> extends AbstractPage {
