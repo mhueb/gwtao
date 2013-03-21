@@ -1,0 +1,43 @@
+/*
+ * Progress bar
+ */
+
+@external
+.gwtao-progress-frame {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	/*height:100%;*/
+	border: 1px solid #B5B8C8;
+	overflow: hidden;
+}
+
+@external
+.gwtao-progress-text {
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	height: 100%;
+	width: 100%;
+	z-order: 2;
+	text-align: left;
+	/*text-color: #00ff00;*/
+	overflow: visible;
+}
+
+@external
+.gwtao-progress-bar {
+	z-order: 1;
+	height: 100%;
+	overflow: hidden;
+}
+
+@external
+.gwtao-progress-field {
+	margin: 0 0 4px 0;
+}
+
+@external
+.gwtao-progress-label {
+	
+}
