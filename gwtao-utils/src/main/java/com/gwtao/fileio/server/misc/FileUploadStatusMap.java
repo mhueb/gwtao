@@ -27,7 +27,7 @@ import org.shu4j.utils.message.MessageLevel;
 import com.gwtao.fileio.shared.FileUploadStatus;
 
 public class FileUploadStatusMap {
-  public final Map<String, FileUploadStatus> statusMap = new ConcurrentHashMap<String, FileUploadStatus>();
+  private final Map<String, FileUploadStatus> statusMap = new ConcurrentHashMap<String, FileUploadStatus>();
 
   public static FileUploadStatusMap get(HttpSession session) {
     FileUploadStatusMap map = (FileUploadStatusMap) session.getAttribute("FileUploadStatusMap");

@@ -16,7 +16,9 @@
 package com.gwtao.fileio.shared;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+@RemoteServiceRelativePath("FileUploadStatus")
 public interface IFileUploadStatusRPC extends RemoteService {
   FileUploadStatus getStatus(String ident);
 }

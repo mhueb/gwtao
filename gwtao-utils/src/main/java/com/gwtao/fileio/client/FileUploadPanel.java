@@ -34,14 +34,15 @@ public class FileUploadPanel extends FormPanel {
 
   private final FileUploadEx upload = new FileUploadEx();
   private final AsyncCallback<String> callback;
-  private static Integer ident = 0;
+  private String tempURL;
+  private Integer ident = 0;
 
   public FileUploadPanel(AsyncCallback<String> callback) {
     this.callback = callback;
     setMethod(FormPanel.METHOD_POST);
     setEncoding(FormPanel.ENCODING_MULTIPART);
 
-    addSubmitCompleteHandler(new FileUploadCompleteHandler(callback));
+    addSubmitCompleteHandler(new FileUploadCompleteHandler(this, callback));
 
     upload.setName("uploadFormElement");
     add(upload);
@@ -67,12 +68,17 @@ public class FileUploadPanel extends FormPanel {
 
   @Override
   public void setAction(String url) {
-    FileUploadPanel.ident = FileUploadPanel.ident + 1;
-    if (url.contains("?"))
-      url = url + "&UPLOADID=" + getIdent();
+    this.tempURL = url;
+    updateAction();
+  }
+  
+  void updateAction() {
+    String url;
+    ident = (int) System.currentTimeMillis();
+    if (this.tempURL.contains("?"))
+      url = this.tempURL + "&UPLOADID=" + getIdent();
     else
-      url = url + "?UPLOADID=" + getIdent();
-
+      url = this.tempURL + "?UPLOADID=" + getIdent();
     super.setAction(url);
   }
 
