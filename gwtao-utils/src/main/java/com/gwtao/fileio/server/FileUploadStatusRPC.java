@@ -24,7 +24,7 @@ import com.gwtao.fileio.shared.IFileUploadStatusRPC;
  * <code><pre>
  *   &lt;servlet&gt;
  *     &lt;servlet-name&gt;FileUploadStatus&lt;/servlet-name&gt;
- *     &lt;servlet-class&gt;com.gwtaf.fileio.server.FileUploadStatusRPC&lt;/servlet-class&gt;
+ *     &lt;servlet-class&gt;com.gwtao.fileio.server.FileUploadStatusRPC&lt;/servlet-class&gt;
  *   &lt;/servlet&gt;
  *   &lt;servlet-mapping&gt;
  *     &lt;servlet-name&gt;FileUploadStatus&lt;/servlet-name&gt;

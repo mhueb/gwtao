@@ -28,14 +28,17 @@ import com.gwtao.fileio.shared.FileIOTag;
 
 public class FileUploadCompleteHandler implements SubmitCompleteHandler {
   private final AsyncCallback<String> callback;
+  private FileUploadPanel fileUploadPanel;
 
-  public FileUploadCompleteHandler(AsyncCallback<String> callback) {
+  public FileUploadCompleteHandler(FileUploadPanel fileUploadPanel, AsyncCallback<String> callback) {
+    this.fileUploadPanel = fileUploadPanel;
     this.callback = callback;
   }
 
   @Override
   public void onSubmitComplete(SubmitCompleteEvent event) {
     try {
+      fileUploadPanel.updateAction();
       callback.onSuccess(processResults(event.getResults()));
     }
     catch (Throwable t) {
