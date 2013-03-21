@@ -24,7 +24,7 @@ import java.util.Locale;
  * Emulation of org.apache.commons.lang.StringUtils
  * 
  * @author Matthias Hübner
- *
+ * 
  */
 public class StringUtils {
 
@@ -327,5 +327,20 @@ public class StringUtils {
 
   private static boolean isWhitespace(char c) {
     return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+  }
+
+  public static String join(Object[] array, String separator) {
+    StringBuilder buff = new StringBuilder();
+    boolean first = true;
+    for (Object item : array) {
+      if (item != null) {
+        if (first)
+          first = false;
+        else
+          buff.append(separator);
+        buff.append(String.valueOf(item));
+      }
+    }
+    return buff.toString();
   }
 }
