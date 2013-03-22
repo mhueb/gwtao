@@ -19,7 +19,7 @@ public final class ProgressBarRenderer {
 
   private static final String BARCOLOR = "a0a0f0";
 
-  private static final ProgressBarResources RESOURCE = GWT.create(ProgressBarResources.class);
+  public static final ProgressBarResources RESOURCE = GWT.create(ProgressBarResources.class);
 
   private String color = BARCOLOR;
   private String frameClass = "gwtao-progress-frame";
