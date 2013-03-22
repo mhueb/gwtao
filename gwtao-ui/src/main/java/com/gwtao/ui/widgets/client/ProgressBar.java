@@ -25,10 +25,11 @@ public class ProgressBar extends ComplexPanel {
 
   public ProgressBar() {
     setElement(Document.get().createDivElement());
-    update(0,"");
+    update(0, "");
   }
 
   public void update(int percent, String msg) {
+    ProgressBarRenderer.RESOURCE.css().ensureInjected();
     getElement().setInnerHTML(render.generate(percent, msg));
   }
 
