@@ -134,9 +134,10 @@ public class ColumnGenerator extends Generator {
 
     JMethod method = TypeUtils.getGetter(modelType, modelFieldName);
 
-    String cellType = getCellType(valueType, info.cellType());
+    String cellName = "cell_" + uiField.getName();
+    generateCell(src, cellName, valueType, info.cellType());
 
-    src.println("  view.%s = new %s( new %s() ) {", uiField.getName(), uiField.getType().getParameterizedQualifiedSourceName(), cellType);
+    src.println("  view.%s = new %s( %s ) {", uiField.getName(), uiField.getType().getParameterizedQualifiedSourceName(), cellName);
     src.println("    @Override");
     src.println("    public %s getValue(%s object) {", valueType.getQualifiedSourceName(), modelType.getQualifiedSourceName());
     src.println("      return object.%s();", method.getName());
@@ -151,17 +152,24 @@ public class ColumnGenerator extends Generator {
     src.println("  }");
   }
 
-  private String getCellType(JType type, Class<? extends Cell<?>> cellType) throws NotFoundException {
-    if (!cellType.equals(Default.class))
-      return cellType.getName();
-    else if (String.class.getName().equals(type.getQualifiedSourceName()))
-      return TextCell.class.getName();
-    else if (Date.class.getName().equals(type.getQualifiedSourceName()))
-      return DateCell.class.getName();
-    else if (Number.class.getName().equals(type.getQualifiedSourceName()))
-      return NumberCell.class.getName();
-    else if ("boolean".equals(type.getQualifiedSourceName()) || Boolean.class.getName().equals(type.getQualifiedSourceName()))
-      return CheckboxCell.class.getName();
-    throw new NotFoundException("Unable to compute cell type for: " + type.getQualifiedSourceName());
+  private void generateCell(SourceWriter src, String cellName, JClassType valueType, Class<? extends Cell<?>> cellType) throws NotFoundException {
+    if (!cellType.equals(Default.class)) {
+      src.println("  %s %s = new %s();", cellType.getName(), cellName, cellType.getName());
+    }
+    else if (String.class.getName().equals(valueType.getQualifiedSourceName())) {
+      src.println("  %s %s = new %s();", TextCell.class.getName(), cellName, TextCell.class.getName());
+    }
+    else if (Date.class.getName().equals(valueType.getQualifiedSourceName())) {
+      src.println("  com.google.gwt.i18n.client.DateTimeFormat fmt_%s = com.google.gwt.i18n.client.DateTimeFormat.getFormat(\"MM/dd/yyyy\");", cellName);
+      src.println("  %s %s = new %s(fmt_%s);", DateCell.class.getName(), cellName, DateCell.class.getName(), cellName);
+    }
+    else if (Number.class.getName().equals(valueType.getQualifiedSourceName())) {
+      src.println("  %s %s = new %s();", NumberCell.class.getName(), cellName, NumberCell.class.getName());
+    }
+    else if ("boolean".equals(valueType.getQualifiedSourceName()) || Boolean.class.getName().equals(valueType.getQualifiedSourceName())) {
+      src.println("  %s %s = new %s(false);", CheckboxCell.class.getName(), cellName, CheckboxCell.class.getName());
+    }
+    else
+      throw new NotFoundException("Unable to compute cell type for: " + valueType.getQualifiedSourceName());
   }
 }
