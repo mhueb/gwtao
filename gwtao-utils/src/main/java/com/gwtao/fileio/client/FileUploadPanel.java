@@ -89,4 +89,8 @@ public class FileUploadPanel extends FormPanel {
   public void setWidth(int width) {
     upload.getInputElement().setSize(width);
   }
+  
+  public FileUpload getUpload() {
+    return upload;
+  }
 }

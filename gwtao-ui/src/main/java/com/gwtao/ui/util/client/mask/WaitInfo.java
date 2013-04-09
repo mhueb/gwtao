@@ -18,6 +18,7 @@ package com.gwtao.ui.util.client.mask;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HTML;
@@ -29,13 +30,17 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class WaitInfo implements IWaitInfo {
 
-  public interface Resource extends ClientBundle {
+  public interface Style extends CssResource {
+  };
 
-    public interface Style extends CssResource {
-    };
+  public interface Resource extends ClientBundle {
 
     @Source("circle-ball.gif")
     ImageResource loadingImage();
+
+    @Source("mask.css")
+    @NotStrict
+    Style styles();
   }
 
   private static final Resource defaultResource = GWT.create(Resource.class);
@@ -52,7 +57,7 @@ public class WaitInfo implements IWaitInfo {
     this.msg.add(inner);
 
     HorizontalPanel row = new HorizontalPanel();
-    Image icon = new Image(GWT.getModuleBaseURL() + getResource().loadingImage(), 0, 0, 16, 16);
+    Image icon = new Image(getResource().loadingImage());
     row.add(icon);
     this.text.setStyleName("gwtaf-mask-msg-text");
     row.add(this.text);
@@ -64,6 +69,7 @@ public class WaitInfo implements IWaitInfo {
   private Resource getResource() {
     if (resource == null)
       resource = defaultResource;
+    resource.styles().ensureInjected();
     return resource;
   }
 

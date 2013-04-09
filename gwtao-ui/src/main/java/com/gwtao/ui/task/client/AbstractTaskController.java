@@ -19,6 +19,8 @@ import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 import com.gwtao.ui.util.client.GlassPane;
 import com.gwtao.ui.util.client.ParameterList;
+import com.gwtao.ui.util.client.mask.IWaitMask;
+import com.gwtao.ui.util.client.mask.WaitMask;
 
 public abstract class AbstractTaskController<M> extends AbstractDataSource<M> implements ITaskController<M> {
   private final static DataConstants c = GWT.create(DataConstants.class);
@@ -44,7 +46,7 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   private Validator validator;
   private ParameterList params;
   private M model;
-  private GlassPane glass;
+  private IWaitMask mask;
   private final IServiceAdapter<M> service;
   private ITaskView view;
 
@@ -83,14 +85,15 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   public abstract boolean isDirty();
 
   private void mask(String string) {
-    if (glass == null)
-      glass = GlassPane.create(view.asWidget());
+    if (mask == null)
+      mask = new WaitMask(view.asWidget());
+    mask.show(string);
   }
 
   private void unmask() {
-    if (glass != null) {
-      glass.remove();
-      glass = null;
+    if (mask != null) {
+      mask.hide();
+      mask = null;
     }
   }
 

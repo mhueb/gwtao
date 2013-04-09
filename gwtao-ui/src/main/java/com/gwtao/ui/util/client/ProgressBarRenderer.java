@@ -14,6 +14,7 @@ public final class ProgressBarRenderer {
   public interface ProgressBarResources extends ClientBundle {
 
     @Source("progressbar.css")
+    @CssResource.NotStrict
     public ProgressBarCss css();
   }
 
@@ -45,14 +46,14 @@ public final class ProgressBarRenderer {
       width = 0;
 
     StringBuilder buff = new StringBuilder();
-    buff.append("<div class=\"").append(frameClass).append("\">");
-    buff.append("<div class=\"").append(progressBarClass).append("\" style=\"background-color: #");
+    buff.append("<div class='").append(frameClass).append("'>");
+    buff.append("<div class='").append(progressBarClass).append("' style='background-color: #");
     buff.append(color);
     buff.append("; width: ");
     buff.append(width);
-    buff.append("%;\">&nbsp;</div>"); // ; height:100%
+    buff.append("%;'>&nbsp;</div>"); // ; height:100%
 
-    buff.append("<div class=\"").append(progressTextClass).append("\">");
+    buff.append("<div class='").append(progressTextClass).append("'>");
     if (msg == null) {
       if (percent != null) {
         buff.append(percent);
@@ -70,13 +71,13 @@ public final class ProgressBarRenderer {
   public String generate(Integer percent, String msg, String labelText, int labelWidth, int height) {
     StringBuilder buff = new StringBuilder();
 
-    buff.append("<div style=\"height:" + height + "px;\">");
+    buff.append("<div style='height:" + height + "px;'>");
     if (labelText != null) {
-      buff.append("<label class=\"").append(labelClass).append("\" style=\"float:left;width:").append(labelWidth).append("px;\">");
+      buff.append("<label class='").append(labelClass).append("' style='float:left;width:").append(labelWidth).append("px;'>");
       buff.append(labelText);
       buff.append("</label>");
     }
-    buff.append("<span class=\"").append(labelClass).append("\" style=\"width:100%;height:" + (height) + "px;\">");
+    buff.append("<span class='").append(labelClass).append("' style='width:100%;height:" + (height) + "px;'>");
     buff.append(generate(percent, msg));
     buff.append("</span>");
     buff.append("</div>");

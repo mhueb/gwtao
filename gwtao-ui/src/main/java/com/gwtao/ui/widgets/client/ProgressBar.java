@@ -16,24 +16,36 @@
 package com.gwtao.ui.widgets.client;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.gwtao.ui.util.client.ProgressBarRenderer;
 
 public class ProgressBar extends ComplexPanel {
   private ProgressBarRenderer render = new ProgressBarRenderer();
+  private int max;
 
   public ProgressBar() {
+    this(100);
+  }
+
+  public ProgressBar(int max) {
     setElement(Document.get().createDivElement());
+    this.max = max;
     update(0, "");
   }
 
   public void update(int percent, String msg) {
-    ProgressBarRenderer.RESOURCE.css().ensureInjected();
-    getElement().setInnerHTML(render.generate(percent, msg));
+    getElement().setInnerHTML(render.generate(percent * 100 / max, msg));
   }
 
   public void setWidth(String width) {
-    DOM.setStyleAttribute(getElement(), "width", width);
+    super.setWidth(width);
+    getElement().getStyle().setFloat(Float.LEFT);
+    DOM.setStyleAttribute(getElement(), "display", "inline");
+  }
+
+  public void setFloat(String style) {
+    DOM.setStyleAttribute(getElement(), "float", style);
   }
 }
