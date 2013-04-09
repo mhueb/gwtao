@@ -1,5 +1,7 @@
 package com.gwtao.app.client;
 
+import com.google.gwt.user.client.History;
+import com.gwtao.ui.dialog.client.MessageDialog;
 import com.gwtao.ui.location.client.LocationUtils;
 import com.gwtao.ui.task.client.IServiceAdapter;
 import com.gwtao.ui.task.client.ITaskController;
@@ -8,18 +10,47 @@ import com.gwtao.ui.task.client.TaskController;
 import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 import com.gwtao.ui.util.client.ParameterList;
+import com.gwtao.ui.util.client.action.Action;
+import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 
 public abstract class TaskPage<M> extends AbstractPage implements ITaskView {
 
   private ITaskController<M> editor;
+  private IAction execAction;
+  private Action refreshAction;
+  private Action closeAction;
 
-  protected void initEditor(IViewDriver<M> viewMgr,IServiceAdapter<M> serviceAdapter) {
-    TaskController<M> modelEditor = new TaskController<M>(viewMgr,serviceAdapter);
+  protected void initEditor(IViewDriver<M> viewMgr, IServiceAdapter<M> serviceAdapter) {
+    TaskController<M> modelEditor = new TaskController<M>(viewMgr, serviceAdapter);
     modelEditor.initView(this);
     this.editor = modelEditor;
+
+    execAction = new Action("Save") {
+
+      @Override
+      public void execute(Object... data) {
+        editor.execute();
+      }
+    };
+
+    refreshAction = new Action("Refresh") {
+
+      @Override
+      public void execute(Object... data) {
+        editor.refresh();
+      }
+    };
+
+    closeAction = new Action("Close") {
+
+      @Override
+      public void execute(Object... data) {
+        History.back();
+      }
+    };
   }
-  
+
   public ITaskController<M> getEditor() {
     return editor;
   }
@@ -38,12 +69,23 @@ public abstract class TaskPage<M> extends AbstractPage implements ITaskView {
   @Override
   public void alert(String title, String question, AsyncOKAnswere answere) {
     // TODO Auto-generated method stub
-    
+
   }
-  
+
   @Override
   public void confirm(String title, String question, AsyncYESNOAnswere answere) {
-    // TODO Auto-generated method stub
-    
+    MessageDialog.confirm(title, question, answere);
+  }
+
+  protected IAction getExecuteAction() {
+    return execAction;
+  }
+
+  protected IAction getRefreshAction() {
+    return refreshAction;
+  }
+
+  protected IAction getCloseAction() {
+    return closeAction;
   }
 }

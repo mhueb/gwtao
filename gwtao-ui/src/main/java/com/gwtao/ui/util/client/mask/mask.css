@@ -1,0 +1,39 @@
+.gwtaf-mask-mask {
+	z-index: 10000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #CCC;
+	opacity: 0.3;
+}
+
+.gwtaf-mask-back {
+	z-index: 10001;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: transparent;
+}
+
+.gwtaf-mask-msg {
+	background: #eef;
+	border: 1px solid #6593cf;
+	padding: 2px;
+	cursor: wait;
+}
+
+.gwtaf-mask-msg-inner {
+	background: #fff;
+	padding: 4px 8px;
+	border: 1px solid #a3bad9;
+}
+
+.gwtaf-mask-msg-text {
+	padding: 0px 0px 0px 8px;
+	font: normal 11px tahoma, arial, helvetica, sans-serif;
+	color: #222;
+}

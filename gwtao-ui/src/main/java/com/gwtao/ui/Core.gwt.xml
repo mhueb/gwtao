@@ -11,4 +11,5 @@
 	<inherits name="com.gwtao.ui.widgets.Widgets" />
 	<inherits name="com.gwtao.ui.viewdriver.ViewDriver" />
 	<inherits name="com.gwtao.ui.task.Task" />
+	<inherits name="com.gwtao.ui.dialog.Dialog" />
 </module>

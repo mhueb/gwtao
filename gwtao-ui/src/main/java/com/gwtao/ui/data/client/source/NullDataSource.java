@@ -18,10 +18,14 @@ package com.gwtao.ui.data.client.source;
 import org.shu4j.utils.permission.Permission;
 
 public class NullDataSource<T> extends AbstractDataSource<T> {
+  public static final IDataSource<Object> NULL = new NullDataSource<Object>(Permission.ALLOWED);
+
+  public static final IDataSource<Object> RO = new NullDataSource<Object>();
+
   private Permission perm;
 
   public NullDataSource() {
-    this( Permission.READONLY );
+    this(Permission.READONLY);
   }
 
   public NullDataSource(Permission perm) {

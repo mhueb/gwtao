@@ -42,12 +42,18 @@ public final class ParameterList implements Iterable<ParameterList.Entry> {
     public String getValue() {
       return value;
     }
+
+    @Override
+    public String toString() {
+      return "Entry [name=" + name + ", value=" + value + "]";
+    }
+
   }
 
   private final List<Entry> entries = new ArrayList<ParameterList.Entry>();
 
   public ParameterList(List<Entry> entries) {
-    entries.addAll(entries);
+    this.entries.addAll(entries);
   }
 
   @Override
@@ -93,5 +99,14 @@ public final class ParameterList implements Iterable<ParameterList.Entry> {
       if (entry.getName().equals(string))
         return entry.getValue();
     return null;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder buff = new StringBuilder();
+    for (Entry elem : entries) {
+      buff.append(elem).append("\n");
+    }
+    return buff.toString();
   }
 }

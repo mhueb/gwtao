@@ -31,7 +31,7 @@ public class LocationUtils {
     int idx = token.indexOf('?');
     if (idx >= 0) {
       id = token.substring(0, idx);
-      params = token.substring(idx);
+      params = token.substring(idx + 1);
     }
     else {
       id = token;
@@ -56,7 +56,8 @@ public class LocationUtils {
         String[] parts = item.split("=");
         if (parts.length == 2)
           builder.add(normalize(parts[0]), normalize(parts[1]));
-        builder.add(normalize(item));
+        else
+          builder.add(normalize(item));
       }
     }
     return builder.build();
