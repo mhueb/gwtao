@@ -47,6 +47,7 @@
 					<include>**/*.java</include>
 					<include>**/*.xml</include>
 					<include>**/*.css</include>
+					<include>**/*.gif</include>
 				</includes>
 			</resource>
 		</resources>
