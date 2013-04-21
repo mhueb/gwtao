@@ -43,10 +43,12 @@ import com.google.gwt.user.rebind.SourceWriter;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 import com.gwtao.ui.viewdriver.client.ViewDriver;
 import com.gwtao.ui.viewdriver.client.ViewDriverFactory;
+import com.gwtao.ui.viewdriver.client.adapter.CheckBoxAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.DateBoxAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IDPickerAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter.WidgetType;
+import com.gwtao.ui.viewdriver.client.adapter.TextAreaAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.ValueBoxBaseAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.ValueListBoxAdapter;
 
@@ -62,6 +64,8 @@ public class ViewDriverFactoryGenerator extends Generator {
         ValueBoxBaseAdapter.class.getName(),
         ValueListBoxAdapter.class.getName(),
         DateBoxAdapter.class.getName(),
+        TextAreaAdapter.class.getName(),
+        CheckBoxAdapter.class.getName(),
         IDPickerAdapter.class.getName() };
 
     Map<String, String> adapterMap = new HashMap<String, String>();
