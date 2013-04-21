@@ -30,7 +30,8 @@ public final class TaskController<M> extends AbstractTaskController<M> {
 
   @Override
   protected M flush() {
-    // TODO Auto-generated method stub
+    viewMgr.updateModel(getData());
+    
     return getData();
   }
 
