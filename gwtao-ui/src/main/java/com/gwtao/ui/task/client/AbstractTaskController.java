@@ -125,6 +125,24 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   protected abstract boolean hasErrors();
 
   @Override
+  public boolean validateAndFlush() {
+    if (isDirty()) {
+      model = flush();
+      if (!hasErrors() && validate(model)) {
+        return true;
+      }
+      else {
+        handleDriverErrors();
+        view.alert(AbstractTaskController.c.save(), AbstractTaskController.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
+        return false;
+      }
+    }
+    else {
+      return true;
+    }
+  }
+
+  @Override
   public void execute() {
     Validate.isTrue(this.state == State.EDIT);
     if (isDirty()) {
@@ -213,7 +231,7 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
     return true;
   }
 
-  private void edit(M model) {
+  public void edit(M model) {
     this.model = model;
     this.params = service.toParam(model);
     onEdit();
