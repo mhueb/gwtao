@@ -19,4 +19,9 @@ public interface ITaskController<M> extends IDataSource<M> {
   public void execute();
 
   public void refresh();
+
+  public void edit( M model );
+
+  public boolean validateAndFlush();
+
 }
