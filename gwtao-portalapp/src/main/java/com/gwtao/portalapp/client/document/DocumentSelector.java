@@ -20,9 +20,9 @@ import org.shu4j.utils.permission.Permission;
 
 import com.gwtao.portalapp.client.PortalApp;
 import com.gwtao.portalapp.client.actionmanager.IActionManager;
+import com.gwtao.portalapp.client.deprecated.client.ContextActionAdapter;
+import com.gwtao.portalapp.client.deprecated.client.ContextImageBundle;
 import com.gwtao.portalapp.client.i18n.PortalConstants;
-import com.gwtao.ui.context.client.ContextActionAdapter;
-import com.gwtao.ui.context.client.ContextImageBundle;
 import com.gwtao.ui.data.client.selection.IDataSelection;
 import com.gwtao.ui.dialog.client.MessageDialog;
 import com.gwtao.ui.util.client.AsyncYESNOAnswere;

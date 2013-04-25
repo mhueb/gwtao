@@ -13,11 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.portalapp.client.document;
+package com.gwtao.portalapp.client.deprecated.client.editcontext;
 
-import com.gwtao.portalapp.client.deprecated.client.editcontext.IEditContext;
+public interface IEditStateProvider {
+  boolean isDirty();
 
-
-public interface IDocumentEditor extends IDocument {
-  IEditContext<?> getEditContext();
+  boolean isValid();
 }

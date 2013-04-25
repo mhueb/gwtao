@@ -39,7 +39,7 @@
 	<modules>
 		<module>../gwtao-emul</module>
 		<module>../gwtao-cdi</module>
-		<module>../gwtao-utils</module>
+		<module>../gwtao-fileio</module>
 		<module>../gwtao-crypt</module>
 		<module>../gwtao-rest</module>
 		<module>../gwtao-ui</module>

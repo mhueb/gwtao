@@ -17,11 +17,11 @@ package com.gwtao.portalapp.client.util;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
+import com.gwtao.portalapp.client.deprecated.client.editcontext.EditContextListenerAdapter;
+import com.gwtao.portalapp.client.deprecated.client.editcontext.IEditContextListener;
 import com.gwtao.portalapp.client.document.IDocument;
 import com.gwtao.portalapp.client.document.IDocumentEditor;
 import com.gwtao.portalapp.client.document.IDocumentSelector;
-import com.gwtao.ui.context.client.editcontext.EditContextListenerAdapter;
-import com.gwtao.ui.context.client.editcontext.IEditContextListener;
 import com.gwtao.ui.data.client.selection.IDataSelection;
 import com.gwtao.ui.data.client.source.events.DataChangedEvent;
 

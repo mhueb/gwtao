@@ -67,14 +67,13 @@ public abstract class TaskPage<M> extends AbstractPage implements ITaskView {
   }
 
   @Override
-  public void alert(String title, String question, AsyncOKAnswere answere) {
-    // TODO Auto-generated method stub
-
+  public void alert(String title, String message, AsyncOKAnswere answere) {
+    MessageDialog.alert(title, message, answere);
   }
 
   @Override
-  public void confirm(String title, String question, AsyncYESNOAnswere answere) {
-    MessageDialog.confirm(title, question, answere);
+  public void confirm(String title, String message, AsyncYESNOAnswere answere) {
+    MessageDialog.confirm(title, message, answere);
   }
 
   protected IAction getExecuteAction() {
