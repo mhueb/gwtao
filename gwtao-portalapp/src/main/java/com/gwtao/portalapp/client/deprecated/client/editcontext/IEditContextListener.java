@@ -13,11 +13,41 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.portalapp.client.document;
+package com.gwtao.portalapp.client.deprecated.client.editcontext;
 
-import com.gwtao.portalapp.client.deprecated.client.editcontext.IEditContext;
+import org.shu4j.utils.message.IMessageSource;
 
 
-public interface IDocumentEditor extends IDocument {
-  IEditContext<?> getEditContext();
+public interface IEditContextListener {
+  void onStateChange();
+
+  void onDataStateChange();
+
+  void onSetData();
+
+  void onStartPre();
+
+  void onRefreshPre();
+
+  void onCheckInPre();
+
+  void onCheckOutPre();
+
+  void onRevertPre();
+
+  void onStartPost();
+
+  void onRefreshPost();
+
+  void onCheckInPost();
+
+  void onCheckOutPost();
+
+  void onRevertPost();
+
+  void onServiceFailed();
+
+  void onServicePost();
+
+  void onValidatePost(IMessageSource msgs);
 }

@@ -15,6 +15,7 @@
  */
 package com.gwtao.ui.dialog.client;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.shu4j.utils.message.IMessageSource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -74,20 +75,55 @@ public class MessageDialog {
     buttons.add(noButton);
 
     buttons.setCellHorizontalAlignment(yesButton, HasHorizontalAlignment.ALIGN_RIGHT);
-    buttons.setCellHorizontalAlignment(yesButton, HasHorizontalAlignment.ALIGN_RIGHT);
+    buttons.setCellHorizontalAlignment(noButton, HasHorizontalAlignment.ALIGN_RIGHT);
 
     dialogBox.center();
     dialogBox.show();
   }
 
-  public static void alert(String string, String closeMessage, AsyncOKAnswere answere) {
-    // TODO Auto-generated method stub
+  public static void alert(String title, String message, final AsyncOKAnswere answere) {
+    final DialogBox dialogBox = new DialogBox();
+    dialogBox.ensureDebugId("cwDialogBox");
+    dialogBox.setText(title);
+    dialogBox.setGlassEnabled(true);
 
+    VerticalPanel dialogContents = new VerticalPanel();
+    dialogBox.setWidget(dialogContents);
+
+    // Create a table to layout the content
+    HorizontalPanel info = new HorizontalPanel();
+    info.setSpacing(4);
+    dialogContents.add(info);
+
+    // Image image = new Image(Showcase.images.jimmy());
+    // dialogContents.add(image);
+    // dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
+
+    // Add some text to the top of the dialog
+    HTML details = new HTML(message);
+    dialogContents.add(details);
+    dialogContents.setCellHorizontalAlignment(details, HasHorizontalAlignment.ALIGN_CENTER);
+
+    HorizontalPanel buttons = new HorizontalPanel();
+    info.setSpacing(4);
+    dialogContents.add(buttons);
+
+    Button okButton = new Button("Ok", new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        dialogBox.hide();
+        answere.onOk();
+      }
+    });
+    buttons.add(okButton);
+
+    buttons.setCellHorizontalAlignment(okButton, HasHorizontalAlignment.ALIGN_RIGHT);
+
+    dialogBox.center();
+    dialogBox.show();
   }
 
   public static void alert(String title, IMessageSource messages, AsyncOKAnswere answere) {
-    // TODO Auto-generated method stub
-
+    throw new NotImplementedException();
   }
 
 }

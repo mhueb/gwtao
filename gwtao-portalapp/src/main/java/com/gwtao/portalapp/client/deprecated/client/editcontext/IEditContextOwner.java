@@ -13,11 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.portalapp.client.document;
+package com.gwtao.portalapp.client.deprecated.client.editcontext;
 
-import com.gwtao.portalapp.client.deprecated.client.editcontext.IEditContext;
+import com.gwtao.ui.util.client.mask.IWaitMask;
 
-
-public interface IDocumentEditor extends IDocument {
+public interface IEditContextOwner {
   IEditContext<?> getEditContext();
+
+  IWaitMask getMask();
 }

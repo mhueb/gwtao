@@ -13,11 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.portalapp.client.document;
+package com.gwtao.portalapp.client.deprecated.client;
 
-import com.gwtao.portalapp.client.deprecated.client.editcontext.IEditContext;
+public class ContextImageBundle {
 
+	public static final String CHECKIN_ICON = "CHECKIN_ICON";
+	public static final String EDIT_ICON = "EDIT_ICON";
+	public static final String REFRESH_ICON = "REFRESH_ICON";
+	public static final String REVERT_ICON = "REVERT_ICON";
+  public static final String SEARCH_ICON = "SEARCH_ICON";
+  public static final String NEW_ICON = "NEW_ICON";
+  public static final String DELETE_ICON = "DELETE_ICON";
+  public static final String CLOSE_ICON = "CLOSE_ICON";
 
-public interface IDocumentEditor extends IDocument {
-  IEditContext<?> getEditContext();
 }
