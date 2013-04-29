@@ -37,6 +37,7 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.editor.rebind.model.ModelUtils;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
@@ -48,6 +49,7 @@ import com.gwtao.ui.viewdriver.client.adapter.DateBoxAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IDPickerAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter.WidgetType;
+import com.gwtao.ui.viewdriver.client.adapter.PasswordTextBoxAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.TextAreaAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.ValueBoxBaseAdapter;
 import com.gwtao.ui.viewdriver.client.adapter.ValueListBoxAdapter;
@@ -65,6 +67,7 @@ public class ViewDriverFactoryGenerator extends Generator {
         ValueListBoxAdapter.class.getName(),
         DateBoxAdapter.class.getName(),
         TextAreaAdapter.class.getName(),
+        PasswordTextBoxAdapter.class.getName(),
         CheckBoxAdapter.class.getName(),
         IDPickerAdapter.class.getName() };
 
