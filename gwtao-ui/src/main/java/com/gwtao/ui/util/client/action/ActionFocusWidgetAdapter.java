@@ -32,7 +32,7 @@ public class ActionFocusWidgetAdapter implements IActionWidgetAdapter {
     this.data = data == null ? new NullDataSource<Object>(Permission.ALLOWED) : data;
     this.widget = widget;
     this.data.addHandler(new DataChangedEvent.Handler() {
-      
+
       @Override
       public void onDataChanged() {
         update();
@@ -81,6 +81,15 @@ public class ActionFocusWidgetAdapter implements IActionWidgetAdapter {
   protected void show(boolean show) {
     if (this.widget.isVisible() != show)
       this.widget.setVisible(show);
+  }
+
+  public void addAdapter() {
+    action.getWidgetHandler().addAdapter(this);
+    update();
+  }
+
+  public void removeAdapter() {
+    action.getWidgetHandler().removeAdapter(this);
   }
 
 }
