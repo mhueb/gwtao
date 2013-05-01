@@ -62,9 +62,16 @@ public abstract class FileUploadServlet extends HttpServlet {
         FileUploadServlet.this.log.severe(comment);
         break;
       case WARNING:
-        FileUploadServlet.this.log.severe(comment);
+        FileUploadServlet.this.log.warning(comment);
+        break;
+      case INFO:
+        FileUploadServlet.this.log.info(comment);
+        break;
+      case TRACE:
+        FileUploadServlet.this.log.fine(comment);
         break;
       }
+
     }
 
     @Override

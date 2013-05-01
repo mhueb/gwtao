@@ -30,12 +30,12 @@ public class TaskPanelEntry extends Composite {
 
     String className = tasks.getFirstChildElement().getClassName();
     tasks.removeChild(tasks.getFirstChildElement());
-    for (CardItem action : set) {
-      if (action.isToken()) {
+    for (CardItem item : set) {
+      if (item.isToken()) {
         AnchorElement span = AnchorElement.as(DOM.createAnchor());
         span.setClassName(className);
-        span.setHref("#" + action.asToken().getToken());
-        span.setInnerText(action.getTitle());
+        span.setHref("#" + item.asToken().getToken());
+        span.setInnerText(item.getTitle());
         tasks.appendChild(span);
       }
     }

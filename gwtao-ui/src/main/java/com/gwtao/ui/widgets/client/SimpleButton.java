@@ -1,6 +1,6 @@
 package com.gwtao.ui.widgets.client;
 
-import org.shu4j.utils.permission.Permission;
+import org.apache.commons.lang.Validate;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,6 +12,8 @@ import com.gwtao.ui.util.client.action.ActionUtil;
 import com.gwtao.ui.util.client.action.IAction;
 
 public class SimpleButton extends Button {
+  private ActionFocusWidgetAdapter adapter;
+
   public SimpleButton() {
   }
 
@@ -20,26 +22,36 @@ public class SimpleButton extends Button {
   }
 
   public void setAction(final IAction action, final IDataSource<?> source) {
-    addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        ActionUtil.saveExecute(GWTUtil.createEventInfo(event), action, source);
-      }
-    });
-
-    action.getWidgetHandler().addAdapter(new ActionFocusWidgetAdapter(action, this, source) {
+    Validate.isTrue(this.adapter == null);
+    this.adapter = new ActionFocusWidgetAdapter(action, this, source) {
       @Override
       public void update() {
         super.update();
-        updateText(action);
+        setText(action.getTitle());
+        setTitle(action.getTooltip());
+      }
+    };
+    addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        if (action != null)
+          ActionUtil.saveExecute(GWTUtil.createEventInfo(event), action, source);
       }
     });
-
-    action.getWidgetHandler().update();
+    if (isAttached())
+      adapter.addAdapter();
   }
 
-  private void updateText(final IAction action) {
-    setText(action.getTitle());
-    setTitle(action.getTooltip());
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    if (adapter != null)
+      adapter.addAdapter();
   }
 
+  @Override
+  protected void onUnload() {
+    if (adapter != null)
+      adapter.removeAdapter();
+    super.onUnload();
+  }
 }
