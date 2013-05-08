@@ -243,6 +243,8 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   public void onServiceFailure(Throwable caught) {
     unmask();
     state = State.FAILED;
+    view.alert("Service Failure", caught.getMessage(), AsyncOKAnswere.OK);
+    notifyChange();
   }
 
   protected void handleDriverErrors() {

@@ -35,6 +35,22 @@ public final class CSSUtils {
     return calcSize(elem, "marginTop", true);
   }
 
+  public static int calcBorderHeight(Element elem) {
+    return calcSize(elem, "borderTopWidth", true) + calcSize(elem, "borderBottomWidth", true);
+  }
+
+  public static int calcBorderWidth(Element elem) {
+    return calcSize(elem, "borderLeftWidth", false) + calcSize(elem, "borderRightWidth", false);
+  }
+
+  public static int calcBorderLeft(Element elem) {
+    return calcSize(elem, "borderLeftWidth", true);
+  }
+
+  public static int calcBorderTop(Element elem) {
+    return calcSize(elem, "borderTopWidth", true);
+  }
+
   public static int calcPaddingHeight(Element elem) {
     return calcSize(elem, "paddingTop", true) + calcSize(elem, "paddingBottom", true);
   }
