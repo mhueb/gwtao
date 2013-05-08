@@ -105,11 +105,11 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
   protected static void placeWidget(Widget widget, int left, int top, int width, int height) {
     Element elem = widget.getElement();
 
-    int cx = CSSUtils.calcMarginLeft(elem);
-    int cy = CSSUtils.calcMarginTop(elem);
+    int cx = CSSUtils.calcMarginLeft(elem) + CSSUtils.calcBorderLeft(elem);
+    int cy = CSSUtils.calcMarginTop(elem) + CSSUtils.calcBorderTop(elem);
 
-    int mw = CSSUtils.calcMarginWidth(elem);
-    int mh = CSSUtils.calcMarginHeight(elem);
+    int mw = CSSUtils.calcMarginWidth(elem) + CSSUtils.calcBorderWidth(elem);
+    int mh = CSSUtils.calcMarginHeight(elem) + CSSUtils.calcBorderHeight(elem);
 
     mw += CSSUtils.calcPaddingWidth(elem);
     mh += CSSUtils.calcPaddingHeight(elem);

@@ -23,7 +23,9 @@ public class ViewDriver<M> implements IViewDriver<M> {
   @Override
   public void updateView(M model, Permission perm) {
     for (IFieldAdapter<M, ?> field : fields) {
-      field.updateView(model);
+      if (model != null)
+        field.updateView(model);
+      field.setPermission(perm);
     }
   }
 
