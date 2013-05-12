@@ -25,6 +25,7 @@ public interface ColumnGenerator<V> {
     Class<? extends Cell<?>> cellType() default Default.class;
 
     String title() default "";
+    boolean sortable() default false;
   }
 
   @Documented

@@ -12,7 +12,7 @@ public class ActionPanel extends Composite {
 
   public ActionPanel() {
     buttons = new HorizontalPanel();
-    buttons.setSpacing(8);
+    buttons.setSpacing(4);
     initWidget(buttons);
   }
 
