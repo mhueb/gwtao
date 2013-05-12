@@ -21,10 +21,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -40,8 +38,10 @@ import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
+import com.gwtao.ui.cellview.client.BooleanCell;
 import com.gwtao.ui.cellview.client.ColumnGenerator.Default;
 import com.gwtao.ui.cellview.client.ColumnGenerator.GenColumn;
+import com.gwtao.ui.cellview.client.TextCellEx;
 import com.gwtao.ui.util.generator.TypeUtils;
 
 public class ColumnGenerator extends Generator {
@@ -147,6 +147,8 @@ public class ColumnGenerator extends Generator {
       src.println("    grid.addColumn( view.%s );", uiField.getName());
     else
       src.println("    grid.addColumn( view.%s, \"%s\" );", uiField.getName(), info.title());
+    if (info.sortable())
+      src.println("    view.%s.setSortable( true );", uiField.getName());
 
     src.println("  }");
   }
@@ -156,17 +158,17 @@ public class ColumnGenerator extends Generator {
       src.println("  %s %s = new %s();", cellType.getName(), cellName, cellType.getName());
     }
     else if (String.class.getName().equals(valueType.getQualifiedSourceName())) {
-      src.println("  %s %s = new %s();", TextCell.class.getName(), cellName, TextCell.class.getName());
+      src.println("  %s %s = new %s();", TextCellEx.class.getName(), cellName, TextCellEx.class.getName());
     }
     else if (Date.class.getName().equals(valueType.getQualifiedSourceName())) {
-      src.println("  com.google.gwt.i18n.client.DateTimeFormat fmt_%s = com.google.gwt.i18n.client.DateTimeFormat.getFormat(\"MM/dd/yyyy\");", cellName);
+      src.println("  com.google.gwt.i18n.client.DateTimeFormat fmt_%s = com.google.gwt.i18n.client.DateTimeFormat.getFormat(com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat.DATE_MEDIUM);", cellName);
       src.println("  %s %s = new %s(fmt_%s);", DateCell.class.getName(), cellName, DateCell.class.getName(), cellName);
     }
     else if (Number.class.getName().equals(valueType.getQualifiedSourceName())) {
       src.println("  %s %s = new %s();", NumberCell.class.getName(), cellName, NumberCell.class.getName());
     }
     else if ("boolean".equals(valueType.getQualifiedSourceName()) || Boolean.class.getName().equals(valueType.getQualifiedSourceName())) {
-      src.println("  %s %s = new %s(false);", CheckboxCell.class.getName(), cellName, CheckboxCell.class.getName());
+      src.println("  %s %s = new %s();", BooleanCell.class.getName(), cellName, BooleanCell.class.getName());
     }
     else
       throw new NotFoundException("Unable to compute cell type for: " + valueType.getQualifiedSourceName());
