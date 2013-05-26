@@ -15,14 +15,13 @@
  */
 package com.gwtao.ui.layout.client;
 
+import com.google.gwt.dom.client.Element;
 import com.gwtao.ui.util.client.Size;
 
 public class LayoutData {
 
-  private final int minWidth;
-  private final int minHeight;
-
-  // int effectiveMinWidth, effectiveMinHeight;
+  private int minWidth;
+  private int minHeight;
 
   public LayoutData(int minWidth, int minHeight) {
     this.minWidth = minWidth;
@@ -46,9 +45,12 @@ public class LayoutData {
     return horizontal ? minWidth : minHeight;
   }
 
-  // public Size getEffectiveMinSize() {
-  // return new Size(effectiveMinWidth, effectiveMinHeight);
-  // }
+  void init(Element el) {
+    if( minWidth == -1 )
+      minWidth = el.getOffsetWidth();
+    if( minHeight == -1 )
+      minHeight = el.getOffsetHeight();
+  }
 
   public Size getMinSize() {
     return new Size(minWidth, minHeight);

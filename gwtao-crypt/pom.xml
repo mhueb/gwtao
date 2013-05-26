@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.gwtao</groupId>
 		<artifactId>gwtao-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath>../gwtao-parent/pom.xml</relativePath>
 	</parent>
 
@@ -30,10 +30,6 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.shu4j</groupId>
-			<artifactId>shu4j-utils</artifactId>
 		</dependency>
 	</dependencies>
 

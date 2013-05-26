@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>gwtao-emul</artifactId>
+	<artifactId>gwtao-webapp</artifactId>
+	<name>gwtao webapp</name>
 	<packaging>jar</packaging>
-	<name>gwtao emul</name>
-	<description>emulation of some common used api</description>
+	<description>gwt web application</description>
 
 	<parent>
 		<groupId>com.gwtao</groupId>
@@ -17,13 +17,28 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-			<scope>runtime</scope>
+			<artifactId>gwt-user</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<scope>provided</scope>
+			<artifactId>gwt-dev</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtao</groupId>
+			<artifactId>gwtao-emul</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtao</groupId>
+			<artifactId>gwtao-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.shu4j</groupId>
+			<artifactId>shu4j-utils</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -40,6 +55,4 @@
 		</resources>
 	</build>
 
-	<profiles>
-	</profiles>
 </project>

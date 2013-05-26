@@ -106,7 +106,13 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
 
   @Override
   protected void onLoad() {
-    layout.measure();
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        layout.measure();
+      }
+    });
+
     if (ATTACH_ROOT == this) {
       ATTACH_ROOT = null;
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
