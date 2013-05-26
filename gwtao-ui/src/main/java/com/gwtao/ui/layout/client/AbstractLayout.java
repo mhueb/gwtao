@@ -74,8 +74,9 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
     // return ((ILayoutContainer) widget).getMinSize();
     // else if (widget instanceof Panel)
     // return Size.ZERO;
-    LayoutData fld = getWidgetData(widget);
-    return fld.getMinSize(); // new Size(0, 0);// widget.getOffsetWidth(), widget.getOffsetHeight());
+    LayoutData ld = getWidgetData(widget);
+    ld.init(widget.getElement());
+    return ld.getMinSize(); // new Size(0, 0);// widget.getOffsetWidth(), widget.getOffsetHeight());
   }
 
   // protected Size updateEffectiveMinSize(Widget widget) {

@@ -10,9 +10,9 @@ public class TextCellEx extends AbstractCell<String> {
   public void render(com.google.gwt.cell.client.Cell.Context context, String value, SafeHtmlBuilder sb) {
     SafeHtml s = SafeHtmlUtils.fromTrustedString("<div style='overflow:hidden; white-space:nowrap; text-overflow:ellipsis;' title='");
     sb.append(s);
-    sb.appendEscapedLines(value);
+    sb.appendEscapedLines(value!=null?value:"");
     sb.append(SafeHtmlUtils.fromTrustedString("'>"));
-    sb.appendEscapedLines(value);
+    sb.appendEscapedLines(value!=null?value:"");
     sb.appendHtmlConstant("</div>");
 
   }

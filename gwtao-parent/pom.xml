@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gwtao</groupId>
 	<artifactId>gwtao-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>gwt add-ons</name>
 	<packaging>pom</packaging>
 
@@ -38,12 +38,10 @@
 
 	<modules>
 		<module>../gwtao-emul</module>
-		<module>../gwtao-cdi</module>
 		<module>../gwtao-fileio</module>
 		<module>../gwtao-crypt</module>
-		<module>../gwtao-rest</module>
 		<module>../gwtao-ui</module>
-		<module>../gwtao-app</module>
+		<module>../gwtao-webapp</module>
 		<module>../gwtao-portalapp</module>
 		<module>../gwtao-showcase</module>
 	</modules>
@@ -92,8 +90,12 @@
 			<dependency>
 				<groupId>org.shu4j</groupId>
 				<artifactId>shu4j-utils</artifactId>
-				<version>0.1.1-SNAPSHOT</version>
-				<scope>provided</scope>
+				<version>0.2.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.shu4j</groupId>
+				<artifactId>shu4j-gwt</artifactId>
+				<version>0.2.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.gwtao</groupId>
@@ -103,25 +105,13 @@
 			</dependency>
 			<dependency>
 				<groupId>com.gwtao</groupId>
-				<artifactId>gwtao-cdi</artifactId>
-				<version>${project.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.gwtao</groupId>
-				<artifactId>gwtao-utils</artifactId>
+				<artifactId>gwtao-fileio</artifactId>
 				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.gwtao</groupId>
 				<artifactId>gwtao-ui</artifactId>
-				<version>${project.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.gwtao</groupId>
-				<artifactId>gwtao-rest</artifactId>
 				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>

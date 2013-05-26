@@ -34,10 +34,10 @@ import com.google.gwt.user.client.ui.TabBar;
 import com.gwtao.portalapp.client.part.IPortalPart;
 import com.gwtao.portalapp.client.part.IPortalPartContext;
 import com.gwtao.ui.dialog.client.MessageDialog;
-import com.gwtao.ui.toolbar.client.Toolbar;
 import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.card.ICard;
+import com.gwtao.ui.widgets.client.Toolbar;
 
 public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite implements IViewNavigator {
 
