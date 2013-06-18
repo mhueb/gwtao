@@ -22,9 +22,9 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
-import com.gwtao.ui.location.client.Location;
 import com.gwtao.ui.location.client.LocationManager;
-import com.gwtao.ui.location.client.UnkownLocation;
+import com.gwtao.ui.location.client.Token;
+import com.gwtao.ui.location.client.UnkownLocationException;
 
 public abstract class WebApp implements IPresenterManager<PageContext> {
 
@@ -46,26 +46,26 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
   }
 
   @Override
-  public boolean beforeChange(Location location) {
-    if (!Pages.REGISTRY.hasToken(location.getId()))
-      throw new UnkownLocation(location);
+  public boolean beforeChange(Token token) {
+    if (!PageFactoryRegistry.REGISTRY.hasToken(token.getName()))
+      throw new UnkownLocationException(token);
     return false;
   }
 
   @Override
-  public final PageContext createPresenter(Location location) {
-    IPage document = createPage(location.getId());
-    return new PageContext(eventbus, frame, document, location);
+  public final PageContext createPresenter(Token token) {
+    IPage document = createPage(token.getName());
+    return new PageContext(eventbus, frame, document, token);
   }
 
   protected IPage createPage(String id) {
-    return Pages.REGISTRY.create(id);
+    return PageFactoryRegistry.REGISTRY.create(id);
   }
 
   @Override
   public void activate(PageContext presenter) {
     presenter.show();
-    updateWindowTitle(presenter.asDisplayableItem().getTitle());
+    updateWindowTitle(presenter.asDisplayableItem().getDisplayTitle());
   }
 
   @Override
@@ -75,12 +75,12 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
   }
 
   @Override
-  public PageContext createErrorPresenter(Location location, String errorMessage) {
-    IPage document = createErrorPage(location, errorMessage);
-    return new PageContext(eventbus, frame, document, location);
+  public PageContext createErrorPresenter(Token token, String errorMessage) {
+    IPage page = createErrorPage(token, errorMessage);
+    return new PageContext(eventbus, frame, page, token);
   }
 
-  protected abstract IPage createErrorPage(Location location, String errorMessage);
+  protected abstract IPage createErrorPage(Token token, String errorMessage);
 
   @Override
   public String canClose(PageContext presenter) {

@@ -16,9 +16,9 @@
 package com.gwtao.ui.util.client;
 
 public interface IDisplayableItem {
-  String getTitle();
+  String getDisplayTitle();
 
-  String getIcon();
+  String getDisplayIcon();
 
-  String getTooltip();
+  String getDisplayTooltip();
 }

@@ -42,17 +42,17 @@ public abstract class PortalLookFactory implements IPortalLookFactory {
   }
 
   @Override
-  public String getIcon() {
+  public String getDisplayIcon() {
     return icon;
   }
 
   @Override
-  public String getTitle() {
+  public String getDisplayTitle() {
     return title;
   }
 
   @Override
-  public String getTooltip() {
+  public String getDisplayTooltip() {
     return tooltip;
   }
 

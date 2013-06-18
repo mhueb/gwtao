@@ -59,7 +59,7 @@ public class BreadCrumps extends ComplexPanel {
   private void add(IBreadCrumb breadCrumb) {
     Button button = new Button();
     button.setStylePrimaryName("gwtao_breadcrumb");
-    button.setText(breadCrumb.getTitle());
+    button.setText(breadCrumb.getDisplayTitle());
     super.insert(button, getElement(), getWidgetCount(), true);
   }
   

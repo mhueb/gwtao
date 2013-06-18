@@ -4,24 +4,23 @@ import javax.validation.Validator;
 
 import com.gwtao.ui.data.client.source.IDataSource;
 import com.gwtao.ui.task.client.AbstractTaskController.State;
-import com.gwtao.ui.util.client.ParameterList;
 
-public interface ITaskController<M> extends IDataSource<M> {
+public interface ITaskController<P, M> extends IDataSource<M> {
+  Validator getValidator();
 
-  public Validator getValidator();
+  State getState();
 
-  public State getState();
+  boolean isDirty();
 
-  public boolean isDirty();
+  void start(P param);
 
-  public void start(ParameterList param);
+  void perform();
 
-  public void execute();
+  void perform(IAsyncTaskPerformer<M> performer);
 
-  public void refresh();
+  void refresh();
 
-  public void edit( M model );
+  void edit(M model);
 
-  public boolean validateAndFlush();
-
+  boolean validateAndFlush();
 }

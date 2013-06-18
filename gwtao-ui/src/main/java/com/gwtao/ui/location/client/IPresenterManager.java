@@ -16,15 +16,15 @@
 package com.gwtao.ui.location.client;
 
 public interface IPresenterManager<T> {
-  boolean beforeChange(Location location);
+  boolean beforeChange(Token location);
 
-  T createPresenter(Location token);
+  T createPresenter(Token token);
 
   void activate(T presenter);
 
   boolean deactivate(T presenter);
 
-  T createErrorPresenter(Location location, String errorMessage);
+  T createErrorPresenter(Token token, String errorMessage);
 
   String canClose(T presenter);
 }

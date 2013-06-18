@@ -19,7 +19,7 @@ import java.util.List;
 
 import com.gwtao.portalapp.client.document.IDocumentDescriptor.Accordance;
 import com.gwtao.portalapp.client.factory.IGenericRegistry;
-import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.Token;
 
 public interface IDocumentRegistry extends IGenericRegistry<IDocument, IDocumentDescriptor> {
 
@@ -47,5 +47,5 @@ public interface IDocumentRegistry extends IGenericRegistry<IDocument, IDocument
 
   IDocument create(String id, Object parameter);
 
-  Location buildToken(String id, Object parameter);
+  Token buildToken(String id, Object parameter);
 }

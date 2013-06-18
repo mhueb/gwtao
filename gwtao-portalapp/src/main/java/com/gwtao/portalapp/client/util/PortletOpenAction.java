@@ -33,18 +33,18 @@ public class PortletOpenAction implements IAction {
   }
 
   @Override
-  public String getTitle() {
-    return pd.getTitle();
+  public String getDisplayTitle() {
+    return pd.getDisplayTitle();
   }
 
   @Override
-  public String getIcon() {
-    return pd.getIcon();
+  public String getDisplayIcon() {
+    return pd.getDisplayIcon();
   }
 
   @Override
-  public String getTooltip() {
-    return pd.getTooltip();
+  public String getDisplayTooltip() {
+    return pd.getDisplayTooltip();
   }
 
   @Override

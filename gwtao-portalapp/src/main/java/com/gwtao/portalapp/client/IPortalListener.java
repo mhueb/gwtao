@@ -17,10 +17,10 @@ package com.gwtao.portalapp.client;
 
 import com.gwtao.portalapp.client.document.IDocument;
 import com.gwtao.portalapp.client.portlet.IPortlet;
-import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.Token;
 
 public interface IPortalListener {
-  boolean beforChange(Location location);
+  boolean beforChange(Token token);
 
   void onDocumentSwitch(IDocument doc);
 

@@ -8,7 +8,7 @@ import org.apache.commons.lang.Validate;
 
 import com.gwtao.ui.util.client.DisplayableItem;
 import com.gwtao.ui.util.client.IDisplayableItem;
-import com.gwtao.ui.util.client.Token;
+import com.gwtao.ui.util.client.NavigationItem;
 import com.gwtao.ui.util.client.action.IAction;
 
 /**
@@ -44,22 +44,22 @@ public class Card implements ICard {
     add(new CardItem(action));
   }
 
-  public void add(Token token) {
+  public void add(NavigationItem token) {
     add(new CardItem(token));
   }
 
   @Override
-  public String getIcon() {
-    return display.getIcon();
+  public String getDisplayIcon() {
+    return display.getDisplayIcon();
   }
 
   @Override
-  public String getTitle() {
-    return display.getTitle();
+  public String getDisplayTitle() {
+    return display.getDisplayTitle();
   }
 
-  public String getTooltip() {
-    return display.getTooltip();
+  public String getDisplayTooltip() {
+    return display.getDisplayTooltip();
   }
 
   @Override

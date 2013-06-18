@@ -26,7 +26,7 @@ public class TaskPanelEntry extends Composite {
 
   public TaskPanelEntry(ICard set) {
     initWidget(uiBinder.createAndBindUi(this));
-    headLine.setInnerText(set.getTitle());
+    headLine.setInnerText(set.getDisplayTitle());
 
     String className = tasks.getFirstChildElement().getClassName();
     tasks.removeChild(tasks.getFirstChildElement());
@@ -35,7 +35,7 @@ public class TaskPanelEntry extends Composite {
         AnchorElement span = AnchorElement.as(DOM.createAnchor());
         span.setClassName(className);
         span.setHref("#" + item.asToken().getToken());
-        span.setInnerText(item.getTitle());
+        span.setInnerText(item.getDisplayTitle());
         tasks.appendChild(span);
       }
     }

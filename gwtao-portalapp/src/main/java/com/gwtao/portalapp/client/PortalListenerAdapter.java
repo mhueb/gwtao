@@ -17,11 +17,11 @@ package com.gwtao.portalapp.client;
 
 import com.gwtao.portalapp.client.document.IDocument;
 import com.gwtao.portalapp.client.portlet.IPortlet;
-import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.Token;
 
 public class PortalListenerAdapter implements IPortalListener {
   @Override
-  public boolean beforChange(Location location) {
+  public boolean beforChange(Token token) {
     return true;
   }
 

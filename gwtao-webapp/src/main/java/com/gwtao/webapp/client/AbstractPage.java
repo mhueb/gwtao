@@ -52,4 +52,14 @@ public abstract class AbstractPage extends Composite implements IPage, RequiresR
       ((RequiresResize) getWidget()).onResize();
     }
   }
+
+  @Override
+  public String getDisplayIcon() {
+    return null;
+  }
+
+  @Override
+  public String getDisplayTooltip() {
+    return null;
+  }
 }

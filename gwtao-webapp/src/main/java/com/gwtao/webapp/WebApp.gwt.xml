@@ -3,11 +3,5 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.gwtao.ui.UI" />
-
 	<source path="client" />
-
-	<generate-with class="com.gwtao.webapp.generator.PageFactoryGenerator">
-		<when-type-assignable class="com.gwtao.webapp.client.Pages" />
-	</generate-with>
-
 </module>

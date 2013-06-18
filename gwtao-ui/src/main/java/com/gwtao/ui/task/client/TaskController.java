@@ -4,14 +4,15 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 
+import com.gwtao.ui.location.client.IParameterConverter;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 
-public final class TaskController<M> extends AbstractTaskController<M> {
+public final class TaskController<P, M> extends AbstractTaskController<P, M> {
 
   private IViewDriver<M> viewMgr;
 
-  public TaskController(IViewDriver<M> viewMgr, IServiceAdapter<M> serviceAdapter) {
-    super(serviceAdapter);
+  public TaskController(IViewDriver<M> viewMgr, IParameterConverter<P, M> converter, IAsyncDataReader<P, M> reader, IAsyncTaskPerformer<M> performer) {
+    super(converter, reader, performer);
     this.viewMgr = viewMgr;
   }
 
@@ -31,7 +32,7 @@ public final class TaskController<M> extends AbstractTaskController<M> {
   @Override
   protected M flush() {
     viewMgr.updateModel(getData());
-    
+
     return getData();
   }
 

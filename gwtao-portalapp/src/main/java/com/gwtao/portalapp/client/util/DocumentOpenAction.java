@@ -52,18 +52,18 @@ public class DocumentOpenAction implements IAction {
   }
 
   @Override
-  public String getIcon() {
-    return this.descr.getIcon();
+  public String getDisplayIcon() {
+    return this.descr.getDisplayIcon();
   }
 
   @Override
-  public String getTitle() {
-    return this.descr.getTitle();
+  public String getDisplayTitle() {
+    return this.descr.getDisplayTitle();
   }
 
   @Override
-  public String getTooltip() {
-    return descr.getTooltip();
+  public String getDisplayTooltip() {
+    return descr.getDisplayTooltip();
   }
 
   @Override

@@ -16,58 +16,63 @@
 package com.gwtao.webapp.client;
 
 import com.google.gwt.event.shared.EventBus;
-import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.Token;
+import com.gwtao.ui.location.client.TokenUtils;
 import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.ParameterList;
 
 public class PageContext implements IPageContext {
 
-  private final IPage document;
-  private final Location location;
+  private final IPage page;
+  private final Token token;
   private final IAppFrame frame;
   private final EventBus eventBus;
 
-  public PageContext(EventBus eventBus, IAppFrame frame, IPage document, Location location) {
+  public PageContext(EventBus eventBus, IAppFrame frame, IPage page, Token token) {
     this.eventBus = eventBus;
     this.frame = frame;
-    this.document = document;
-    this.location = location;
-    document.init(this);
+    this.page = page;
+    this.token = token;
+    page.init(this);
   }
 
   public IDisplayableItem asDisplayableItem() {
-    return document.asDisplayableItem();
+    return page;
   }
 
   @Override
-  public void switchParameter(String parameter) {
-    // TODO Auto-generated method stub
-
+  public void switchToken(ParameterList parameter) {
+    // Token newToken = TokenUtils.buildToken(token.getName(), parameter);
+    // if (!newToken.equals(token)) {
+    // this.locationManager.switchToken(this, token);
+    // this.token = newToken;
+    // }
   }
 
   @Override
   public void close() {
-    frame.close(document);
+    frame.close(page);
   }
 
   @Override
   public void show() {
-    frame.show(document);
-    document.activate();
+    frame.show(page);
+    page.activate();
   }
 
   @Override
   public void updateTitle() {
-    frame.updateTitle(document);
-    frame.getApp().updateWindowTitle(asDisplayableItem().getTitle());
+    frame.updateTitle(page);
+    frame.getApp().updateWindowTitle(asDisplayableItem().getDisplayTitle());
   }
 
   public String canClose() {
-    return document.canClose();
+    return page.canClose();
   }
 
   @Override
   public String getParameter() {
-    return location.getParameters();
+    return token.getParameters();
   }
 
   @Override

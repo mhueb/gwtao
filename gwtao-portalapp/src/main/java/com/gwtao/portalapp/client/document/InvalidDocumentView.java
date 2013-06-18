@@ -22,14 +22,16 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.portalapp.client.view.AbstractPortalView;
-import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.Token;
+import com.gwtao.ui.util.client.ParameterList;
+import com.gwtao.ui.util.client.ParameterList.Builder;
 
 public class InvalidDocumentView extends AbstractPortalView implements IDocument, IDocumentDescriptor {
-  private final Location token;
+  private final Token token;
   private final String errorMessage;
   private ScrollPanel scroll;
 
-  public InvalidDocumentView(Location token, String errorMessage) {
+  public InvalidDocumentView(Token token, String errorMessage) {
     this.token = token;
     this.errorMessage = errorMessage;
   }
@@ -115,17 +117,17 @@ public class InvalidDocumentView extends AbstractPortalView implements IDocument
   }
 
   @Override
-  public String getIcon() {
+  public String getDisplayIcon() {
     return null;
   }
 
   @Override
-  public String getTitle() {
+  public String getDisplayTitle() {
     return "Error";
   }
 
   @Override
-  public String getTooltip() {
+  public String getDisplayTooltip() {
     return null;
   }
 
@@ -135,13 +137,12 @@ public class InvalidDocumentView extends AbstractPortalView implements IDocument
   }
 
   @Override
-  public Object decodeParameter(String params) {
+  public Object decodeParameter(ParameterList param) {
     return null;
   }
 
   @Override
-  public String encodeParameter(Object param) {
-    return null;
+  public void encodeParameter(Builder builder, Object param) {
   }
 
   @Override

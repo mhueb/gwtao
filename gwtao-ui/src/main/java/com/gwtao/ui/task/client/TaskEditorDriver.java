@@ -8,13 +8,14 @@ import org.apache.commons.lang.NotImplementedException;
 
 import com.google.gwt.editor.client.EditorDriver;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
+import com.gwtao.ui.location.client.IParameterConverter;
 
-public final class TaskEditorDriver<M> extends AbstractTaskController<M> {
+public final class TaskEditorDriver<P, M> extends AbstractTaskController<P, M> {
 
   private EditorDriver<M> driver;
 
-  public TaskEditorDriver(EditorDriver<M> driver, IServiceAdapter<M> serviceAdapter) {
-    super(serviceAdapter);
+  public TaskEditorDriver(EditorDriver<M> driver, IParameterConverter<P, M> converter, IAsyncDataReader<P, M> reader, IAsyncTaskPerformer<M> performer) {
+    super(converter, reader, performer);
     this.driver = driver;
   }
 
