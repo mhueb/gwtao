@@ -19,24 +19,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class PageFactoryRegistry {
-  public interface Entry {
-    String getToken();
+  public static final PageFactoryRegistry REGISTRY = new PageFactoryRegistry();
 
-    IPage create();
-  }
+  private final Map<String, IPageFactory> descriptorMap = new HashMap<String, IPageFactory>();
 
-  private final Map<String, Entry> descriptorMap = new HashMap<String, Entry>();
-
-  public void register(Entry entry) {
-    descriptorMap.put(entry.getToken(), entry);
+  public void register(IPageFactory entry) {
+    descriptorMap.put(entry.getTokenName(), entry);
   }
 
   public IPage create(String token) {
-    Entry factory = descriptorMap.get(token);
+    IPageFactory factory = descriptorMap.get(token);
     if (factory == null)
       throw new RuntimeException();
 
-    return factory.create();
+    return factory.createPage();
   }
 
   public boolean hasToken(String token) {

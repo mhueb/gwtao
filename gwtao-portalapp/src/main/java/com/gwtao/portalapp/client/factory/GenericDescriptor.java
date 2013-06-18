@@ -37,17 +37,17 @@ public abstract class GenericDescriptor<T> implements IGenericDescriptor<T> {
   }
 
   @Override
-  public String getIcon() {
+  public String getDisplayIcon() {
     return icon;
   }
 
   @Override
-  public String getTitle() {
+  public String getDisplayTitle() {
     return title;
   }
 
   @Override
-  public String getTooltip() {
+  public String getDisplayTooltip() {
     return null;
   }
 

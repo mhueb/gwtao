@@ -58,15 +58,15 @@ public abstract class Action implements IPrivilegedAction {
     this.tooltip = tooltip;
   }
 
-  public String getIcon() {
+  public String getDisplayIcon() {
     return icon;
   }
 
-  public String getTitle() {
+  public String getDisplayTitle() {
     return title;
   }
 
-  public String getTooltip() {
+  public String getDisplayTooltip() {
     return tooltip;
   }
 

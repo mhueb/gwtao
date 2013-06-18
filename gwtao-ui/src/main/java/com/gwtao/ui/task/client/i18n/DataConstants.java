@@ -42,7 +42,7 @@ public interface DataConstants extends Constants {
 
   String saving();
 
-  String validateErrorsOnSave();
+  String validateErrors();
 
-  String nothingToSave();
+  String nothingChanged();
 }

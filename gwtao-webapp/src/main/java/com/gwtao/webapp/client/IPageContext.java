@@ -16,9 +16,10 @@
 package com.gwtao.webapp.client;
 
 import com.google.gwt.event.shared.EventBus;
+import com.gwtao.ui.util.client.ParameterList;
 
 public interface IPageContext {
-  void switchParameter(String parameter);
+  void switchToken(ParameterList parameter);
 
   String getParameter();
 

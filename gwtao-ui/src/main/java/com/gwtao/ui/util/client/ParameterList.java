@@ -79,8 +79,8 @@ public final class ParameterList implements Iterable<ParameterList.Entry> {
       entries.add(new Entry(name, value));
     }
 
-    public Builder add(String name, String value) {
-      entries.add(new Entry(name, value));
+    public Builder add(String name, Object value) {
+      entries.add(new Entry(name, String.valueOf(value)));
       return this;
     }
 
@@ -90,8 +90,32 @@ public final class ParameterList implements Iterable<ParameterList.Entry> {
     }
   }
 
+  public static Builder getBuilder() {
+    return new Builder();
+  }
+
   public boolean isEmpty() {
     return this.entries.isEmpty();
+  }
+
+  public Long getLong(String name) {
+    String s = get(name);
+    return s == null ? null : Long.parseLong(s);
+  }
+
+  public Integer getInt(String name) {
+    String s = get(name);
+    return s == null ? null : Integer.parseInt(s);
+  }
+
+  public Boolean getBoolean(String name) {
+    String s = get(name);
+    return s == null ? null : Boolean.parseBoolean(s);
+  }
+
+  public boolean isBoolean(String name) {
+    String s = get(name);
+    return s == null ? false : Boolean.parseBoolean(s);
   }
 
   public String get(String string) {

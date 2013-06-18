@@ -112,17 +112,17 @@ public abstract class Portlet extends AbstractPortalView implements IPortlet {
   }
 
   @Override
-  public String getIcon() {
-    return descr.getIcon();
+  public String getDisplayIcon() {
+    return descr.getDisplayIcon();
   }
 
   @Override
-  public String getTitle() {
-    return descr.getTitle();
+  public String getDisplayTitle() {
+    return descr.getDisplayTitle();
   }
 
   @Override
-  public String getTooltip() {
-    return descr.getTooltip();
+  public String getDisplayTooltip() {
+    return descr.getDisplayTooltip();
   }
 }

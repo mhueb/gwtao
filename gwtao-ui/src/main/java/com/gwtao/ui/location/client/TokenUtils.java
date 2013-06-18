@@ -17,34 +17,47 @@ package com.gwtao.ui.location.client;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.gwt.user.client.History;
 import com.gwtao.ui.util.client.ParameterList;
 import com.gwtao.ui.util.client.ParameterList.Builder;
 
-public class LocationUtils {
+public class TokenUtils {
 
-  public static Location buildLocation(String token) {
+  public static Token buildToken(String token) {
     if (StringUtils.isEmpty(token))
-      return Location.NOWHERE;
+      return Token.NOWHERE;
 
-    String id;
+    String name;
     String params;
     int idx = token.indexOf('?');
     if (idx >= 0) {
-      id = token.substring(0, idx);
+      name = token.substring(0, idx);
       params = token.substring(idx + 1);
     }
     else {
-      id = token;
+      name = token;
       params = null;
     }
 
-    return new Location(id, params);
+    return new Token(name, params);
   }
 
-  public static Location buildToken(String id, String params) {
-    if (StringUtils.isEmpty(id))
+  public static Token buildToken(String name, ParameterList params) {
+    if (StringUtils.isEmpty(name))
       return null;
-    return new Location(id, params);
+    return new Token(name, params == null ? null : format(params));
+  }
+
+  private static String format(ParameterList params) {
+    StringBuilder buff = new StringBuilder();
+    for (ParameterList.Entry entry : params) {
+      if (buff.length() > 0)
+        buff.append("&");
+      if (StringUtils.isNotBlank(entry.getName()))
+        buff.append(entry.getName()).append("=");
+      buff.append(entry.getValue());
+    }
+    return buff.toString();
   }
 
   public static ParameterList parse(String parameter) {
@@ -67,4 +80,17 @@ public class LocationUtils {
     return string;
   }
 
+  public static <P, M> Token createByData(HasTokenConverter<P, M> f, M m) {
+    return createByParam(f, f.getConverter().extract(m));
+  }
+
+  public static <P, M> Token createByParam(HasTokenConverter<P, M> f, P p) {
+    Builder builder = ParameterList.getBuilder();
+    f.getConverter().encode(builder, p);
+    return TokenUtils.buildToken(f.getTokenName(), builder.build());
+  }
+
+  public static void newHistoryItem(Token token) {
+    History.newItem(token.getValue());
+  }
 }

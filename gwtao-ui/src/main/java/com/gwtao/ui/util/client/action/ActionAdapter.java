@@ -34,16 +34,16 @@ public class ActionAdapter implements IAction {
     action.execute(data);
   }
 
-  public String getIcon() {
-    return this.action.getIcon();
+  public String getDisplayIcon() {
+    return this.action.getDisplayIcon();
   }
 
-  public String getTitle() {
-    return this.action.getTitle();
+  public String getDisplayTitle() {
+    return this.action.getDisplayTitle();
   }
 
-  public String getTooltip() {
-    return this.action.getTooltip();
+  public String getDisplayTooltip() {
+    return this.action.getDisplayTooltip();
   }
 
   public IAction getAction() {

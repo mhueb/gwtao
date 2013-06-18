@@ -41,13 +41,14 @@ import com.gwtao.portalapp.client.view.IPortalViewStackFactory;
 import com.gwtao.portalapp.client.view.PortalViewStack;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
-import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.location.client.LocationManager;
+import com.gwtao.ui.location.client.TokenUtils;
 import com.gwtao.ui.util.client.DisplayableItem;
 import com.gwtao.ui.util.client.SplashManager;
 import com.gwtao.ui.util.client.card.Card;
-import com.gwtao.ui.util.client.card.ICardSupplier;
 import com.gwtao.ui.util.client.card.ICard;
+import com.gwtao.ui.util.client.card.ICardSupplier;
 
 public class PortalApp implements IPortal {
 
@@ -84,25 +85,25 @@ public class PortalApp implements IPortal {
     manager = new LocationManager<IDocument>(new IPresenterManager<IDocument>() {
 
       @Override
-      public boolean deactivate(IDocument location) {
+      public boolean deactivate(IDocument document) {
         return true;
       }
 
       @Override
-      public IDocument createPresenter(Location token) {
-        String id = token.getId();
+      public IDocument createPresenter(Token token) {
+        String id = token.getName();
         if (StringUtils.isEmpty(id))
           return null;
 
         IDocumentDescriptor descr = DocumentRegistry.get().lookup(id);
         if (descr == null)
-          throw new java.lang.IllegalArgumentException("Document with id=" + token.getId() + " does not exists!");
-        Object parameter = descr.decodeParameter(token.getParameters());
-        return openDocument(token.getId(), parameter);
+          throw new java.lang.IllegalArgumentException("Document with id=" + token.getName() + " does not exists!");
+        Object parameter = descr.decodeParameter(TokenUtils.parse(token.getParameters()));
+        return openDocument(token.getName(), parameter);
       }
 
       @Override
-      public IDocument createErrorPresenter(Location token, String errorMessage) {
+      public IDocument createErrorPresenter(Token token, String errorMessage) {
         // TODO das sollte eigentlich unnötig sein....
         if (frame instanceof NotstartedFrame)
           throw new IllegalStateException();
@@ -118,15 +119,15 @@ public class PortalApp implements IPortal {
       }
 
       @Override
-      public void activate(IDocument location) {
-        location.getViewContext().activate();
+      public void activate(IDocument document) {
+        document.getViewContext().activate();
       }
 
       @Override
-      public boolean beforeChange(Location location) {
+      public boolean beforeChange(Token token) {
         SafeIterator<IPortalListener> it = new SafeIterator<IPortalListener>(listeners);
         while (it.hasNext())
-          if (!it.next().beforChange(location))
+          if (!it.next().beforChange(token))
             return false;
         return true;
       }

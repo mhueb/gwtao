@@ -22,8 +22,9 @@ import java.util.List;
 
 import com.gwtao.portalapp.client.document.IDocumentDescriptor.Accordance;
 import com.gwtao.portalapp.client.factory.GenericRegistry;
-import com.gwtao.ui.location.client.LocationUtils;
-import com.gwtao.ui.location.client.Location;
+import com.gwtao.ui.location.client.TokenUtils;
+import com.gwtao.ui.location.client.Token;
+import com.gwtao.ui.util.client.ParameterList;
 
 public class DocumentRegistry extends GenericRegistry<IDocument, IDocumentDescriptor> implements IDocumentRegistry {
   private static final DocumentRegistry instance = new DocumentRegistry();
@@ -51,13 +52,14 @@ public class DocumentRegistry extends GenericRegistry<IDocument, IDocumentDescri
   }
 
   @Override
-  public Location buildToken(String id, Object parameter) {
+  public Token buildToken(String id, Object parameter) {
     IDocumentDescriptor descriptor = lookup(id);
     if (descriptor == null)
       throw new DocumentFoundException("No proper document found for id '" + id + "'");
 
-    String params = descriptor.encodeParameter(parameter);
-    return LocationUtils.buildToken(id, params);
+    ParameterList.Builder builder = ParameterList.getBuilder();
+    descriptor.encodeParameter(builder, parameter);
+    return TokenUtils.buildToken(id, builder.build());
   }
 
   @Override

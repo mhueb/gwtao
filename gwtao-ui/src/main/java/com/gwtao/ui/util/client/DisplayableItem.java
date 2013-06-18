@@ -16,6 +16,7 @@
 package com.gwtao.ui.util.client;
 
 public class DisplayableItem implements IDisplayableItem {
+  public static final IDisplayableItem EMPTY = new DisplayableItem("");
 
   private String icon;
   private String title;
@@ -48,15 +49,15 @@ public class DisplayableItem implements IDisplayableItem {
     this.tooltip = tooltip;
   }
 
-  public String getIcon() {
+  public String getDisplayIcon() {
     return icon;
   }
 
-  public String getTitle() {
+  public String getDisplayTitle() {
     return title;
   }
 
-  public String getTooltip() {
+  public String getDisplayTooltip() {
     return tooltip;
   }
 }

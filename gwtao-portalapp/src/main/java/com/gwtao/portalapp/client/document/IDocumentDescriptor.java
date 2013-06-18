@@ -16,6 +16,7 @@
 package com.gwtao.portalapp.client.document;
 
 import com.gwtao.portalapp.client.factory.IGenericDescriptor;
+import com.gwtao.ui.util.client.ParameterList;
 
 /**
  * Each document needs a descriptor to decide upon which gwt component should be used for displaying the
@@ -31,9 +32,9 @@ public interface IDocumentDescriptor extends IGenericDescriptor<IDocument> {
     SECONDARY
   };
 
-  String encodeParameter(Object param);
+  void encodeParameter(ParameterList.Builder builder, Object param);
 
-  Object decodeParameter(String param);
+  Object decodeParameter(ParameterList param);
 
   /**
    * Determine whether the implementing component is able to handle the given doc type

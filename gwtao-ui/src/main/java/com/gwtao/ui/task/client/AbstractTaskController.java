@@ -11,18 +11,17 @@ import org.apache.commons.lang.Validate;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtao.ui.data.client.source.AbstractDataSource;
+import com.gwtao.ui.location.client.IParameterConverter;
 import com.gwtao.ui.task.client.events.TaskExecEvent;
 import com.gwtao.ui.task.client.events.TaskRefreshEvent;
 import com.gwtao.ui.task.client.events.TaskStartEvent;
 import com.gwtao.ui.task.client.i18n.DataConstants;
 import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.AsyncYESNOAnswere;
-import com.gwtao.ui.util.client.GlassPane;
-import com.gwtao.ui.util.client.ParameterList;
 import com.gwtao.ui.util.client.mask.IWaitMask;
 import com.gwtao.ui.util.client.mask.WaitMask;
 
-public abstract class AbstractTaskController<M> extends AbstractDataSource<M> implements ITaskController<M> {
+public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M> implements ITaskController<P, M> {
   private final static DataConstants c = GWT.create(DataConstants.class);
 
   protected abstract class Callback<T> implements AsyncCallback<T> {
@@ -34,7 +33,7 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   public static enum State {
     INIT,
     LOADING,
-    EXECUTING,
+    PERFORMING,
     REFRESHING,
     VIEW,
     EDIT,
@@ -44,14 +43,18 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   private State state;
   private State initialState;
   private Validator validator;
-  private ParameterList params;
+  private P params;
   private M model;
   private IWaitMask mask;
-  private final IServiceAdapter<M> service;
   private ITaskView view;
+  private IParameterConverter<P, M> converter;
+  private IAsyncDataReader<P, M> reader;
+  private IAsyncTaskPerformer<M> performer;
 
-  protected AbstractTaskController(IServiceAdapter<M> service) {
-    this.service = service;
+  protected AbstractTaskController(IParameterConverter<P, M> converter, IAsyncDataReader<P, M> reader, IAsyncTaskPerformer<M> performer) {
+    this.converter = converter;
+    this.reader = reader;
+    this.performer = performer;
     this.initialState = State.EDIT;
     this.state = State.INIT;
   }
@@ -103,13 +106,13 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   }
 
   @Override
-  public void start(ParameterList param) {
+  public void start(P param) {
     Validate.isTrue(this.state == State.INIT);
     this.state = State.LOADING;
     this.params = param;
     fireEvent(new TaskStartEvent(true));
     mask(AbstractTaskController.c.loading());
-    service.read(params, new Callback<M>() {
+    reader.read(params, new Callback<M>() {
       @Override
       public void onSuccess(M result) {
         unmask();
@@ -133,7 +136,7 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
       }
       else {
         handleDriverErrors();
-        view.alert(AbstractTaskController.c.save(), AbstractTaskController.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
+        view.alert(AbstractTaskController.c.save(), AbstractTaskController.c.validateErrors(), AsyncOKAnswere.OK);
         return false;
       }
     }
@@ -143,14 +146,18 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
   }
 
   @Override
-  public void execute() {
+  public void perform() {
+    perform(performer);
+  }
+
+  public void perform(IAsyncTaskPerformer<M> performer) {
     Validate.isTrue(this.state == State.EDIT);
     if (isDirty()) {
       fireEvent(new TaskExecEvent(true));
       model = flush();
       if (!hasErrors() && validate(model)) {
-        this.state = State.EXECUTING;
-        mask(AbstractTaskController.c.saving());
+        this.state = State.PERFORMING;
+        mask(performer.getWaitMessage());
         AsyncCallback<M> callback = new Callback<M>() {
           @Override
           public void onSuccess(M result) {
@@ -173,16 +180,16 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
               super.onFailure(caught);
           }
         };
-        service.execute(model, callback);
+        performer.perform(model, callback);
       }
       else {
         handleDriverErrors();
         fireEvent(new TaskExecEvent(false));
-        view.alert(AbstractTaskController.c.save(), AbstractTaskController.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
+        view.alert(performer.getDisplayTitle(), AbstractTaskController.c.validateErrors(), AsyncOKAnswere.OK);
       }
     }
     else
-      view.alert(AbstractTaskController.c.save(), AbstractTaskController.c.nothingToSave(), AsyncOKAnswere.OK);
+      view.alert(performer.getDisplayTitle(), AbstractTaskController.c.nothingChanged(), AsyncOKAnswere.OK);
   }
 
   protected abstract void setConstraintViolations(Set<ConstraintViolation<?>> constraintViolations);
@@ -206,7 +213,7 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
     mask(AbstractTaskController.c.reverting());
     final State old = state;
     state = State.REFRESHING;
-    service.read(params, new Callback<M>() {
+    reader.read(params, new Callback<M>() {
       @Override
       public void onSuccess(M result) {
         unmask();
@@ -233,7 +240,7 @@ public abstract class AbstractTaskController<M> extends AbstractDataSource<M> im
 
   public void edit(M model) {
     this.model = model;
-    this.params = service.toParam(model);
+    this.params = converter.extract(model);
     onEdit();
     notifyChange();
   }

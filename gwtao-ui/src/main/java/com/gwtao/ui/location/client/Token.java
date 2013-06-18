@@ -22,43 +22,45 @@ import org.shu4j.utils.util.Hasher;
 
 /**
  * This class represents a item of the browser history.<br>
- * A location of an URL is interpreted with this format:<br>
+ * A token as part the URL is interpreted with this format:<br>
  * <br>
- * <code>
- * TokenId ['?' ParamId [ '=' Value ] { '&' ParamId [ '=' Value ] } ]
- * </code>
+ * <code><pre>
+ * Name [ '?' [ ( Param | ParamName [ '=' Value ] ) { '&' ( Param | ParamName [ '=' Value ] ) } ] ]
+ * </pre></code>
  * 
  * <ul>
- * <li>TokenId id with parameters as main information</li>
- * <li>ParamId Parameter identifier</li>
- * <li>Value Value of parameter</li>
+ * <li>Name id with parameters as main information</li>
+ * <li>ParamName Parameter name</li>
+ * <li>ParamValue Value of parameter</li>
+ * <li>Param A Parameter</li>
  * </ul>
  * 
  * @author Matthias Hübner
  * 
  */
-public final class Location {
-  public static final Location NOWHERE = new Location("", null);
+public final class Token {
+  public static final Token NOWHERE = new Token("", null);
 
-  private final String id;
+  private final String name;
+
   private final String parameters;
 
-  protected Location(String id, String parameters) {
-    Validate.notNull(id);
-    this.id = id;
+  protected Token(String name, String parameters) {
+    Validate.notNull(name);
+    this.name = name;
     this.parameters = StringUtils.trimToNull(parameters);
   }
 
   public String getValue() {
-    return parameters == null ? id : id + "?" + parameters;
+    return parameters == null ? name : name + "?" + parameters;
   }
 
   public boolean isNoWhere() {
-    return id.length() == 0;
+    return name.length() == 0;
   }
 
-  public String getId() {
-    return id;
+  public String getName() {
+    return name;
   }
 
   public String getParameters() {
@@ -67,7 +69,7 @@ public final class Location {
 
   @Override
   public int hashCode() {
-    return new Hasher().add(id).add(parameters).getHash();
+    return new Hasher().add(name).add(parameters).getHash();
   }
 
   @Override
@@ -78,13 +80,13 @@ public final class Location {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Location other = (Location) obj;
-    return ObjectUtils.equals(id, other.id) && ObjectUtils.equals(parameters, other.parameters);
+    Token other = (Token) obj;
+    return ObjectUtils.equals(name, other.name) && ObjectUtils.equals(parameters, other.parameters);
   }
 
   @Override
   public String toString() {
-    return "Location [id=" + id + ", parameters=" + parameters + "]";
+    return "Location [id=" + name + ", parameters=" + parameters + "]";
   }
 
 }

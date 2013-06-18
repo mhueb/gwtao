@@ -45,15 +45,15 @@ public final class LocationManager<T> {
 
   private boolean started;
 
-  private final Map<Location, T> presenters = new HashMap<Location, T>();
-  private Location currentLocation;
+  private final Map<Token, T> presenters = new HashMap<Token, T>();
+  private Token currentToken;
   private T currentPresenter;
 
   private HandlerRegistration addValueChangeHandler;
 
   private HandlerRegistration addWindowClosingHandler;
 
-  private Location postponedChange;
+  private Token postponedChange;
 
   public LocationManager(IPresenterManager<T> presenterManager) {
     this.presenterManager = presenterManager;
@@ -90,7 +90,7 @@ public final class LocationManager<T> {
       addWindowClosingHandler.removeHandler();
       addWindowClosingHandler = null;
       this.currentPresenter = null;
-      this.currentLocation = null;
+      this.currentToken = null;
       this.presenters.clear();
       History.newItem("", false);
     }
@@ -106,15 +106,15 @@ public final class LocationManager<T> {
   }
 
   private void onHistoryChange(String token) {
-    onHistoryChange(LocationUtils.buildLocation(token));
+    onHistoryChange(TokenUtils.buildToken(token));
   }
 
-  private void onHistoryChange(Location location) {
+  private void onHistoryChange(Token token) {
     try {
-      if (ObjectUtils.equals(location, postponedChange) || presenterManager.beforeChange(location)) {
+      if (ObjectUtils.equals(token, postponedChange) || presenterManager.beforeChange(token)) {
         postponedChange = null;
-        if (currentLocation != null) {
-          if (currentLocation.equals(location)) {
+        if (currentToken != null) {
+          if (currentToken.equals(token)) {
             return;
           }
 
@@ -124,24 +124,24 @@ public final class LocationManager<T> {
           }
         }
 
-        T presenter = presenters.get(location);
+        T presenter = presenters.get(token);
         if (presenter == null) {
-          presenter = presenterManager.createPresenter(location);
+          presenter = presenterManager.createPresenter(token);
           if (presenter == null)
-            throw new IllegalStateException("Unhandled location='" + location + "'");
-          presenters.put(location, presenter);
+            throw new IllegalStateException("Unhandled token='" + token + "'");
+          presenters.put(token, presenter);
         }
 
-        currentLocation = location;
+        currentToken = token;
         currentPresenter = presenter;
         presenterManager.activate(currentPresenter);
       }
       else {
-        postponedChange = location;
+        postponedChange = token;
       }
     }
     catch (Exception e) {
-      currentLocation = location;
+      currentToken = token;
       currentPresenter = null;
 
       String error;
@@ -151,7 +151,7 @@ public final class LocationManager<T> {
         error = e.toString();
 
       try {
-        currentPresenter = presenterManager.createErrorPresenter(location, error);
+        currentPresenter = presenterManager.createErrorPresenter(token, error);
         presenterManager.activate(currentPresenter);
       }
       catch (Exception e1) {
@@ -167,9 +167,9 @@ public final class LocationManager<T> {
 
   public void proceedChange() {
     if (postponedChange != null) {
-      Location location = postponedChange;
+      Token token = postponedChange;
       postponedChange = null;
-      onHistoryChange(location);
+      onHistoryChange(token);
     }
   }
 
@@ -177,42 +177,42 @@ public final class LocationManager<T> {
     if (presenter == null || this.currentPresenter == presenter)
       return;
 
-    Location location = findLocation(presenter);
-    if (location != null) {
+    Token token = findToken(presenter);
+    if (token != null) {
       this.currentPresenter = presenter;
-      this.currentLocation = location;
-      History.newItem(location.getValue(), false);
+      this.currentToken = token;
+      History.newItem(token.getValue(), false);
     }
   }
 
   public void notifyRemove(T presenter) {
     if (presenter == null)
       return;
-    Location location = findLocation(presenter);
-    if (location != null) {
-      presenters.remove(location);
+    Token token = findToken(presenter);
+    if (token != null) {
+      presenters.remove(token);
     }
     if (currentPresenter == presenter) {
       currentPresenter = null;
-      currentLocation = null;
+      currentToken = null;
     }
   }
 
-  public void notifyLocationChange(T presenter, Location location) {
-    Location oldLocation = findLocation(presenter);
-    if (oldLocation != null) {
-      presenters.remove(oldLocation);
-      presenters.remove(location);
-      presenters.put(location, presenter);
+  public void notifyLocationChange(T presenter, Token token) {
+    Token oldToken = findToken(presenter);
+    if (oldToken != null) {
+      presenters.remove(oldToken);
+      presenters.remove(token);
+      presenters.put(token, presenter);
       if (currentPresenter == presenter) {
-        currentLocation = location;
-        History.newItem(location.getValue(), false);
+        currentToken = token;
+        History.newItem(token.getValue(), false);
       }
     }
   }
 
-  protected Location findLocation(T presenter) {
-    for (Entry<Location, T> probe : presenters.entrySet()) {
+  protected Token findToken(T presenter) {
+    for (Entry<Token, T> probe : presenters.entrySet()) {
       if (probe.getValue() == presenter) {
         return probe.getKey();
       }

@@ -34,7 +34,7 @@ public abstract class Document extends AbstractPortalView implements IDocument {
 
   @Override
   public String canClose() {
-    return isDirty() ? PortalMessages.c.closeChangeDocument(getTitle()) : null;
+    return isDirty() ? PortalMessages.c.closeChangeDocument(getDisplayTitle()) : null;
   }
 
   @Override
@@ -55,18 +55,18 @@ public abstract class Document extends AbstractPortalView implements IDocument {
   }
 
   @Override
-  public String getIcon() {
-    return descr.getIcon();
+  public String getDisplayIcon() {
+    return descr.getDisplayIcon();
   }
 
   @Override
-  public String getTitle() {
-    return descr.getTitle();
+  public String getDisplayTitle() {
+    return descr.getDisplayTitle();
   }
 
   @Override
-  public String getTooltip() {
-    return descr.getTooltip();
+  public String getDisplayTooltip() {
+    return descr.getDisplayTooltip();
   }
 
   @Override

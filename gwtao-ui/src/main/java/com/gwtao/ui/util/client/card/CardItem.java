@@ -3,13 +3,13 @@ package com.gwtao.ui.util.client.card;
 import org.apache.commons.lang.Validate;
 
 import com.gwtao.ui.util.client.IDisplayableItem;
-import com.gwtao.ui.util.client.Token;
+import com.gwtao.ui.util.client.NavigationItem;
 import com.gwtao.ui.util.client.action.IAction;
 
 public class CardItem implements IDisplayableItem {
   private Card set;
   private IAction action;
-  private Token token;
+  private NavigationItem token;
   private IDisplayableItem display;
 
   public CardItem(Card card) {
@@ -24,24 +24,24 @@ public class CardItem implements IDisplayableItem {
     display = this.action;
   }
 
-  public CardItem(Token token) {
+  public CardItem(NavigationItem token) {
     Validate.notNull(token);
     this.token = token;
     display = this.token;
   }
 
   @Override
-  public String getIcon() {
-    return display.getIcon();
+  public String getDisplayIcon() {
+    return display.getDisplayIcon();
   }
 
   @Override
-  public String getTitle() {
-    return display.getTitle();
+  public String getDisplayTitle() {
+    return display.getDisplayTitle();
   }
 
-  public String getTooltip() {
-    return display.getTooltip();
+  public String getDisplayTooltip() {
+    return display.getDisplayTooltip();
   }
 
   public boolean isAction() {
@@ -61,7 +61,7 @@ public class CardItem implements IDisplayableItem {
     return action;
   }
 
-  public Token asToken() {
+  public NavigationItem asToken() {
     Validate.notNull(token);
     return token;
   }
