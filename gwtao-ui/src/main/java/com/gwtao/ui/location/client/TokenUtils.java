@@ -90,6 +90,14 @@ public class TokenUtils {
     return TokenUtils.buildToken(f.getTokenName(), builder.build());
   }
 
+  public static <P, M> void newHistoryItemByData(HasTokenConverter<P, M> f, M m) {
+    newHistoryItem(createByData(f, m));
+  }
+
+  public static <P, M> void newHistoryItemByParam(HasTokenConverter<P, M> f, P p) {
+    newHistoryItem(createByParam(f, p));
+  }
+
   public static void newHistoryItem(Token token) {
     History.newItem(token.getValue());
   }
