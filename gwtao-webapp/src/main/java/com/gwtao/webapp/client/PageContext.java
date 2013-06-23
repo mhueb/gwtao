@@ -17,7 +17,6 @@ package com.gwtao.webapp.client;
 
 import com.google.gwt.event.shared.EventBus;
 import com.gwtao.ui.location.client.Token;
-import com.gwtao.ui.location.client.TokenUtils;
 import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.ParameterList;
 

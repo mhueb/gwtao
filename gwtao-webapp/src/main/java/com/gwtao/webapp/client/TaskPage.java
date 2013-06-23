@@ -14,7 +14,6 @@ import com.gwtao.ui.task.client.TaskController;
 import com.gwtao.ui.task.client.i18n.DataConstants;
 import com.gwtao.ui.util.client.AsyncOKAnswere;
 import com.gwtao.ui.util.client.AsyncYESNOAnswere;
-import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.viewdriver.client.IViewDriver;

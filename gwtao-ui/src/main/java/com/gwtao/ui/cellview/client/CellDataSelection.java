@@ -1,13 +1,10 @@
 package com.gwtao.ui.cellview.client;
 
 import com.google.gwt.user.cellview.client.AbstractHasData;
-import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SetSelectionModel;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtao.ui.data.client.selection.AbstractDataSelection;
 
 public class CellDataSelection extends AbstractDataSelection {

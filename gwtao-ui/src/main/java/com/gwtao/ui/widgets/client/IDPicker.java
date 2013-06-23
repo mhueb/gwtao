@@ -250,6 +250,10 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasV
     this.renderer = renderer;
   }
 
+  public boolean isLoaded() {
+    return loaded;
+  }
+
   protected void updateList() {
     List<T> data = source.getData();
     if (data == null)
@@ -263,5 +267,9 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasV
 
   public void setInitial(String string) {
     this.initial = string;
+  }
+
+  public void setFocus(boolean focused) {
+    getListBox().setFocus(focused);
   }
 }

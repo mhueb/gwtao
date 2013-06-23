@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.util.client.card.ICardSupplier;
@@ -62,7 +61,7 @@ public class BreadCrumps extends ComplexPanel {
     button.setText(breadCrumb.getDisplayTitle());
     super.insert(button, getElement(), getWidgetCount(), true);
   }
-  
+
   public void remove() {
     List<IBreadCrumb> emptyList = Collections.emptyList();
     set(emptyList);
