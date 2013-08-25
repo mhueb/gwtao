@@ -15,7 +15,9 @@
  */
 package com.gwtao.ui.dialog.client.i18n;
 
-public interface DialogConstants {
+import com.google.gwt.i18n.client.Constants;
+
+public interface DialogConstants extends Constants {
 
   String ok();
 
