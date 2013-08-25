@@ -13,16 +13,35 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.webapp.client;
+package com.gwtao.ui.util.client.theme;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.resources.client.CssResource;
 
-public interface IAppFrame extends IsWidget {
-  void close(IPage page);
+public class CSSTheme implements ITheme {
 
-  void show(IPage page);
+  private CssResource css;
+  private String name;
+  private String description;
 
-  void updateTitle(IPage page);
+  public CSSTheme(String name, String description, CssResource css) {
+    this.name = name;
+    this.description = description;
+    this.css = css;
+  }
 
-  WebApp getApp();
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public String getDescription() {
+    return description;
+  }
+
+  @Override
+  public void apply() {
+    css.ensureInjected();
+  }
+
 }

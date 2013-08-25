@@ -13,12 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.util.client;
+package com.gwtao.ui.dialog.client.i18n;
 
-public abstract class AsyncYESNOAnswere {
+public interface DialogConstants {
 
-  public abstract void onYes();
+  String ok();
 
-  public void onNo() {
-  }
+  String cancel();
+
 }

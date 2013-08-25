@@ -24,11 +24,10 @@ import com.gwtao.portalapp.client.deprecated.client.ContextActionAdapter;
 import com.gwtao.portalapp.client.deprecated.client.ContextImageBundle;
 import com.gwtao.portalapp.client.i18n.PortalConstants;
 import com.gwtao.ui.data.client.selection.IDataSelection;
+import com.gwtao.ui.dialog.client.AsyncOkCancelAnswere;
 import com.gwtao.ui.dialog.client.MessageDialog;
-import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.ui.util.client.action.IPrivilegedAction;
 
 public abstract class DocumentSelector<T> extends Document implements IDocumentSelector {
   private static boolean globalUseDoubleClick = true;
@@ -40,7 +39,7 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
     }
   };
 
-  private final IPrivilegedAction actionCreate = new Action(PortalConstants.c.create(), ContextImageBundle.NEW_ICON) {
+  private final IAction actionCreate = new Action(PortalConstants.c.create(), ContextImageBundle.NEW_ICON) {
     @Override
     public void execute(Object... data) {
       create();
@@ -63,7 +62,7 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
     }
   };
 
-  private final IPrivilegedAction actionDelete = new Action(PortalConstants.c.deletE(), ContextImageBundle.DELETE_ICON) {
+  private final IAction actionDelete = new Action(PortalConstants.c.deletE(), ContextImageBundle.DELETE_ICON) {
     @Override
     @SuppressWarnings("unchecked")
     public void execute(Object... data) {
@@ -203,9 +202,9 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
    * @param t The model to delete
    */
   protected void delete(final T t) {
-    MessageDialog.confirm(getDisplayTitle(), PortalConstants.c.areYouSureToDelete(), new AsyncYESNOAnswere() {
+    MessageDialog.confirm(getDisplayTitle(), PortalConstants.c.areYouSureToDelete(), new AsyncOkCancelAnswere() {
       @Override
-      public void onYes() {
+      public void onOk() {
         doDelete(t);
       }
     });

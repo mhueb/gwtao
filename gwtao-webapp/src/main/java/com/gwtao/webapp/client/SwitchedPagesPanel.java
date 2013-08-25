@@ -20,11 +20,13 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.widgets.client.SwitchPanel;
 
-public class PagesPanel implements IsWidget {
+public class SwitchedPagesPanel implements IsWidget, IPagesController {
 
   private final SwitchPanel switchPanel = new SwitchPanel();
+  private IWindowTitleSetter wts;
 
-  public PagesPanel() {
+  public SwitchedPagesPanel(IWindowTitleSetter wts) {
+    this.wts = wts;
     switchPanel.getElement().getStyle().setOverflow(Overflow.AUTO);
   }
 
@@ -40,13 +42,32 @@ public class PagesPanel implements IsWidget {
       idx = switchPanel.getWidgetIndex(page);
     }
     switchPanel.showWidget(idx);
+    page.onShow();
   }
 
   public void close(IPage page) {
     int idx = switchPanel.getWidgetIndex(page);
     if (idx != -1) {
+      page.onClose();
       switchPanel.remove(idx);
     }
   }
 
+  @Override
+  public void updateTitle(IPage page) {
+    wts.updateWindowTitle(page.getDisplayTitle());
+  }
+
+  @Override
+  public IPage getActivePage() {
+    PageWrapper wrapper = (PageWrapper) switchPanel.getVisibleWidget();
+    if (wrapper != null)
+      return wrapper.getPage();
+    return null;
+  }
+
+  @Override
+  public void clear() {
+    switchPanel.clear();
+  }
 }

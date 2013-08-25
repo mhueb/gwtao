@@ -13,14 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.util.client.mask;
+package com.gwtao.webapp.client;
 
-import com.google.gwt.user.client.ui.Widget;
+public interface IPagesController {
+  void show(IPage page);
 
-public interface IWaitInfo {
-  void setMessage(String msg);
+  void close(IPage page);
 
-  void add(Widget row);
+  void updateTitle(IPage page);
 
-  Widget getWidget();
+  IPage getActivePage();
+
+  void clear();
+
 }

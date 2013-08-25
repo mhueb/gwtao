@@ -28,18 +28,6 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
   private Size minSize;
   private float totalRatio;
 
-  public static final class VerticalFlowLayout extends FlowLayout {
-    public VerticalFlowLayout() {
-      super(false);
-    }
-  }
-
-  public static final class HorizontalFlowLayout extends FlowLayout {
-    public HorizontalFlowLayout() {
-      super(true);
-    }
-  }
-
   protected FlowLayout(boolean horizontal) {
     this.horizontal = horizontal;
   }

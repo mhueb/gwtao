@@ -15,26 +15,20 @@
  */
 package com.gwtao.ui.util.client.mask;
 
-public class WaitMaskDummy implements IWaitMask {
-  private static final WaitMaskDummy instance = new WaitMaskDummy();
+import com.google.gwt.safehtml.shared.SafeHtml;
 
-  public static WaitMaskDummy get() {
-    return instance;
-  }
-
-  private WaitMaskDummy() {
-  }
+public final class WaitMaskDummy implements IWaitMask {
 
   @Override
   public void show() {
   }
 
   @Override
-  public void show(String message) {
+  public void hide() {
   }
 
   @Override
-  public void hide() {
+  public void setMessage(SafeHtml message) {
   }
 
 }

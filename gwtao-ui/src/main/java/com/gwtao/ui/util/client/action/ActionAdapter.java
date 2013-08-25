@@ -15,6 +15,7 @@
  */
 package com.gwtao.ui.util.client.action;
 
+import org.shu4j.utils.permission.IPermissionDelegate;
 import org.shu4j.utils.permission.Permission;
 
 public class ActionAdapter implements IAction {
@@ -73,5 +74,11 @@ public class ActionAdapter implements IAction {
   @Override
   public int hashCode() {
     return action.hashCode();
+  }
+  
+  @Override
+  public IAction setPermissionDelegate(IPermissionDelegate delegate) {
+    action.setPermissionDelegate(delegate);
+    return this;
   }
 }

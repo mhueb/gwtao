@@ -85,7 +85,7 @@ public class PortalApp implements IPortal {
     manager = new LocationManager<IDocument>(new IPresenterManager<IDocument>() {
 
       @Override
-      public boolean deactivate(IDocument document) {
+      public boolean hide(IDocument document) {
         return true;
       }
 
@@ -119,7 +119,7 @@ public class PortalApp implements IPortal {
       }
 
       @Override
-      public void activate(IDocument document) {
+      public void show(IDocument document) {
         document.getViewContext().activate();
       }
 

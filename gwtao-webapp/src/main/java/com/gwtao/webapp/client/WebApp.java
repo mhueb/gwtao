@@ -20,28 +20,32 @@ import org.apache.commons.lang.StringUtils;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
 import com.gwtao.ui.location.client.LocationManager;
 import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.location.client.UnkownLocationException;
 
-public abstract class WebApp implements IPresenterManager<PageContext> {
+public abstract class WebApp implements IPresenterManager<PageContext>, IWindowTitleSetter {
 
-  private IAppFrame frame;
+  private IPagesController pages;
 
   private final LocationManager<PageContext> locationManager;
 
   private final EventBus eventbus;
-
+  
   private String appTitle;
+
+  private IsWidget frame;
 
   protected WebApp() {
     this.locationManager = new LocationManager<PageContext>(this);
     this.eventbus = new SimpleEventBus();
   }
 
-  protected void initFrame(IAppFrame frame) {
+  protected void init(IsWidget frame, IPagesController pages) {
+    this.pages = pages;
     this.frame = frame;
   }
 
@@ -55,7 +59,7 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
   @Override
   public final PageContext createPresenter(Token token) {
     IPage document = createPage(token.getName());
-    return new PageContext(eventbus, frame, document, token);
+    return new PageContext(eventbus, pages, document, token);
   }
 
   protected IPage createPage(String id) {
@@ -63,21 +67,19 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
   }
 
   @Override
-  public void activate(PageContext presenter) {
+  public void show(PageContext presenter) {
     presenter.show();
-    updateWindowTitle(presenter.asDisplayableItem().getDisplayTitle());
   }
 
   @Override
-  public boolean deactivate(PageContext presenter) {
-    presenter.close();
-    return true;// presenter.deactivate();
+  public boolean hide(PageContext presenter) {
+    return true;
   }
 
   @Override
   public PageContext createErrorPresenter(Token token, String errorMessage) {
     IPage page = createErrorPage(token, errorMessage);
-    return new PageContext(eventbus, frame, page, token);
+    return new PageContext(eventbus, pages, page, token);
   }
 
   protected abstract IPage createErrorPage(Token token, String errorMessage);
@@ -101,7 +103,7 @@ public abstract class WebApp implements IPresenterManager<PageContext> {
     return eventbus;
   }
 
-  protected void updateWindowTitle(String title) {
+  public void updateWindowTitle(String title) {
     if (appTitle != null) {
       String windowTitle = appTitle;
       if (StringUtils.isNotBlank(title)) {

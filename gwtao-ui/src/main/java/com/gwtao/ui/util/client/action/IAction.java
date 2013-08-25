@@ -15,6 +15,7 @@
  */
 package com.gwtao.ui.util.client.action;
 
+import org.shu4j.utils.permission.IPermissionDelegate;
 import org.shu4j.utils.permission.Permission;
 
 import com.gwtao.ui.util.client.IDisplayableItem;
@@ -27,4 +28,6 @@ public interface IAction extends IDisplayableItem {
   Permission getPermission(Object... data);
 
   IActionWidgetHandler getWidgetHandler();
+  
+  IAction setPermissionDelegate(IPermissionDelegate delegate);
 }

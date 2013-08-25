@@ -6,7 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.gwtao.ui.data.client.source.IDataSource;
-import com.gwtao.ui.util.client.GWTUtil;
+import com.gwtao.ui.util.client.GWTUtils;
 import com.gwtao.ui.util.client.action.ActionFocusWidgetAdapter;
 import com.gwtao.ui.util.client.action.ActionUtil;
 import com.gwtao.ui.util.client.action.IAction;
@@ -34,7 +34,7 @@ public class SimpleButton extends Button {
     addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         if (action != null)
-          ActionUtil.saveExecute(GWTUtil.createEventInfo(event), action, source);
+          ActionUtil.saveExecute(GWTUtils.createEventInfo(event.getNativeEvent()), action, source);
       }
     });
     if (isAttached())

@@ -18,8 +18,9 @@ package com.gwtao.ui.util.client.action;
 import org.shu4j.utils.permission.IPermissionDelegate;
 import org.shu4j.utils.permission.Permission;
 
+import com.gwtao.ui.util.client.IDisplayableItem;
 
-public abstract class Action implements IPrivilegedAction {
+public abstract class Action implements IAction {
   private final ActionWidgetHandler handler = new ActionWidgetHandler();
 
   private IPermissionDelegate delegate;
@@ -50,12 +51,11 @@ public abstract class Action implements IPrivilegedAction {
   /**
    * @param title Title of the action
    * @param icon Icon css class
-   * @param tooltip
    */
-  public Action(String title, String icon, String tooltip) {
-    this.title = title;
-    this.icon = icon;
-    this.tooltip = tooltip;
+  public Action(IDisplayableItem info) {
+    this.title = info.getDisplayTitle();
+    this.tooltip = info.getDisplayTooltip();
+    this.icon = info.getDisplayIcon();
   }
 
   public String getDisplayIcon() {

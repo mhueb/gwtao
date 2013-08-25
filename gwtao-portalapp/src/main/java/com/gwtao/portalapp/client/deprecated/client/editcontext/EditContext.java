@@ -24,11 +24,12 @@ import org.shu4j.utils.message.MessageList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtao.portalapp.client.deprecated.client.i18n.ContextConstants;
+import com.gwtao.ui.dialog.client.AsyncOkAnswere;
+import com.gwtao.ui.dialog.client.AsyncOkCancelAnswere;
 import com.gwtao.ui.dialog.client.MessageDialog;
-import com.gwtao.ui.util.client.AsyncOKAnswere;
-import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 
 /**
  * 
@@ -78,7 +79,7 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
       if (serverMessages != null && serverMessages.getWorstLevel() == MessageLevel.FATAL)
         setState(State.FAILURE, true);
       getStateListener().callOnServiceFailed();
-      MessageDialog.alert(ContextConstants.c.serverValidateMessage(), validateException.getMessages(), AsyncOKAnswere.OK);
+      MessageDialog.alert(ContextConstants.c.serverValidateMessage(), validateException.getMessages(), AsyncOkAnswere.OK);
     }
     else {
       setState(State.FAILURE, true);
@@ -103,7 +104,8 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
    * @param msg The message to show during masking the underlying panels
    */
   protected void mask(String msg) {
-    this.editor.getMask().show(msg);
+    this.editor.getMask().setMessage(SafeHtmlUtils.fromString(msg));
+    this.editor.getMask().show();
   }
 
   /**
@@ -163,10 +165,10 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
       if (valid)
         doCheckIn();
       else
-        MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.validateErrorsOnSave(), AsyncOKAnswere.OK);
+        MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.validateErrorsOnSave(), AsyncOkAnswere.OK);
     }
     else
-      MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.nothingToSave(), AsyncOKAnswere.OK);
+      MessageDialog.alert(ContextConstants.c.save(), ContextConstants.c.nothingToSave(), AsyncOkAnswere.OK);
   }
 
   private void doCheckIn() {
@@ -247,9 +249,9 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
 
   public void revert() {
     if (isDirty()) {
-      MessageDialog.confirm(ContextConstants.c.revert(), ContextConstants.c.revertQuestion(), new AsyncYESNOAnswere() {
+      MessageDialog.confirm(ContextConstants.c.revert(), ContextConstants.c.revertQuestion(), new AsyncOkCancelAnswere() {
         @Override
-        public void onYes() {
+        public void onOk() {
           doRevert();
         }
       });
@@ -280,9 +282,9 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
 
   public void refresh() {
     if (isDirty()) {
-      MessageDialog.confirm(ContextConstants.c.refresh(), ContextConstants.c.refreshQuestion(), new AsyncYESNOAnswere() {
+      MessageDialog.confirm(ContextConstants.c.refresh(), ContextConstants.c.refreshQuestion(), new AsyncOkCancelAnswere() {
         @Override
-        public void onYes() {
+        public void onOk() {
           doRefresh();
         }
       });

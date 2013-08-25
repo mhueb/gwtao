@@ -15,6 +15,7 @@
  */
 package com.gwtao.portalapp.client.util;
 
+import org.shu4j.utils.permission.IPermissionDelegate;
 import org.shu4j.utils.permission.Permission;
 
 import com.gwtao.portalapp.client.PortalApp;
@@ -27,9 +28,11 @@ public class PortletOpenAction implements IAction {
 
   private final IActionWidgetHandler handler = new ActionWidgetHandler();
   private final IPortletDescriptor pd;
+  private IPermissionDelegate delegate;
 
   public PortletOpenAction(IPortletDescriptor pd) {
     this.pd = pd;
+    this.delegate = Permission.ALLOWED; 
   }
 
   @Override
@@ -54,11 +57,16 @@ public class PortletOpenAction implements IAction {
 
   @Override
   public Permission getPermission(Object... data) {
-    return PortalApp.get().getPortlet(pd.getId()) == null ? Permission.ALLOWED : Permission.READONLY;
+    return delegate.getPermission(data).add(PortalApp.get().getPortlet(pd.getId()) == null ? Permission.ALLOWED : Permission.READONLY);
   }
 
   @Override
   public IActionWidgetHandler getWidgetHandler() {
     return handler;
+  }
+  @Override
+  public IAction setPermissionDelegate(IPermissionDelegate delegate) {
+    this.delegate = delegate;
+    return this;
   }
 }

@@ -24,10 +24,10 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.portalapp.client.deprecated.client.ContextImageBundle;
 import com.gwtao.portalapp.client.part.AbstractPortalPart;
-import com.gwtao.ui.layout.client.FlowLayout.HorizontalFlowLayout;
-import com.gwtao.ui.layout.client.FlowLayout.VerticalFlowLayout;
 import com.gwtao.ui.layout.client.FlowLayoutData;
+import com.gwtao.ui.layout.client.HorizontalFlowLayout;
 import com.gwtao.ui.layout.client.LayoutPanel;
+import com.gwtao.ui.layout.client.VerticalFlowLayout;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.widgets.client.BorderlessButton;
 

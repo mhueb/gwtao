@@ -15,115 +15,78 @@
  */
 package com.gwtao.ui.dialog.client;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.shu4j.utils.message.IMessageSource;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.gwtao.ui.util.client.AsyncOKAnswere;
-import com.gwtao.ui.util.client.AsyncYESNOAnswere;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.gwtao.ui.dialog.client.i18n.DialogConstants;
+import com.gwtao.ui.util.client.DisplayableItem;
+import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.action.Action;
+import com.gwtao.ui.util.client.action.IAction;
 
 public class MessageDialog {
 
-  public static void confirm(String title, String message, final AsyncYESNOAnswere asyncYESNOAnswere) {
-    final DialogBox dialogBox = new DialogBox();
-    dialogBox.ensureDebugId("cwDialogBox");
-    dialogBox.setText(title);
-    dialogBox.setGlassEnabled(true);
+  private static final DialogConstants TEXTS = GWT.create(DialogConstants.class);
 
-    VerticalPanel dialogContents = new VerticalPanel();
-    dialogBox.setWidget(dialogContents);
+  private MessageDialog() {
+  }
 
-    // Create a table to layout the content
-    HorizontalPanel info = new HorizontalPanel();
-    info.setSpacing(4);
-    dialogContents.add(info);
+  public static void confirm(String title, String message, final AsyncOkCancelAnswere answere) {
+    confirm(title, message, new DisplayableItem(TEXTS.ok()), answere);
+  }
 
+  public static void confirm(String title, String message, IDisplayableItem okInfo, final AsyncOkCancelAnswere asyncCallback) {
+    ModalDialog dialog = new ModalDialog();
+    dialog.setTitle(title);
+    dialog.setWidget(makeWidget(message));
+    dialog.addAction(createOkAction(dialog, okInfo, asyncCallback));
+    dialog.addAction(createCancelAction(dialog, asyncCallback));
+    dialog.show();
+  }
+
+  private static IsWidget makeWidget(String message) {
+    // HorizontalPanel info = new HorizontalPanel();
+    // info.setSpacing(4);
     // Image image = new Image(Showcase.images.jimmy());
     // dialogContents.add(image);
-    // dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
-
-    // Add some text to the top of the dialog
-    HTML details = new HTML(message);
-    dialogContents.add(details);
-    dialogContents.setCellHorizontalAlignment(details, HasHorizontalAlignment.ALIGN_CENTER);
-
-    HorizontalPanel buttons = new HorizontalPanel();
-    info.setSpacing(4);
-    dialogContents.add(buttons);
-
-    Button yesButton = new Button("Yes", new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        dialogBox.hide();
-        asyncYESNOAnswere.onYes();
-      }
-    });
-    buttons.add(yesButton);
-
-    Button noButton = new Button("No", new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        dialogBox.hide();
-        asyncYESNOAnswere.onNo();
-      }
-    });
-    buttons.add(noButton);
-
-    buttons.setCellHorizontalAlignment(yesButton, HasHorizontalAlignment.ALIGN_RIGHT);
-    buttons.setCellHorizontalAlignment(noButton, HasHorizontalAlignment.ALIGN_RIGHT);
-
-    dialogBox.center();
-    dialogBox.show();
+    // dialogContents.setCellHorizontalAlignment(image,
+    // HasHorizontalAlignment.ALIGN_CENTER);
+    return new HTML(message);
   }
 
-  public static void alert(String title, String message, final AsyncOKAnswere answere) {
-    final DialogBox dialogBox = new DialogBox();
-    dialogBox.ensureDebugId("cwDialogBox");
-    dialogBox.setText(title);
-    dialogBox.setGlassEnabled(true);
+  public static void alert(String title, String message, final AsyncOkAnswere answere) {
+    ModalDialog dialog = new ModalDialog();
+    dialog.setTitle(title);
+    dialog.setWidget(makeWidget(message));
+    dialog.addAction(createOkAction(dialog, new DisplayableItem(TEXTS.ok()), answere));
+    dialog.show();
+  }
 
-    VerticalPanel dialogContents = new VerticalPanel();
-    dialogBox.setWidget(dialogContents);
+  private static IAction createCancelAction(final ModalDialog dialog, final AsyncOkCancelAnswere answere) {
+    return new Action(new DisplayableItem(TEXTS.cancel())) {
 
-    // Create a table to layout the content
-    HorizontalPanel info = new HorizontalPanel();
-    info.setSpacing(4);
-    dialogContents.add(info);
-
-    // Image image = new Image(Showcase.images.jimmy());
-    // dialogContents.add(image);
-    // dialogContents.setCellHorizontalAlignment(image, HasHorizontalAlignment.ALIGN_CENTER);
-
-    // Add some text to the top of the dialog
-    HTML details = new HTML(message);
-    dialogContents.add(details);
-    dialogContents.setCellHorizontalAlignment(details, HasHorizontalAlignment.ALIGN_CENTER);
-
-    HorizontalPanel buttons = new HorizontalPanel();
-    info.setSpacing(4);
-    dialogContents.add(buttons);
-
-    Button okButton = new Button("Ok", new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        dialogBox.hide();
-        answere.onOk();
+      @Override
+      public void execute(Object... data) {
+        dialog.hide();
+        answere.onCancel();
       }
-    });
-    buttons.add(okButton);
-
-    buttons.setCellHorizontalAlignment(okButton, HasHorizontalAlignment.ALIGN_RIGHT);
-
-    dialogBox.center();
-    dialogBox.show();
+    };
   }
 
-  public static void alert(String title, IMessageSource messages, AsyncOKAnswere answere) {
-    throw new NotImplementedException();
+  private static IAction createOkAction(final ModalDialog dialog, IDisplayableItem okText, final AsyncOkAnswere asyncCallback) {
+    return new Action(okText) {
+
+      @Override
+      public void execute(Object... data) {
+        dialog.hide();
+        asyncCallback.onOk();
+      }
+    };
   }
 
+  public static void alert(String serverValidateMessage, IMessageSource messages, AsyncOkAnswere ok) {
+    alert(serverValidateMessage, messages.toString(), ok);
+  }
 }
