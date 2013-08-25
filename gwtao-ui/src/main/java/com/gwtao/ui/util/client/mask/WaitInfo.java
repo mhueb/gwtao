@@ -20,15 +20,16 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class WaitInfo implements IWaitInfo {
+public class WaitInfo implements IsWidget {
 
   public interface Style extends CssResource {
   };
@@ -52,14 +53,14 @@ public class WaitInfo implements IWaitInfo {
 
   public WaitInfo() {
 
-    this.msg.setStyleName("gwtaf-mask-msg");
-    this.inner.setStyleName("gwtaf-mask-msg-inner");
+    this.msg.setStyleName("gwtao-waitmask-msg");
+    this.inner.setStyleName("gwtao-waitmask-msg-inner");
     this.msg.add(inner);
 
     HorizontalPanel row = new HorizontalPanel();
     Image icon = new Image(getResource().loadingImage());
     row.add(icon);
-    this.text.setStyleName("gwtaf-mask-msg-text");
+    this.text.setStyleName("gwtao-waitmask-msg-text");
     row.add(this.text);
     row.setCellVerticalAlignment(icon, HasVerticalAlignment.ALIGN_MIDDLE);
     row.setCellVerticalAlignment(this.text, HasVerticalAlignment.ALIGN_MIDDLE);
@@ -77,13 +78,11 @@ public class WaitInfo implements IWaitInfo {
     inner.add(row);
   }
 
-  @Override
-  public void setMessage(String msg) {
-    text.setHTML(SafeHtmlUtils.fromString(msg));
+  public void setMessage(SafeHtml msg) {
+    text.setHTML(msg);
   }
 
-  @Override
-  public Widget getWidget() {
+  public Widget asWidget() {
     return msg;
   }
 

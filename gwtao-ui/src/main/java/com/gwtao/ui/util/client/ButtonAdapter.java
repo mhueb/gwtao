@@ -22,7 +22,7 @@ public class ButtonAdapter {
 
       @Override
       public void onClick(ClickEvent event) {
-        ActionUtil.saveExecute(GWTUtil.createEventInfo(event), action, source.getData());
+        ActionUtil.saveExecute(GWTUtils.createEventInfo(event.getNativeEvent()), action, source.getData());
       }
     });
 

@@ -20,9 +20,9 @@ public interface IPresenterManager<T> {
 
   T createPresenter(Token token);
 
-  void activate(T presenter);
+  void show(T presenter);
 
-  boolean deactivate(T presenter);
+  boolean hide(T presenter);
 
   T createErrorPresenter(Token token, String errorMessage);
 

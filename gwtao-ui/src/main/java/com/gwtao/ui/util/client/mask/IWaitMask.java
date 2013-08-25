@@ -15,10 +15,12 @@
  */
 package com.gwtao.ui.util.client.mask;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
+
 public interface IWaitMask {
   void show();
 
-  void show(String message);
-
   void hide();
+
+  void setMessage(SafeHtml message);
 }

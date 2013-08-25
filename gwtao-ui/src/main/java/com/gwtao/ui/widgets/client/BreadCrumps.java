@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.util.client.card.ICardSupplier;
@@ -22,12 +23,8 @@ public class BreadCrumps extends ComplexPanel {
       super();
     }
 
-    public BreadCrumb(String title, String icon, String tooltip) {
-      super(title, icon, tooltip);
-    }
-
-    public BreadCrumb(String title, String icon) {
-      super(title, icon);
+    public BreadCrumb(IDisplayableItem item) {
+      super(item);
     }
 
     public BreadCrumb(String title) {

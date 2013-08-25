@@ -15,6 +15,7 @@
  */
 package com.gwtao.ui.util.client.mask;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -25,57 +26,44 @@ public class WaitMask implements IWaitMask {
   private final Widget related;
   private HTML mask;
   private VerticalPanel back;
-  private IWaitInfo waitInfo;
+  private WaitInfo waitInfo;
   private int showLock;
 
   public WaitMask(Widget related) {
     this.related = related;
+    this.waitInfo = new WaitInfo();
+  }
+
+  @Override
+  public void setMessage(SafeHtml message) {
+    this.waitInfo.setMessage(message);
   }
 
   @Override
   public void show() {
-    show(null);
-  }
-
-  @Override
-  public void show(final String message) {
     if (showLock++ == 0) {
       this.mask = new HTML();
       this.back = new VerticalPanel();
-      this.mask.setStyleName("gwtaf-mask-mask");
-      this.back.setStyleName("gwtaf-mask-back");
-      this.waitInfo = createWaitInfo();
-      this.waitInfo.setMessage(message);
-      this.back.add(waitInfo.getWidget());
-      this.back.setCellHorizontalAlignment(waitInfo.getWidget(), HasHorizontalAlignment.ALIGN_CENTER);
-      this.back.setCellVerticalAlignment(waitInfo.getWidget(), HasVerticalAlignment.ALIGN_MIDDLE);
+      this.mask.setStyleName("gwtao-waitmask-mask");
+      this.back.setStyleName("gwtao-waitmask-back");
+      this.back.add(waitInfo.asWidget());
+      this.back.setCellHorizontalAlignment(waitInfo.asWidget(), HasHorizontalAlignment.ALIGN_CENTER);
+      this.back.setCellVerticalAlignment(waitInfo.asWidget(), HasVerticalAlignment.ALIGN_MIDDLE);
       this.related.getElement().getParentElement().appendChild(mask.getElement());
       this.related.getElement().getParentElement().appendChild(back.getElement());
-      onCreate();
     }
-  }
-
-  protected void onCreate() {
   }
 
   @Override
   public void hide() {
     if (showLock > 0) {
       if (--showLock == 0) {
+        setMessage(null);
         this.back.getElement().removeFromParent();
         this.mask.getElement().removeFromParent();
         this.back = null;
         this.mask = null;
-        this.waitInfo = null;
-        onHide();
       }
     }
-  }
-
-  protected void onHide() {
-  }
-
-  protected IWaitInfo createWaitInfo() {
-    return new WaitInfo();
   }
 }

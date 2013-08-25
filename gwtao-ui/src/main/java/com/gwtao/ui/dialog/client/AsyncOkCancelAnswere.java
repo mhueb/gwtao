@@ -13,10 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.util.client.action;
+package com.gwtao.ui.dialog.client;
 
-import org.shu4j.utils.permission.IPermissionDelegate;
+public abstract class AsyncOkCancelAnswere implements AsyncOkAnswere {
 
-public interface IPrivilegedAction extends IAction {
-  IPrivilegedAction setPermissionDelegate(IPermissionDelegate delegate);
+  public void onCancel() {
+
+  }
 }

@@ -15,7 +15,6 @@
  */
 package com.gwtao.portalapp.client.util;
 
-import org.shu4j.utils.permission.ConstantPermission;
 import org.shu4j.utils.permission.IPermissionDelegate;
 import org.shu4j.utils.permission.Permission;
 
@@ -30,15 +29,11 @@ public class DocumentOpenAction implements IAction {
 
   private final IActionWidgetHandler handler = new ActionWidgetHandler();
   private final IDocumentDescriptor descr;
-  private final IPermissionDelegate delegate;
-
-  public DocumentOpenAction(IDocumentDescriptor descr, IPermissionDelegate delegate) {
-    this.descr = descr;
-    this.delegate = delegate;
-  }
+  private IPermissionDelegate delegate;
 
   public DocumentOpenAction(IDocumentDescriptor descr) {
-    this(descr, ConstantPermission.ALLOWED);
+    this.descr = descr;
+    this.delegate = Permission.ALLOWED;
   }
 
   @Override
@@ -71,4 +66,9 @@ public class DocumentOpenAction implements IAction {
     return handler;
   }
 
+  @Override
+  public IAction setPermissionDelegate(IPermissionDelegate delegate) {
+    this.delegate = delegate;
+    return this;
+  }
 }

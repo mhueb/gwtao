@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2012 Matthias Huebner
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package com.gwtao.ui.task.client;
 
 import java.util.Set;
@@ -9,15 +24,16 @@ import javax.validation.Validator;
 import org.apache.commons.lang.Validate;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtao.ui.data.client.source.AbstractDataSource;
+import com.gwtao.ui.dialog.client.AsyncOkAnswere;
+import com.gwtao.ui.dialog.client.AsyncOkCancelAnswere;
 import com.gwtao.ui.location.client.IParameterConverter;
 import com.gwtao.ui.task.client.events.TaskExecEvent;
 import com.gwtao.ui.task.client.events.TaskRefreshEvent;
 import com.gwtao.ui.task.client.events.TaskStartEvent;
 import com.gwtao.ui.task.client.i18n.DataConstants;
-import com.gwtao.ui.util.client.AsyncOKAnswere;
-import com.gwtao.ui.util.client.AsyncYESNOAnswere;
 import com.gwtao.ui.util.client.mask.IWaitMask;
 import com.gwtao.ui.util.client.mask.WaitMask;
 
@@ -90,7 +106,9 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
   private void mask(String string) {
     if (mask == null)
       mask = new WaitMask(view.asWidget());
-    mask.show(string);
+
+    mask.setMessage(SafeHtmlUtils.fromString(string));
+    mask.show();
   }
 
   private void unmask() {
@@ -136,7 +154,7 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
       }
       else {
         handleDriverErrors();
-        view.alert(AbstractTaskController.c.save(), AbstractTaskController.c.validateErrors(), AsyncOKAnswere.OK);
+        view.alert(AbstractTaskController.c.save(), AbstractTaskController.c.validateErrors(), AsyncOkAnswere.OK);
         return false;
       }
     }
@@ -185,11 +203,11 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
       else {
         handleDriverErrors();
         fireEvent(new TaskExecEvent(false));
-        view.alert(performer.getDisplayTitle(), AbstractTaskController.c.validateErrors(), AsyncOKAnswere.OK);
+        view.alert(performer.getDisplayTitle(), AbstractTaskController.c.validateErrors(), AsyncOkAnswere.OK);
       }
     }
     else
-      view.alert(performer.getDisplayTitle(), AbstractTaskController.c.nothingChanged(), AsyncOKAnswere.OK);
+      view.alert(performer.getDisplayTitle(), AbstractTaskController.c.nothingChanged(), AsyncOkAnswere.OK);
   }
 
   protected abstract void setConstraintViolations(Set<ConstraintViolation<?>> constraintViolations);
@@ -197,9 +215,9 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
   @Override
   public void refresh() {
     if (isDirty()) {
-      view.confirm(AbstractTaskController.c.refresh(), AbstractTaskController.c.refreshQuestion(), new AsyncYESNOAnswere() {
+      view.confirm(AbstractTaskController.c.refresh(), AbstractTaskController.c.refreshQuestion(), new AsyncOkCancelAnswere() {
         @Override
-        public void onYes() {
+        public void onOk() {
           doRefresh();
         }
       });
@@ -250,7 +268,7 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
   public void onServiceFailure(Throwable caught) {
     unmask();
     state = State.FAILED;
-    view.alert("Service Failure", caught.getMessage(), AsyncOKAnswere.OK);
+    view.alert("Service Failure", caught.getMessage(), AsyncOkAnswere.OK);
     notifyChange();
   }
 

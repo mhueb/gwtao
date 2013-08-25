@@ -15,21 +15,22 @@
  */
 package com.gwtao.webapp.client;
 
+import org.apache.commons.lang.NotImplementedException;
+
 import com.google.gwt.event.shared.EventBus;
 import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.util.client.IDisplayableItem;
-import com.gwtao.ui.util.client.ParameterList;
 
-public class PageContext implements IPageContext {
+public final class PageContext implements IPageContext {
 
   private final IPage page;
   private final Token token;
-  private final IAppFrame frame;
+  private final IPagesController pagesCtrl;
   private final EventBus eventBus;
 
-  public PageContext(EventBus eventBus, IAppFrame frame, IPage page, Token token) {
+  public PageContext(EventBus eventBus, IPagesController pagesCtrl, IPage page, Token token) {
     this.eventBus = eventBus;
-    this.frame = frame;
+    this.pagesCtrl = pagesCtrl;
     this.page = page;
     this.token = token;
     page.init(this);
@@ -40,7 +41,8 @@ public class PageContext implements IPageContext {
   }
 
   @Override
-  public void switchToken(ParameterList parameter) {
+  public void switchToken(String parameter) {
+    throw new NotImplementedException();
     // Token newToken = TokenUtils.buildToken(token.getName(), parameter);
     // if (!newToken.equals(token)) {
     // this.locationManager.switchToken(this, token);
@@ -50,21 +52,20 @@ public class PageContext implements IPageContext {
 
   @Override
   public void close() {
-    frame.close(page);
+    pagesCtrl.close(page);
   }
 
   @Override
   public void show() {
-    frame.show(page);
-    page.activate();
+    pagesCtrl.show(page);
   }
 
   @Override
   public void updateTitle() {
-    frame.updateTitle(page);
-    frame.getApp().updateWindowTitle(asDisplayableItem().getDisplayTitle());
+    pagesCtrl.updateTitle(page);
   }
 
+  @Override
   public String canClose() {
     return page.canClose();
   }

@@ -5,7 +5,7 @@ import org.shu4j.utils.permission.Permission;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CustomButton;
-import com.gwtao.ui.util.client.GWTUtil;
+import com.gwtao.ui.util.client.GWTUtils;
 import com.gwtao.ui.util.client.action.ActionFocusWidgetAdapter;
 import com.gwtao.ui.util.client.action.ActionUtil;
 import com.gwtao.ui.util.client.action.IAction;
@@ -15,7 +15,7 @@ public class ImageButton extends CustomButton {
     addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         if (action.getPermission() == Permission.ALLOWED)
-          ActionUtil.saveExecute(GWTUtil.createEventInfo(event), action);
+          ActionUtil.saveExecute(GWTUtils.createEventInfo(event.getNativeEvent()), action);
       }
     });
 

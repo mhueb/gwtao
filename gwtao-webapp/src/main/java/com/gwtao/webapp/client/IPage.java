@@ -24,7 +24,9 @@ public interface IPage extends IsWidget, IDisplayableItem {
 
   String canClose();
   
-  void activate();
+  void onShow();
 
-  boolean deactivate();
+  void onHide();
+  
+  void onClose();
 }

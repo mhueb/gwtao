@@ -16,7 +16,7 @@
 package com.gwtao.ui.layout.client;
 
 import com.google.gwt.user.client.Window;
-import com.gwtao.ui.util.client.GWTUtil;
+import com.gwtao.ui.util.client.GWTUtils;
 import com.gwtao.ui.util.client.Size;
 
 public class RootLayout extends SimpleLayout {
@@ -26,7 +26,7 @@ public class RootLayout extends SimpleLayout {
 
   @Override
   public void measure() {
-    int[] calcScrollbarSize = GWTUtil.calcScrollbarSize();
+    int[] calcScrollbarSize = GWTUtils.calcScrollbarSize();
     this.scrollerWidth = calcScrollbarSize[0];
     this.scrollerHeight = calcScrollbarSize[1];
     super.measure();

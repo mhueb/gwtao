@@ -118,7 +118,7 @@ public final class LocationManager<T> {
             return;
           }
 
-          if (!presenterManager.deactivate(currentPresenter)) {
+          if (!presenterManager.hide(currentPresenter)) {
             History.back();
             return;
           }
@@ -134,7 +134,7 @@ public final class LocationManager<T> {
 
         currentToken = token;
         currentPresenter = presenter;
-        presenterManager.activate(currentPresenter);
+        presenterManager.show(currentPresenter);
       }
       else {
         postponedChange = token;
@@ -152,7 +152,7 @@ public final class LocationManager<T> {
 
       try {
         currentPresenter = presenterManager.createErrorPresenter(token, error);
-        presenterManager.activate(currentPresenter);
+        presenterManager.show(currentPresenter);
       }
       catch (Exception e1) {
         UnhandledException fatal = new UnhandledException(error, e1);
