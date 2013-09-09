@@ -13,6 +13,9 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 public interface ColumnGenerator<V> {
 
   public final class Default extends AbstractCell<Object> {
+    public Default() {
+      
+    }
     @Override
     public void render(com.google.gwt.cell.client.Cell.Context context, Object value, SafeHtmlBuilder sb) {
     }
