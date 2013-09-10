@@ -19,8 +19,6 @@ import java.io.Serializable;
 
 import org.shu4j.utils.query.QueryResult;
 
-import com.google.gwt.view.client.HasData;
-
 /**
  * Result provider for kind of service that returns a {@link QueryResult}.
  * 
@@ -31,8 +29,7 @@ import com.google.gwt.view.client.HasData;
 public abstract class AsyncQueryResultProvider<T extends Serializable> extends AsyncDataProviderEx<QueryResult<T>, T> {
 
   @Override
-  protected void setResult(HasData<T> display, QueryResult<T> result) {
-    setDisplayData(display, result);
+  protected void onDataLoaded(QueryResult<T> result) {
+    setDisplayData(result);    
   }
-
 }
