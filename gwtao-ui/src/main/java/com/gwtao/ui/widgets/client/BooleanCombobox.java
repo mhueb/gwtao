@@ -2,14 +2,7 @@ package com.gwtao.ui.widgets.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.ObjectUtils;
-import org.shu4j.utils.util.HasId;
 
 import com.google.gwt.dev.util.Pair;
 import com.google.gwt.editor.client.IsEditor;
@@ -19,20 +12,14 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.text.shared.AbstractRenderer;
-import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasConstrainedValue;
 import com.google.gwt.user.client.ui.ListBox;
-import com.gwtao.ui.data.client.source.IDataSource;
-import com.gwtao.ui.data.client.source.NullDataSource;
-import com.gwtao.ui.data.client.source.events.DataChangedEvent;
-import com.gwtao.ui.data.client.source.events.DataLoadEvent;
 
-public class BooleanCombobox extends Composite implements HasConstrainedValue<Boolean>, IsEditor<TakesValueEditor<Boolean>>{
+public class BooleanCombobox extends Composite implements HasConstrainedValue<Boolean>, IsEditor<TakesValueEditor<Boolean>> {
 
   private TakesValueEditor<Boolean> editor;
-  private List<Pair<String,Boolean>> values = new ArrayList<Pair<String,Boolean>>();
+  private List<Pair<String, Boolean>> values = new ArrayList<Pair<String, Boolean>>();
   private Boolean value;
 
   private Boolean initial;
@@ -94,18 +81,16 @@ public class BooleanCombobox extends Composite implements HasConstrainedValue<Bo
     return addHandler(handler, ValueChangeEvent.getType());
   }
 
-
   @Override
   /**
    * Returns a {@link TakesValueEditor} backed by the ValueListBox.
    */
   public TakesValueEditor<Boolean> asEditor() {
-      if (editor == null) {
-        editor = TakesValueEditor.of(this);
-      }
-      return editor;
+    if (editor == null) {
+      editor = TakesValueEditor.of(this);
     }
-
+    return editor;
+  }
 
   @Override
   public void setAcceptableValues(Collection<Boolean> newValues) {
