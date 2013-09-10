@@ -17,9 +17,7 @@ package com.gwtao.ui.viewdriver.generator;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.WordUtils;
 
@@ -37,67 +35,22 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.editor.rebind.model.ModelUtils;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
+import com.gwtao.ui.viewdriver.client.IValueAdapter;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 import com.gwtao.ui.viewdriver.client.ViewDriver;
 import com.gwtao.ui.viewdriver.client.ViewDriverFactory;
-import com.gwtao.ui.viewdriver.client.ViewDriverInit;
-import com.gwtao.ui.viewdriver.client.adapter.CheckBoxAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.DateBoxAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.DateTimeBoxAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.IDPickerAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.IFieldAdapter.WidgetType;
-import com.gwtao.ui.viewdriver.client.adapter.PasswordTextBoxAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.TextAreaAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.ValueBoxBaseAdapter;
-import com.gwtao.ui.viewdriver.client.adapter.ValueListBoxAdapter;
+import com.gwtao.ui.viewdriver.client.WidgetAdapter;
 
 public class ViewDriverFactoryGenerator extends Generator {
-  private static Class<?>[] basicTypes = {
-      ValueBoxBaseAdapter.class,
-      ValueListBoxAdapter.class,
-      DateBoxAdapter.class,
-      TextAreaAdapter.class,
-      PasswordTextBoxAdapter.class,
-      CheckBoxAdapter.class,
-      DateTimeBoxAdapter.class,
-      IDPickerAdapter.class };
 
-  private static Map<String, String> adapterMap = new HashMap<String, String>();
-  
-  static {
-    for (Class<?> zClass : basicTypes) {
-      ViewDriverInit.addAdapter(zClass);
-    }
-  }
-  
   public ViewDriverFactoryGenerator() {
-  }
-
-  private void initAdapterList(TypeOracle typeOracle) {
-    for (String type : ViewDriverInit.getAndClearTypes()) {
-      addType(typeOracle,adapterMap, type);
-    }
-  }
-
-  private static void addType(TypeOracle typeOracle, Map<String, String> adapterMap, String type) {
-    JClassType fieldType = typeOracle.findType(type);
-    if (fieldType != null) {
-      WidgetType annotation = fieldType.getAnnotation(IFieldAdapter.WidgetType.class);
-      if (annotation != null) {
-        for (Class<? extends Widget> w : annotation.value())
-          adapterMap.put(w.getName(), type);
-      }
-    }
   }
 
   @Override
   public String generate(TreeLogger logger, GeneratorContext context, String typeName) throws UnableToCompleteException {
     try {
-      initAdapterList(context.getTypeOracle());
       JClassType classType = context.getTypeOracle().getType(typeName);
       String packageName = classType.getPackage().getName();
       String simpleName = classType.getName().replace('.', '_') + "Impl";
@@ -141,7 +94,8 @@ public class ViewDriverFactoryGenerator extends Generator {
 
     composer.addImport(List.class.getName());
     composer.addImport(ArrayList.class.getName());
-    composer.addImport(IFieldAdapter.class.getName());
+    composer.addImport(WidgetAdapter.class.getName());
+    composer.addImport(IValueAdapter.class.getName());
     composer.addImport(IViewDriver.class.getName());
     composer.addImport(ViewDriver.class.getName());
     composer.addImport(modelType.getQualifiedSourceName());
@@ -152,19 +106,12 @@ public class ViewDriverFactoryGenerator extends Generator {
     String modelName = modelType.getSimpleSourceName();
     String viewName = viewType.getSimpleSourceName();
 
-    List<JField> uiFields = getUiFields(viewType);
-    for (JField uiField : uiFields) {
-      generateAdapterClasses(src, logger, uiField, modelType, context.getTypeOracle());
-    }
-
-    src.println("public IViewDriver<%s> generateDriver(%s view) {", modelName, viewName );
-    src.println("  List<IFieldAdapter<%s,%s>> adapterList = new ArrayList<IFieldAdapter<%s,%s>>();", modelName, viewName, modelName, viewName);
-    src.println();
-
+    src.println("public IViewDriver<%s> generateDriver(%s view) {", modelName, viewName);
     src.println("  ViewDriver<%s> mgr = new ViewDriver<%s>();", modelName, modelName);
 
+    List<JField> uiFields = getUiFields(viewType);
     for (JField uiField : uiFields) {
-      src.println("  mgr.add( new %s(), view.%s );", WordUtils.capitalize(uiField.getName()) + "Adapter", uiField.getName());
+      generateWidgetAdapter(src, logger, uiField, modelType, context.getTypeOracle());
     }
 
     src.println("  return mgr;");
@@ -172,7 +119,7 @@ public class ViewDriverFactoryGenerator extends Generator {
     src.commit(logger);
   }
 
-  private void generateAdapterClasses(SourceWriter src, TreeLogger logger, JField uiField, JClassType modelType, TypeOracle typeOracle) throws UnableToCompleteException {
+  private void generateWidgetAdapter(SourceWriter src, TreeLogger logger, JField uiField, JClassType modelType, TypeOracle typeOracle) throws UnableToCompleteException {
     String uiFieldName = WordUtils.capitalize(uiField.getName());
 
     String modelFieldName;
@@ -198,24 +145,18 @@ public class ViewDriverFactoryGenerator extends Generator {
     }
     String valueType = field.getReturnType().getQualifiedSourceName();
 
-    src.println("  private static class %s extends %s<%s,%s,%s> {", uiFieldName + "Adapter", getAdapterName(typeOracle, uiField, modelType, logger), modelType.getQualifiedSourceName(), valueType, uiField.getType().getParameterizedQualifiedSourceName());
-    src.println("    public void updateView(%s model) {", modelType.getSimpleSourceName());
-    src.println("      setValue( model.get%s() );", modelFieldName);
-    src.println("    }");
-    src.println();
-    src.println("    public void updateModel(%s model) {", modelType.getSimpleSourceName());
-    src.println("      model.set%s( getValue() );", modelFieldName);
-    src.println("    }");
-    src.println("  }");
-    src.println();
-  }
+    src.println("  mgr.add( new WidgetAdapter<%s,%s>(view.%s, view.%s, new IValueAdapter<%s,%s>() {", modelType.getSimpleSourceName(), valueType, uiField.getName(), uiField.getName(), modelType.getSimpleSourceName(), valueType);
 
-  private Object getAdapterName(TypeOracle typeOracle, JField uiField, JClassType modelType, TreeLogger logger) throws UnableToCompleteException {
-    String widgetTypeName = uiField.getType().getQualifiedSourceName();
-    String adapterName = adapterMap.get(widgetTypeName);
-    if (adapterName != null)
-      return adapterName;
-    logger.log(Type.ERROR, "No adapter found for ui field type '" + widgetTypeName + "'");
-    throw new UnableToCompleteException();
+    src.println("    public %s getValue(%s model) {", valueType, modelType.getSimpleSourceName());
+    src.println("      return model.get%s();", modelFieldName);
+    src.println("    }");
+    src.println();
+    src.println("    public void setValue(%s model, %s value) {", modelType.getSimpleSourceName(), valueType);
+    src.println("      model.set%s( value );", modelFieldName);
+    src.println("    }");
+
+    src.println("   }));");
+
+    src.println();
   }
 }
