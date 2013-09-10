@@ -17,6 +17,7 @@ package com.gwtao.ui.cellview.client;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.shu4j.utils.query.PagingInfo;
@@ -29,6 +30,7 @@ import com.google.gwt.user.cellview.client.AbstractHasData;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.Range;
 import com.gwtao.ui.cellview.client.i18n.CellViewConstants;
 import com.gwtao.ui.util.client.GlobalExceptionHandler;
 import com.gwtao.ui.util.client.mask.IWaitMask;
@@ -51,9 +53,19 @@ import com.gwtao.ui.util.client.mask.WaitMaskDummy;
 public abstract class AsyncDataProviderEx<R, T extends Serializable> extends AsyncDataProvider<T> {
 
   private boolean readLock;
+  private List<T> cached;
 
   protected IWaitMask getWaitMask() {
     return new WaitMaskDummy();
+  }
+
+  public void refresh() {
+    cached = null;
+    Iterator<HasData<T>> it = getDataDisplays().iterator();
+    if (it.hasNext()) {
+      HasData<T> display = it.next();
+      display.setVisibleRangeAndClearData(new Range(0, 25), true);
+    }
   }
 
   @Override
@@ -61,10 +73,9 @@ public abstract class AsyncDataProviderEx<R, T extends Serializable> extends Asy
     if (readLock)
       return;
 
-    List<SortField> sortList = null;
-    if (display instanceof AbstractCellTable) {
-      AbstractCellTable<?> ct = (AbstractCellTable<?>) display;
-      sortList = CellUtil.makeSortFields(ct.getColumnSortList());
+    if (cached != null) {
+      updateRowData(0, cached);
+      return;
     }
 
     Integer pageStart = null;
@@ -77,13 +88,20 @@ public abstract class AsyncDataProviderEx<R, T extends Serializable> extends Asy
         pageSize = 25;
     }
 
+    List<SortField> sortList = null;
+    if (display instanceof AbstractCellTable) {
+      AbstractCellTable<?> ct = (AbstractCellTable<?>) display;
+      sortList = CellUtil.makeSortFields(ct.getColumnSortList());
+    }
+
     PagingInfo pi = null;
     if (pageStart != null)
       pi = new PagingInfo(pageStart, pageSize, sortList);
 
     readLock = true;
+
     onLoadStart();
-    load(display, pi, new AsyncCallback<R>() {
+    load(pi, new AsyncCallback<R>() {
 
       @Override
       public void onFailure(Throwable caught) {
@@ -102,7 +120,7 @@ public abstract class AsyncDataProviderEx<R, T extends Serializable> extends Asy
       @Override
       public void onSuccess(R result) {
         try {
-          setResult(display, result);
+          onDataLoaded(result);
           onLoadEnd();
         }
         finally {
@@ -130,14 +148,28 @@ public abstract class AsyncDataProviderEx<R, T extends Serializable> extends Asy
   protected void onLoadEnd() {
     getWaitMask().hide();
   }
-  
-  protected void setDisplayData(HasData<T> display, QueryResult<T> result) {
-    display.setRowCount(result.getTotalCount(), false);
-    display.setRowData(result.getStart(), result.getResult());
+
+  protected abstract void load(PagingInfo pi, AsyncCallback<R> callback);
+
+  protected abstract void onDataLoaded(R result);
+
+  public void setDisplayData(List<T> result, boolean exact) {
+    if (result == null)
+      result = Collections.emptyList();
+    this.cached = result;
+    for (HasData<T> display : getDataDisplays())
+      display.setRowCount(result.size(), exact);
+    updateRowData(0, result);
   }
 
-
-  protected abstract void load(HasData<T> display, PagingInfo pi, AsyncCallback<R> callback);
-
-  protected abstract void setResult(HasData<T> display, R result);
+  public void setDisplayData(QueryResult<T> result) {
+    if (result == null)
+      result = QueryResult.emptyResult();
+    this.cached = null;
+    for (HasData<T> display : getDataDisplays()) {
+      display.setRowCount(result.getTotalCount());
+      display.setVisibleRange(result.getStart(), result.getResult().size());
+      display.setRowData(result.getStart(), result.getResult());
+    }
+  }
 }
