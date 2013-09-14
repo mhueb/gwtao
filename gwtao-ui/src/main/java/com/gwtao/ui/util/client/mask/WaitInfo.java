@@ -79,7 +79,10 @@ public class WaitInfo implements IsWidget {
   }
 
   public void setMessage(SafeHtml msg) {
-    text.setHTML(msg);
+    if (msg == null)
+      text.setText("");
+    else
+      text.setHTML(msg);
   }
 
   public Widget asWidget() {
