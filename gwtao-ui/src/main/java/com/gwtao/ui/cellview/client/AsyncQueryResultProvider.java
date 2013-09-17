@@ -28,8 +28,15 @@ import org.shu4j.utils.query.QueryResult;
  */
 public abstract class AsyncQueryResultProvider<T extends Serializable> extends AsyncDataProviderEx<QueryResult<T>, T> {
 
+  public AsyncQueryResultProvider() {
+  }
+
+  public AsyncQueryResultProvider(int pageSize) {
+    super(pageSize);
+  }
+
   @Override
   protected void onDataLoaded(QueryResult<T> result) {
-    setDisplayData(result);    
+    setDisplayData(result);
   }
 }
