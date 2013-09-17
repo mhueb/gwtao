@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.shu4j.utils.query.PagingInfo;
 import org.shu4j.utils.query.QueryResult;
 import org.shu4j.utils.query.SortField;
@@ -54,6 +55,16 @@ public abstract class AsyncDataProviderEx<R, T extends Serializable> extends Asy
 
   private boolean readLock;
   private List<T> cached;
+  private int pageSize;
+
+  protected AsyncDataProviderEx() {
+    this(25);
+  }
+
+  protected AsyncDataProviderEx(int pageSize) {
+    Validate.isTrue(pageSize > 0);
+    this.pageSize = pageSize;
+  }
 
   protected IWaitMask getWaitMask() {
     return new WaitMaskDummy();
@@ -64,7 +75,7 @@ public abstract class AsyncDataProviderEx<R, T extends Serializable> extends Asy
     Iterator<HasData<T>> it = getDataDisplays().iterator();
     if (it.hasNext()) {
       HasData<T> display = it.next();
-      display.setVisibleRangeAndClearData(new Range(0, 25), true);
+      display.setVisibleRangeAndClearData(new Range(0, pageSize), true);
     }
   }
 
