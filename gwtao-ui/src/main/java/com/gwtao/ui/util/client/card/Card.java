@@ -67,4 +67,8 @@ public class Card implements ICard {
     return list.iterator();
   }
 
+  public boolean isEmpty() {
+    return list.isEmpty();
+  }
+
 }
