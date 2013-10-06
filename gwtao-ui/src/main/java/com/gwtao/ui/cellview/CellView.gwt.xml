@@ -5,7 +5,7 @@
 
 	<source path="client" />
 
-	<generate-with class="com.gwtao.ui.cellview.generator.ColumnGenerator">
-		<when-type-assignable class="com.gwtao.ui.cellview.client.ColumnGenerator" />
+	<generate-with class="com.gwtao.ui.cellview.generator.ColumnFactoryGenerator">
+		<when-type-assignable class="com.gwtao.ui.cellview.client.ColumnFactory" />
 	</generate-with>
 </module>

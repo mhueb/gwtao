@@ -34,4 +34,10 @@ public final class TypeUtils {
       }
     }
   }
+
+  public static JMethod getSetter(JClassType targetType, String fieldName, JType type) throws NotFoundException {
+    String fieldNameC = WordUtils.capitalize(fieldName);
+    JType[] arr = { type };
+    return targetType.getMethod("set" + fieldNameC, arr);
+  }
 }

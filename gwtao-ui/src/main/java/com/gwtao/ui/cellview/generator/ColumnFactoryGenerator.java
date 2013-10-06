@@ -39,14 +39,15 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 import com.gwtao.ui.cellview.client.BooleanCell;
-import com.gwtao.ui.cellview.client.ColumnGenerator.Default;
-import com.gwtao.ui.cellview.client.ColumnGenerator.GenColumn;
+import com.gwtao.ui.cellview.client.ColumnFactory.Align;
+import com.gwtao.ui.cellview.client.ColumnFactory.Default;
+import com.gwtao.ui.cellview.client.ColumnFactory.GenColumn;
 import com.gwtao.ui.cellview.client.TextCellEx;
 import com.gwtao.ui.util.generator.TypeUtils;
 
-public class ColumnGenerator extends Generator {
+public class ColumnFactoryGenerator extends Generator {
 
-  public ColumnGenerator() {
+  public ColumnFactoryGenerator() {
   }
 
   @Override
@@ -74,7 +75,7 @@ public class ColumnGenerator extends Generator {
       throw new UnableToCompleteException();
     }
 
-    JClassType intfType = context.getTypeOracle().getType(com.gwtao.ui.cellview.client.ColumnGenerator.class.getName()).isInterface();
+    JClassType intfType = context.getTypeOracle().getType(com.gwtao.ui.cellview.client.ColumnFactory.class.getName()).isInterface();
     JClassType[] parameters = ModelUtils.findParameterizationOf(intfType, classType);
     assert parameters.length == 1 : "Unexpected number of type parameters";
     JClassType viewType = parameters[0];
@@ -91,29 +92,28 @@ public class ColumnGenerator extends Generator {
     composer.addImport(viewType.getQualifiedSourceName());
 
     SourceWriter src = composer.createSourceWriter(context, printWriter);
-
     String viewName = viewType.getSimpleSourceName();
-
-    src.println("public void generateColumns( %s view ) {", viewName);
-
-    String grid = "null";
     JField[] fields = viewType.getFields();
-    for (JField field : fields) {
-      if (field.isAnnotationPresent(com.gwtao.ui.cellview.client.ColumnGenerator.GenGrid.class)) {
-        grid = "view." + field.getName();
-        break;
-      }
-    }
 
-    src.println("  %s grid = %s;", AbstractCellTable.class.getName(), grid);
+    src.println("public void generateColumns( %s view, %s grid ) {", viewName, AbstractCellTable.class.getName());
 
     for (JField field : fields) {
-      GenColumn info = field.getAnnotation(com.gwtao.ui.cellview.client.ColumnGenerator.GenColumn.class);
+      GenColumn info = field.getAnnotation(com.gwtao.ui.cellview.client.ColumnFactory.GenColumn.class);
       if (info != null) {
         generateAdapterClasses(src, logger, field, context.getTypeOracle(), columnType, info);
       }
     }
 
+    src.println("  if( grid != null ) {");
+
+    for (JField field : fields) {
+      GenColumn info = field.getAnnotation(com.gwtao.ui.cellview.client.ColumnFactory.GenColumn.class);
+      if (info != null) {
+        generateInitGrid(src, logger, field, context.getTypeOracle(), columnType, info);
+      }
+    }
+
+    src.println("  }");
     src.println("}");
     src.commit(logger);
   }
@@ -131,7 +131,11 @@ public class ColumnGenerator extends Generator {
     else
       modelFieldName = uiFieldName;
 
-    JMethod method = TypeUtils.getGetter(modelType, modelFieldName);
+    JMethod getter = TypeUtils.getGetter(modelType, modelFieldName);
+    JMethod setter = null;
+
+    if (info.editable())
+      setter = TypeUtils.getSetter(modelType, modelFieldName, getter.getReturnType());
 
     String cellName = "cell_" + uiField.getName();
     generateCell(src, cellName, valueType, info.cellType());
@@ -139,18 +143,51 @@ public class ColumnGenerator extends Generator {
     src.println("  view.%s = new %s( %s ) {", uiField.getName(), uiField.getType().getParameterizedQualifiedSourceName(), cellName);
     src.println("    @Override");
     src.println("    public %s getValue(%s object) {", valueType.getQualifiedSourceName(), modelType.getQualifiedSourceName());
-    src.println("      return object.%s();", method.getName());
+    src.println("      return object.%s();", getter.getName());
     src.println("    }");
     src.println("  };");
-    src.println("  if( grid != null ) {");
+
+    if (info.sortable())
+      src.println("  view.%s.setSortable( true );", uiField.getName());
+
+    if (!info.dataStoreName().isEmpty())
+      src.println("  view.%s.setDataStoreName( %s );", uiField.getName(), info.dataStoreName());
+
+    if (info.align() != Align.DEFAULT)
+      src.println("  view.%s.setHorizontalAlignment(HorizontalAlignmentConstant.%s );", uiField.getName(), mapAlign(info.align()));
+
+    if (info.editable()) {
+      src.println("  view.%s.setFieldUpdater( new FieldUpdater<%s,%s>( ) {", uiField.getName(), modelType.getQualifiedSourceName(), valueType.getQualifiedSourceName());
+      src.println("    void update(int index, %s object, %s value) {", modelType.getQualifiedSourceName(), valueType.getQualifiedSourceName());
+      src.println("      object.%s(value);", setter.getName());
+      src.println("    }");
+      src.println("  };");
+    }
+  }
+
+  private String mapAlign(Align align) {
+    switch (align) {
+    case DEFAULT:
+    case LEFT:
+      return "ALIGN_LEFT";
+    case CENTER:
+      return "ALIGN_CENTER";
+    case RIGHT:
+      return "ALIGN_RIGHT";
+    }
+    throw new IllegalArgumentException("Unexpected type of Align=" + align);
+  }
+
+  private void generateInitGrid(SourceWriter src, TreeLogger logger, JField uiField, TypeOracle typeOracle, JClassType columnType, GenColumn info) throws UnableToCompleteException, NotFoundException {
     if (info.title().isEmpty())
       src.println("    grid.addColumn( view.%s );", uiField.getName());
     else
       src.println("    grid.addColumn( view.%s, \"%s\" );", uiField.getName(), info.title());
-    if (info.sortable())
-      src.println("    view.%s.setSortable( true );", uiField.getName());
 
-    src.println("  }");
+    if (info.width() > 0.0) {
+      src.println("  grid.setColumnWidth( view.%s, %s, Unit.%s);", uiField.getName(), info.width(), info.unit().getType());
+    }
+
   }
 
   private void generateCell(SourceWriter src, String cellName, JClassType valueType, Class<? extends Cell<?>> cellType) throws NotFoundException {
