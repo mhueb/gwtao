@@ -16,6 +16,7 @@
 package com.gwtao.webapp.client;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang.StringUtils;
 
 import com.google.gwt.event.shared.EventBus;
 import com.gwtao.ui.location.client.Token;
@@ -74,7 +75,7 @@ public final class PageContext implements IPageContext {
 
   @Override
   public String getParameter() {
-    return token.getParameters();
+    return StringUtils.trimToEmpty(token.getParameters());
   }
 
   @Override
