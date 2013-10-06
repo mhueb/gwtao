@@ -31,13 +31,13 @@ public class ActionFocusWidgetAdapter implements IActionWidgetAdapter {
     this.action = action;
     this.data = data == null ? new NullDataSource<Object>(Permission.ALLOWED) : data;
     this.widget = widget;
-    this.data.addHandler(new DataChangedEvent.Handler() {
+    this.data.addHandler(DataChangedEvent.TYPE, new DataChangedEvent.Handler() {
 
       @Override
       public void onDataChanged() {
         update();
       }
-    }, DataChangedEvent.TYPE);
+    });
   }
 
   @Override

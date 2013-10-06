@@ -29,7 +29,7 @@ public abstract class AbstractDataSource<M> implements IDataSource<M> {
     this.handlerManager = new HandlerManager(this);
   }
 
-  public final <H extends AbstractDataSourceEvent.Handler> HandlerRegistration addHandler(final H handler, AbstractDataSourceEvent.Type<H> type) {
+  public final <H extends AbstractDataSourceEvent.Handler> HandlerRegistration addHandler(AbstractDataSourceEvent.Type<H> type, final H handler) {
     assert handler != null : "handler must not be null";
     assert type != null : "type must not be null";
     return handlerManager.addHandler(type, handler);

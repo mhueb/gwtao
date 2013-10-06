@@ -62,12 +62,12 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
       }
     });
 
-    getEditContext().addHandler(new DataChangedEvent.Handler() {
+    getEditContext().addHandler(DataChangedEvent.TYPE,new DataChangedEvent.Handler() {
       @Override
       public void onDataChanged() {
         getViewContext().updateTitle();
       }
-    },DataChangedEvent.TYPE);
+    });
 
     addActions(getViewContext().getActionManager());
   }

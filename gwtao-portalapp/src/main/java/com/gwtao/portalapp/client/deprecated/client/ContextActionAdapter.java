@@ -31,7 +31,7 @@ public class ContextActionAdapter extends ActionAdapter implements DataChangedEv
     this.ctx = ctx;
     if (this.ctx == null)
       throw new IllegalArgumentException("ContextActionAdapter: ctx is null.");
-    ctx.addHandler(this, DataChangedEvent.TYPE);
+    ctx.addHandler(DataChangedEvent.TYPE, this);
   }
 
   public ContextActionAdapter(IAction action, IDataSource<?> ctx, boolean respectContextPermission) {

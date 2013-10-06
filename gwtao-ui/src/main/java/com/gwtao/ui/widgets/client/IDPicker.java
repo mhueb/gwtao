@@ -209,15 +209,15 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasV
     this.source = source;
     if (this.handler != null)
       this.handler.removeHandler();
-    this.handler = this.source.addHandler(new DataChangedEvent.Handler() {
+    this.handler = this.source.addHandler(DataChangedEvent.TYPE, new DataChangedEvent.Handler() {
 
       @Override
       public void onDataChanged() {
         updateList();
       }
-    }, DataChangedEvent.TYPE);
+    });
 
-    this.handler = this.source.addHandler(new DataLoadEvent.Handler() {
+    this.handler = this.source.addHandler(DataLoadEvent.TYPE, new DataLoadEvent.Handler() {
 
       @Override
       public void onDataLoading() {
@@ -242,7 +242,7 @@ public class IDPicker<T extends HasId<ID>, ID> extends Composite implements HasV
           getListBox().setSelectedIndex(0);
         }
       }
-    }, DataLoadEvent.TYPE);
+    });
     updateList();
   }
 
