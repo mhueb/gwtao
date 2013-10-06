@@ -8,31 +8,48 @@ import java.lang.annotation.Target;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.cellview.client.AbstractCellTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
-public interface ColumnGenerator<V> {
+public interface ColumnFactory<V> {
 
-  public final class Default extends AbstractCell<Object> {
+  class Default extends AbstractCell<Object> {
     @Override
     public void render(com.google.gwt.cell.client.Cell.Context context, Object value, SafeHtmlBuilder sb) {
     }
   }
 
+  enum Align {
+    DEFAULT,
+    LEFT,
+    CENTER,
+    RIGHT;
+  }
+
   @Documented
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.FIELD)
-  public @interface GenColumn {
+  @interface GenColumn {
     Class<? extends Cell<?>> cellType() default Default.class;
 
     String title() default "";
+
+    String dataStoreName() default "";
+
     boolean sortable() default false;
+
+    double width() default 0.0;
+
+    Unit unit() default Unit.PX;
+
+    boolean editable() default false;
+
+    Align align() default Align.DEFAULT;
+
   }
 
-  @Documented
-  @Retention(RetentionPolicy.RUNTIME)
-  @Target(ElementType.FIELD)
-  public @interface GenGrid {
-  }
-
-  void generateColumns(V view);
+  void generateColumns(V view, AbstractCellTable<?> grid);
 }

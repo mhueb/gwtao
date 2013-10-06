@@ -34,6 +34,7 @@ public final class PageContext implements IPageContext {
     this.page = page;
     this.token = token;
     page.init(this);
+    updateTitle();
   }
 
   public IDisplayableItem asDisplayableItem() {
@@ -58,6 +59,7 @@ public final class PageContext implements IPageContext {
   @Override
   public void show() {
     pagesCtrl.show(page);
+    updateTitle();
   }
 
   @Override
