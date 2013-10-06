@@ -51,10 +51,14 @@ public class FieldPanel extends ComplexPanel {
   }
 
   public FieldPanel() {
+    this(120, Unit.PX);
+  }
+
+  public FieldPanel(int width, Unit unit) {
     setElement(DOM.createDiv());
     getElement().setClassName("gwtao-fieldPanel");
-    width = 120;
-    unit = Unit.PX;
+    this.width = width;
+    this.unit = unit;
   }
 
   public void addField(String labelText, Widget field) {

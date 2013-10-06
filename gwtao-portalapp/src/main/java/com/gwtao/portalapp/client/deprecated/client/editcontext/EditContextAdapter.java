@@ -152,7 +152,7 @@ public abstract class EditContextAdapter<T> implements IEditContext<T> {
     return inner.wantValidToCheckIn();
   }
 
-  public <H extends AbstractDataSourceEvent.Handler> com.google.gwt.event.shared.HandlerRegistration addHandler(H handler, AbstractDataSourceEvent.Type<H> type) {
-    return inner.addHandler(handler, type);
+  public <H extends AbstractDataSourceEvent.Handler> com.google.gwt.event.shared.HandlerRegistration addHandler(AbstractDataSourceEvent.Type<H> type, H handler) {
+    return inner.addHandler(type, handler);
   }
 }

@@ -88,7 +88,7 @@ public abstract class AbstractDocumentMonitor {
     }
     else if (lastDoc instanceof IDocumentSelector) {
       IDocumentSelector seldoc = (IDocumentSelector) lastDoc;
-      addHandler = seldoc.getSelectionContext().addHandler(selectorListener, DataChangedEvent.TYPE);
+      addHandler = seldoc.getSelectionContext().addHandler(DataChangedEvent.TYPE, selectorListener);
       selectorListener.onDataChanged();
     }
     else

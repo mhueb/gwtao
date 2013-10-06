@@ -48,13 +48,13 @@ public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
   protected void initEditor(IViewDriver<M> viewMgr, IParameterConverter<P, M> converter, IAsyncDataReader<P, M> reader, IAsyncTaskPerformer<M> performer) {
     this.editor = new TaskController<P, M>(viewMgr, converter, reader, performer);
     this.editor.initView(this);
-    this.editor.addHandler(new DataChangedEvent.Handler() {
+    this.editor.addHandler(DataChangedEvent.TYPE, new DataChangedEvent.Handler() {
 
       @Override
       public void onDataChanged() {
         getCtx().updateTitle();
       }
-    }, DataChangedEvent.TYPE);
+    });
 
     this.converter = converter;
 
