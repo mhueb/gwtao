@@ -145,9 +145,9 @@ public abstract class AsyncDataProviderEx<R, T extends Serializable> extends Asy
   public final void addDataDisplay(HasData<T> display) {
     readLock = true;
     super.addDataDisplay(display);
-    List<T> empty = Collections.emptyList();
-    display.setRowCount(0);
-    display.setRowData(0, empty);
+//    List<T> empty = Collections.emptyList();
+//    display.setRowCount(0);
+//    display.setRowData(0, empty);
     readLock = false;
   }
 

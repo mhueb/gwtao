@@ -10,4 +10,6 @@ public interface WebAppConstants extends Constants {
 
   String back();
 
+  String forward();
+
 }

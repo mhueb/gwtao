@@ -17,25 +17,16 @@ package com.gwtao.webapp.client;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.gwtao.ui.util.client.action.Action;
-import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.webapp.client.i18n.WebAppConstants;
+import com.gwtao.ui.util.client.mask.WaitMask;
 
 public abstract class AbstractPage extends Composite implements IPage, RequiresResize, ProvidesResize {
 
   private IPageContext ctx;
 
-  private IAction backAction = new Action(WebAppConstants.CONST.back()) {
-
-    @Override
-    public void execute(Object... data) {
-      History.back();
-    }
-  };
+  private WaitMask waitMask;
 
   @Override
   public final void init(IPageContext ctx) {
@@ -93,8 +84,9 @@ public abstract class AbstractPage extends Composite implements IPage, RequiresR
     return null;
   }
 
-  public IAction getBackAction() {
-    return backAction;
+  public WaitMask getWaitMask() {
+    if (waitMask == null)
+      waitMask = new WaitMask(this);
+    return waitMask;
   }
-
 }
