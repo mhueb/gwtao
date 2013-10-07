@@ -19,6 +19,8 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasConstrainedValue;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
@@ -124,6 +126,7 @@ public class DateTimeBox extends Composite implements HasConstrainedValue<Date>,
         dateBoxValueChanged(event.getValue());
       }
     });
+    panel.setCellVerticalAlignment(dateBox, HasVerticalAlignment.ALIGN_MIDDLE);
     if (type == TYPE.DATE_TIME) {
       panel.add(timeBox);
       timeBox.addChangeHandler(new ChangeHandler() {
@@ -135,6 +138,7 @@ public class DateTimeBox extends Composite implements HasConstrainedValue<Date>,
       for (String time : TIMES) {
         this.timeBox.addItem(time);
       }
+      panel.setCellVerticalAlignment(timeBox, HasVerticalAlignment.ALIGN_MIDDLE);
     }
   }
 
