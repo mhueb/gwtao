@@ -23,14 +23,14 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtao.ui.data.client.source.IDataSource;
 import com.gwtao.ui.util.client.action.IAction;
-import com.gwtao.ui.widgets.client.ActionPanel;
+import com.gwtao.ui.widgets.client.ToolPanel;
 
 public class ModalDialog {
   private DialogBox dialogBox;
 
   private VerticalPanel back;
 
-  private ActionPanel buttons;
+  private ToolPanel buttons;
 
   private IPopupHandler ph = new IPopupHandler() {
     @Override
@@ -58,7 +58,7 @@ public class ModalDialog {
     back = new VerticalPanel();
     dialogBox.setWidget(back);
 
-    buttons = new ActionPanel();
+    buttons = new ToolPanel();
     back.add(buttons);
 
     dialogBox.addCloseHandler(new CloseHandler<PopupPanel>() {

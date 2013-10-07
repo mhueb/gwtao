@@ -34,6 +34,7 @@ import com.gwtao.ui.task.client.events.TaskExecEvent;
 import com.gwtao.ui.task.client.events.TaskRefreshEvent;
 import com.gwtao.ui.task.client.events.TaskStartEvent;
 import com.gwtao.ui.task.client.i18n.DataConstants;
+import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.mask.IWaitMask;
 import com.gwtao.ui.util.client.mask.WaitMask;
 
@@ -73,6 +74,10 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
     this.performer = performer;
     this.initialState = State.EDIT;
     this.state = State.INIT;
+  }
+
+  public IDisplayableItem getPerformerTitle() {
+    return performer;
   }
 
   public void setEditOnStart(boolean editOnStart) {
