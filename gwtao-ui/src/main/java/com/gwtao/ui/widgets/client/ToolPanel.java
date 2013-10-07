@@ -5,16 +5,19 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.data.client.source.IDataSource;
 import com.gwtao.ui.data.client.source.NullDataSource;
 import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.client.card.ICard;
 
-public class ActionPanel extends Composite {
-  private final FlowPanel buttons;
+public class ToolPanel extends Composite {
+  private final FlowPanel panel;
 
-  public ActionPanel() {
-    buttons = new FlowPanel();
-    initWidget(buttons);
+  public ToolPanel() {
+    panel = new FlowPanel();
+    initWidget(panel);
+    setStyleName("gwtao-toolpanel");
   }
 
   public void add(IAction action) {
@@ -23,17 +26,27 @@ public class ActionPanel extends Composite {
 
   public void add(IAction action, IDataSource<?> source) {
     SimpleButton but = new SimpleButton(action, source);
-    but.getElement().getStyle().setMarginTop(4, Unit.PX);
-    but.getElement().getStyle().setMarginRight(2, Unit.PX);
-    but.getElement().getStyle().setMarginBottom(4, Unit.PX);
-    but.getElement().getStyle().setMarginLeft(2, Unit.PX);
-    buttons.add(but);
+    add(but);
+  }
+
+  public void add(Widget widget) {
+    widget.addStyleName("gwtao-toolpanelitem");
+    widget.getElement().getStyle().setMarginTop(4, Unit.PX);
+    widget.getElement().getStyle().setMarginRight(2, Unit.PX);
+    widget.getElement().getStyle().setMarginBottom(4, Unit.PX);
+    widget.getElement().getStyle().setMarginLeft(2, Unit.PX);
+    panel.add(widget);
   }
 
   public void addSpace(int i, Unit px) {
     HTMLPanel w = new HTMLPanel("");
     w.getElement().getStyle().setWidth(i, px);
     w.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
-    buttons.add(w);
+    panel.add(w);
+  }
+
+  public void update(ICard actions) {
+    // TODO Auto-generated method stub
+    
   }
 }

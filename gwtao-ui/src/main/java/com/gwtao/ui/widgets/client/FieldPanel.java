@@ -16,13 +16,16 @@ public class FieldPanel extends ComplexPanel {
 
     public FieldSet() {
       setElement(DOM.createFieldSet());
-      getElement().setClassName("gwtao-fieldSet");
+      setStyleName("gwtao-fieldSet");
       width = 120;
       unit = Unit.PX;
     }
 
     public void addField(String labelText, Widget field) {
-      insert(new FieldRow(labelText, field, width, unit), getElement(), getWidgetCount(), false);
+      FieldRow child = new FieldRow();
+      child.addLabel(labelText, width, unit);
+      child.addWidget(field);
+      insert(child, getElement(), getWidgetCount(), false);
     }
 
     public void setLegend(String string) {
@@ -34,21 +37,29 @@ public class FieldPanel extends ComplexPanel {
     }
   }
 
-  private double width;
-  private Unit unit;
-
-  private static final class FieldRow extends ComplexPanel {
-    public FieldRow(String labelText, Widget field, double width, Unit unit) {
+  public static final class FieldRow extends ComplexPanel {
+    public FieldRow() {
       setElement(DOM.createDiv());
-      getElement().setClassName("gwtao-fieldSetRow");
-      Label label = new Label(labelText + ":");
-      label.getElement().setClassName("gwtao-fieldSetLabel");
+      setStyleName("gwtao-fieldSetRow");
+    }
+
+    public void addLabel(String labelText, double width, Unit unit) {
+      Label label = new Label(labelText == null ? "" : (labelText + ":"));
+      label.addStyleName("gwtao-fieldSetLabel");
       label.getElement().getStyle().setWidth(width, unit);
-      field.getElement().setClassName("gwtao-fieldSetField");
-      insert(label, getElement(), 0, false);
-      insert(field, getElement(), 1, false);
+      insert(label, getElement(), getWidgetCount(), false);
+    }
+
+    public void addWidget(Widget field) {
+      Element div = DOM.createDiv();
+      div.setClassName("gwtao-fieldSetField");
+      DOM.appendChild(getElement(), div);
+      insert(field, div, 0, false);
     }
   }
+
+  private double width;
+  private Unit unit;
 
   public FieldPanel() {
     this(120, Unit.PX);
@@ -56,16 +67,24 @@ public class FieldPanel extends ComplexPanel {
 
   public FieldPanel(int width, Unit unit) {
     setElement(DOM.createDiv());
-    getElement().setClassName("gwtao-fieldPanel");
+    setStyleName("gwtao-fieldPanel");
     this.width = width;
     this.unit = unit;
   }
 
   public void addField(String labelText, Widget field) {
-    insert(new FieldRow(labelText, field, width, unit), getElement(), getWidgetCount(), false);
+    FieldRow child = new FieldRow();
+    child.addLabel(labelText, width, unit);
+    child.addWidget(field);
+    addRow(child);
+  }
+
+  public void addRow(FieldRow child) {
+    insert(child, getElement(), getWidgetCount(), false);
   }
 
   public void addSet(FieldSet fieldset) {
     insert(fieldset, getElement(), getWidgetCount(), false);
   }
+
 }

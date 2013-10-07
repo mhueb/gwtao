@@ -30,4 +30,16 @@ public abstract class AsyncSavePerformer<M> implements IAsyncTaskPerformer<M> {
   public String getWaitMessage() {
     return CONSTANTS.saving();
   }
+
+  @Override
+  public String getDisplayIcon() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getDisplayTooltip() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

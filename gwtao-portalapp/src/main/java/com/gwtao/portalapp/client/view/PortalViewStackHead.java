@@ -37,7 +37,7 @@ import com.gwtao.ui.dialog.client.AsyncOkAnswere;
 import com.gwtao.ui.dialog.client.MessageDialog;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.card.ICard;
-import com.gwtao.ui.widgets.client.Toolbar;
+import com.gwtao.ui.widgets.client.ToolPanel;
 
 public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite implements IViewNavigator {
 
@@ -109,8 +109,8 @@ public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite
 
   private final HorizontalPanel root = new HorizontalPanel();
 
-  private final Toolbar actionbar = new Toolbar();
-  private final Toolbar partbar = new Toolbar();
+  private final ToolPanel actionbar = new ToolPanel();
+  private final ToolPanel partbar = new ToolPanel();
 
   private final TabBar tabbar = new TabBar() {
     @Override

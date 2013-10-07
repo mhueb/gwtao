@@ -16,7 +16,6 @@
 package com.gwtao.webapp.client.task;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.History;
 import com.gwtao.ui.data.client.source.events.DataChangedEvent;
 import com.gwtao.ui.dialog.client.AsyncOkAnswere;
 import com.gwtao.ui.dialog.client.AsyncOkCancelAnswere;
@@ -33,16 +32,16 @@ import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 import com.gwtao.webapp.client.AbstractPage;
-import com.gwtao.webapp.client.i18n.WebAppConstants;
 
 public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
   private static final DataConstants DATA_CONSTS = GWT.create(DataConstants.class);
-  private static final WebAppConstants WEBAPP_CONSTS = GWT.create(WebAppConstants.class);
 
   private TaskController<P, M> editor;
+
   private IAction performAction;
-  private Action refreshAction;
-  private Action closeAction;
+
+  private IAction refreshAction;
+
   private IParameterConverter<P, M> converter;
 
   protected void initEditor(IViewDriver<M> viewMgr, IParameterConverter<P, M> converter, IAsyncDataReader<P, M> reader, IAsyncTaskPerformer<M> performer) {
@@ -57,8 +56,7 @@ public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
     });
 
     this.converter = converter;
-
-    performAction = new Action(performer.getDisplayTitle()) {
+    performAction = new Action(editor.getPerformerTitle()) {
 
       @Override
       public void execute(Object... data) {
@@ -74,17 +72,18 @@ public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
       }
     };
 
-    closeAction = new Action(WEBAPP_CONSTS.close()) {
-
-      @Override
-      public void execute(Object... data) {
-        History.back();
-      }
-    };
   }
 
   public ITaskController<P, M> getEditor() {
     return editor;
+  }
+
+  public IAction getPerformAction() {
+    return performAction;
+  }
+
+  public IAction getRefreshAction() {
+    return refreshAction;
   }
 
   @Override
@@ -105,17 +104,5 @@ public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
   @Override
   public void confirm(String title, String message, AsyncOkCancelAnswere answere) {
     MessageDialog.confirm(title, message, answere);
-  }
-
-  protected IAction getPerformAction() {
-    return performAction;
-  }
-
-  protected IAction getRefreshAction() {
-    return refreshAction;
-  }
-
-  protected IAction getCloseAction() {
-    return closeAction;
   }
 }
