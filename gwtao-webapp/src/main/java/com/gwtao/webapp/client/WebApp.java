@@ -25,40 +25,72 @@ import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
 import com.gwtao.ui.location.client.LocationManager;
 import com.gwtao.ui.location.client.Token;
-import com.gwtao.ui.location.client.UnkownLocationException;
 
-public abstract class WebApp implements IPresenterManager<PageContext>, IWindowTitleSetter {
+public abstract class WebApp implements IWindowTitleSetter {
 
   private IPagesController pages;
 
   private final LocationManager<PageContext> locationManager;
 
   private final EventBus eventbus;
-  
-  private String appTitle;
+
+  private final String appTitle;
 
   private IsWidget frame;
 
+  private IPresenterManager<PageContext> manager = new IPresenterManager<PageContext>() {
+
+    @Override
+    public void show(PageContext presenter) {
+      presenter.show();
+    }
+
+    @Override
+    public boolean locationChangeHook(Token token) {
+      return WebApp.this.placeChangeHook(token);
+    }
+
+    @Override
+    public boolean hide(PageContext presenter) {
+      return true;
+    }
+
+    @Override
+    public PageContext createPresenter(Token token) {
+      IPage document = createPage(token.getName());
+      return createContext(token, document);
+    }
+
+    @Override
+    public PageContext createErrorPresenter(Token token, String errorMessage) {
+      IPage page = createErrorPage(token, errorMessage);
+      return createContext(token, page);
+    }
+
+    @Override
+    public String canClose(PageContext presenter) {
+      return presenter.canClose();
+    }
+  };
+
   protected WebApp() {
-    this.locationManager = new LocationManager<PageContext>(this);
+    this.locationManager = new LocationManager<PageContext>(manager);
     this.eventbus = new SimpleEventBus();
+    this.appTitle = StringUtils.trimToNull(Document.get().getTitle());
   }
 
   protected void init(IsWidget frame, IPagesController pages) {
     this.pages = pages;
     this.frame = frame;
+    RootLayoutPanel.get().add(frame);
   }
 
-  @Override
-  public boolean beforeChange(Token token) {
-    if (!PageFactoryRegistry.REGISTRY.hasToken(token.getName()))
-      throw new UnkownLocationException(token);
-    return false;
+  public void replacePage(IPage page) {
+    PageContext ctx = createContext(locationManager.getCurrentToken(), page);
+    locationManager.replacePresenter(ctx);
   }
 
-  @Override
-  public final PageContext createPresenter(Token token) {
-    IPage document = createPage(token.getName());
+  private PageContext createContext(Token token, IPage document) {
     return new PageContext(eventbus, pages, document, token);
   }
 
@@ -66,37 +98,18 @@ public abstract class WebApp implements IPresenterManager<PageContext>, IWindowT
     return PageFactoryRegistry.REGISTRY.create(id);
   }
 
-  @Override
-  public void show(PageContext presenter) {
-    presenter.show();
-  }
+  protected abstract IPage createErrorPage(Token token, String errorMessage);
 
-  @Override
-  public boolean hide(PageContext presenter) {
+  protected boolean placeChangeHook(Token token) {
     return true;
   }
 
-  @Override
-  public PageContext createErrorPresenter(Token token, String errorMessage) {
-    IPage page = createErrorPage(token, errorMessage);
-    return new PageContext(eventbus, pages, page, token);
-  }
-
-  protected abstract IPage createErrorPage(Token token, String errorMessage);
-
-  @Override
-  public String canClose(PageContext presenter) {
-    return presenter.canClose();
-  }
-
-  public void proceedChange() {
-    locationManager.proceedChange();
-  }
-
   public void startup() {
-    appTitle = StringUtils.trimToNull(Document.get().getTitle());
-    RootLayoutPanel.get().add(frame);
-    this.locationManager.startup();
+    startup(null);
+  }
+
+  public void startup(Token token) {
+    locationManager.startup(token);
   }
 
   public EventBus getEventBus() {
@@ -104,12 +117,23 @@ public abstract class WebApp implements IPresenterManager<PageContext>, IWindowT
   }
 
   public void updateWindowTitle(String title) {
+    String windowTitle = appTitle;
     if (appTitle != null) {
-      String windowTitle = appTitle;
-      if (StringUtils.isNotBlank(title)) {
+      if (StringUtils.isNotBlank(title))
         windowTitle = windowTitle + " - " + title;
-      }
-      Document.get().setTitle(windowTitle);
     }
+    Document.get().setTitle(windowTitle);
+  }
+
+  public void rebuildPage() {
+    locationManager.rebuildLocation();
+  }
+
+  public void reset() {
+    locationManager.reset();
+  }
+
+  public IsWidget getFrame() {
+    return frame;
   }
 }
