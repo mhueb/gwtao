@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;
 
@@ -53,13 +52,15 @@ public final class LocationManager<T> {
 
   private HandlerRegistration addWindowClosingHandler;
 
-  private Token postponedChange;
+  private boolean ignoreEvent;
+
+  private boolean canPopState;
 
   public LocationManager(IPresenterManager<T> presenterManager) {
     this.presenterManager = presenterManager;
   }
 
-  public void startup() {
+  public void startup(Token token) {
     if (started)
       throw new IllegalStateException("unexpected startup");
 
@@ -68,6 +69,7 @@ public final class LocationManager<T> {
     addValueChangeHandler = History.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override
       public void onValueChange(ValueChangeEvent<String> event) {
+        canPopState = true;
         onHistoryChange(event.getValue());
       }
     });
@@ -79,7 +81,10 @@ public final class LocationManager<T> {
       }
     });
 
-    onHistoryChange(History.getToken());
+    if (token != null)
+      onHistoryChange(token);
+    else
+      onHistoryChange(History.getToken());
   }
 
   public void reset() {
@@ -92,7 +97,6 @@ public final class LocationManager<T> {
       this.currentPresenter = null;
       this.currentToken = null;
       this.presenters.clear();
-      History.newItem("", false);
     }
   }
 
@@ -111,37 +115,23 @@ public final class LocationManager<T> {
 
   private void onHistoryChange(Token token) {
     try {
-      if (ObjectUtils.equals(token, postponedChange) || presenterManager.beforeChange(token)) {
-        postponedChange = null;
-        if (currentToken != null) {
-          if (currentToken.equals(token)) {
-            return;
-          }
+      if (ignoreEvent)
+        return;
 
-          if (!presenterManager.hide(currentPresenter)) {
-            History.back();
-            return;
-          }
+      if (currentToken != null) {
+        if (currentToken.equals(token))
+          return;
+        if (!presenterManager.hide(currentPresenter)) {
+          popLocation();
+          return;
         }
-
-        T presenter = presenters.get(token);
-        if (presenter == null) {
-          presenter = presenterManager.createPresenter(token);
-          if (presenter == null)
-            throw new IllegalStateException("Unhandled token='" + token + "'");
-          presenters.put(token, presenter);
-        }
-
-        currentToken = token;
-        currentPresenter = presenter;
-        presenterManager.show(currentPresenter);
       }
-      else {
-        postponedChange = token;
-      }
+
+      currentToken = token;
+
+      rebuildLocation();
     }
     catch (Exception e) {
-      currentToken = token;
       currentPresenter = null;
 
       String error;
@@ -165,11 +155,25 @@ public final class LocationManager<T> {
     }
   }
 
-  public void proceedChange() {
-    if (postponedChange != null) {
-      Token token = postponedChange;
-      postponedChange = null;
-      onHistoryChange(token);
+  public void rebuildLocation() {
+    if (presenterManager.locationChangeHook(currentToken)) {
+      T presenter = presenters.get(currentToken);
+      if (presenter == null) {
+        presenter = presenterManager.createPresenter(currentToken);
+        if (presenter == null)
+          throw new IllegalStateException("Unhandled token='" + currentToken + "'");
+        presenters.put(currentToken, presenter);
+      }
+      currentPresenter = presenter;
+      presenterManager.show(currentPresenter);
+    }
+  }
+
+  private void popLocation() {
+    if (canPopState) {
+      ignoreEvent = true;
+      History.back();
+      ignoreEvent = false;
     }
   }
 
@@ -206,6 +210,7 @@ public final class LocationManager<T> {
       presenters.put(token, presenter);
       if (currentPresenter == presenter) {
         currentToken = token;
+        popLocation();
         History.newItem(token.getValue(), false);
       }
     }
@@ -218,5 +223,14 @@ public final class LocationManager<T> {
       }
     }
     return null;
+  }
+
+  public Token getCurrentToken() {
+    return currentToken;
+  }
+
+  public void replacePresenter(T presenter) {
+    currentPresenter = presenter;
+    presenterManager.show(currentPresenter);
   }
 }

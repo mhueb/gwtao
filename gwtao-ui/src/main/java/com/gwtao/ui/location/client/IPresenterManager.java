@@ -16,8 +16,6 @@
 package com.gwtao.ui.location.client;
 
 public interface IPresenterManager<T> {
-  boolean beforeChange(Token location);
-
   T createPresenter(Token token);
 
   void show(T presenter);
@@ -27,4 +25,6 @@ public interface IPresenterManager<T> {
   T createErrorPresenter(Token token, String errorMessage);
 
   String canClose(T presenter);
+
+  boolean locationChangeHook(Token token);
 }

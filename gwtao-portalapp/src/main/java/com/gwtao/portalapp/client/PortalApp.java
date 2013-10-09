@@ -41,8 +41,8 @@ import com.gwtao.portalapp.client.view.IPortalViewStackFactory;
 import com.gwtao.portalapp.client.view.PortalViewStack;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
-import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.location.client.LocationManager;
+import com.gwtao.ui.location.client.Token;
 import com.gwtao.ui.location.client.TokenUtils;
 import com.gwtao.ui.util.client.DisplayableItem;
 import com.gwtao.ui.util.client.SplashManager;
@@ -124,7 +124,7 @@ public class PortalApp implements IPortal {
       }
 
       @Override
-      public boolean beforeChange(Token token) {
+      public boolean locationChangeHook(Token token) {
         SafeIterator<IPortalListener> it = new SafeIterator<IPortalListener>(listeners);
         while (it.hasNext())
           if (!it.next().beforChange(token))
@@ -164,7 +164,7 @@ public class PortalApp implements IPortal {
     RootLayoutPanel.get().add(frame.getWidget());
     applyLook(lookId);
 
-    manager.startup();
+    manager.startup(null);
   }
 
   @Override
