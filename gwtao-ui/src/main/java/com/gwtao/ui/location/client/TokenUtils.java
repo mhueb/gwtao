@@ -17,7 +17,9 @@ package com.gwtao.ui.location.client;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.gwtao.ui.util.client.ParameterList;
 import com.gwtao.ui.util.client.ParameterList.Builder;
 
@@ -100,5 +102,23 @@ public class TokenUtils {
 
   public static void newHistoryItem(Token token) {
     History.newItem(token.getValue());
+  }
+
+  public static String buildURL(Token token) {
+    String path = Window.Location.getPath();
+    if (path.indexOf('/') == 0)
+      path = path.substring(1);
+    int pos = path.indexOf('/');
+    if (pos != -1)
+      path = path.substring(pos + 1);
+
+    String url = GWT.getHostPageBaseURL() + path;
+
+    if (!GWT.isScript()) {
+      String gwtCodeServer = Window.Location.getParameter("gwt.codesvr");
+      url = url + "?gwt.codesvr=" + gwtCodeServer;
+    }
+
+    return url + "#" + token.getValue();
   }
 }
