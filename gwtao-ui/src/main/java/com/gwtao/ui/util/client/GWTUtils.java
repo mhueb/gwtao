@@ -68,6 +68,11 @@ public class GWTUtils {
         sh };
   };
 
+  public static native void closeBrowser()
+  /*-{
+		$wnd.close();
+  }-*/;
+
   public static KeyInfo createKeyInfo(NativeEvent nativeEvent) {
     if (nativeEvent != null)
       return new KeyInfo(nativeEvent.getKeyCode(), nativeEvent.getShiftKey(), nativeEvent.getCtrlKey(), nativeEvent.getAltKey());

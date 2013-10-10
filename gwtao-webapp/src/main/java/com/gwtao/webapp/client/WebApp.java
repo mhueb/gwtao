@@ -25,6 +25,7 @@ import com.gwtao.ui.layout.client.RootLayoutPanel;
 import com.gwtao.ui.location.client.IPresenterManager;
 import com.gwtao.ui.location.client.LocationManager;
 import com.gwtao.ui.location.client.Token;
+import com.gwtao.webapp.client.i18n.WebAppConstants;
 
 public abstract class WebApp implements IWindowTitleSetter {
 
@@ -70,6 +71,11 @@ public abstract class WebApp implements IWindowTitleSetter {
     @Override
     public String canClose(PageContext presenter) {
       return presenter.canClose();
+    }
+
+    @Override
+    public String canClose() {
+      return null;
     }
   };
 

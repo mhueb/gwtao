@@ -192,7 +192,11 @@ public class ColumnFactoryGenerator extends Generator {
 
   private void generateCell(SourceWriter src, String cellName, JClassType valueType, Class<? extends Cell<?>> cellType) throws NotFoundException {
     if (!cellType.equals(Default.class)) {
-      src.println("  %s %s = new %s();", cellType.getName(), cellName, cellType.getName());
+      String cellClass = cellType.getName().replace('$', '.');
+      if (cellType.getName().indexOf('$') != -1)
+        src.println("  %s %s = view.new %s();", cellClass, cellName, cellType.getSimpleName());
+      else
+        src.println("  %s %s = new %s();", cellType.getName(), cellName, cellType.getName());
     }
     else if (String.class.getName().equals(valueType.getQualifiedSourceName())) {
       src.println("  %s %s = new %s();", TextCellEx.class.getName(), cellName, TextCellEx.class.getName());

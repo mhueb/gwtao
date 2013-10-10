@@ -29,6 +29,7 @@ import com.gwtao.portalapp.client.document.InvalidDocumentView;
 import com.gwtao.portalapp.client.frame.IPortalFrame;
 import com.gwtao.portalapp.client.frame.NotstartedFrame;
 import com.gwtao.portalapp.client.frame.PortalFrame;
+import com.gwtao.portalapp.client.i18n.PortalConstants;
 import com.gwtao.portalapp.client.layout.IPortalLookFactory;
 import com.gwtao.portalapp.client.layout.PortalLayout;
 import com.gwtao.portalapp.client.layout.PortalLookRegistry;
@@ -130,6 +131,11 @@ public class PortalApp implements IPortal {
           if (!it.next().beforChange(token))
             return false;
         return true;
+      }
+
+      @Override
+      public String canClose() {
+        return null;
       }
     });
   }
