@@ -12,4 +12,5 @@ public interface WebAppConstants extends Constants {
 
   String forward();
 
+  String youAreLeaving();
 }

@@ -27,4 +27,6 @@ public interface IPresenterManager<T> {
   String canClose(T presenter);
 
   boolean locationChangeHook(Token token);
+
+  String canClose();
 }

@@ -106,7 +106,7 @@ public final class LocationManager<T> {
       if (StringUtils.isNotBlank(message))
         return message;
     }
-    return null;
+    return presenterManager.canClose();
   }
 
   private void onHistoryChange(String token) {

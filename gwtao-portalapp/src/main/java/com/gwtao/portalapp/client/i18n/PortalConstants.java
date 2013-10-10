@@ -35,4 +35,5 @@ public interface PortalConstants extends Constants {
 
   String create();
 
+  String willYouLeave();
 }
