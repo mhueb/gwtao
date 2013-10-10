@@ -47,6 +47,7 @@ public class FieldPanel extends ComplexPanel {
       Label label = new Label(labelText == null ? "" : (labelText + ":"));
       label.addStyleName("gwtao-fieldSetLabel");
       label.getElement().getStyle().setWidth(width, unit);
+      label.getElement().getStyle().setProperty("minWidth", label.getElement().getStyle().getWidth());
       insert(label, getElement(), getWidgetCount(), false);
     }
 
