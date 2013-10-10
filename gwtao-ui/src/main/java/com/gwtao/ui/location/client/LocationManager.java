@@ -132,40 +132,49 @@ public final class LocationManager<T> {
       rebuildLocation();
     }
     catch (Exception e) {
-      currentPresenter = null;
+      handleException(e);
+    }
+  }
 
-      String error;
-      if (StringUtils.isNotBlank(e.getMessage()))
-        error = e.getMessage();
+  private void handleException(Exception e) {
+    currentPresenter = null;
+
+    String error;
+    if (StringUtils.isNotBlank(e.getMessage()))
+      error = e.getMessage();
+    else
+      error = e.toString();
+
+    try {
+      currentPresenter = presenterManager.createErrorPresenter(currentToken, error);
+      presenterManager.show(currentPresenter);
+    }
+    catch (Exception e1) {
+      UnhandledException fatal = new UnhandledException(error, e1);
+      UncaughtExceptionHandler uncaughtExceptionHandler = GWT.getUncaughtExceptionHandler();
+      if (uncaughtExceptionHandler != null)
+        uncaughtExceptionHandler.onUncaughtException(fatal);
       else
-        error = e.toString();
-
-      try {
-        currentPresenter = presenterManager.createErrorPresenter(token, error);
-        presenterManager.show(currentPresenter);
-      }
-      catch (Exception e1) {
-        UnhandledException fatal = new UnhandledException(error, e1);
-        UncaughtExceptionHandler uncaughtExceptionHandler = GWT.getUncaughtExceptionHandler();
-        if (uncaughtExceptionHandler != null)
-          uncaughtExceptionHandler.onUncaughtException(fatal);
-        else
-          throw fatal;
-      }
+        throw fatal;
     }
   }
 
   public void rebuildLocation() {
-    if (presenterManager.locationChangeHook(currentToken)) {
-      T presenter = presenters.get(currentToken);
-      if (presenter == null) {
-        presenter = presenterManager.createPresenter(currentToken);
-        if (presenter == null)
-          throw new IllegalStateException("Unhandled token='" + currentToken + "'");
-        presenters.put(currentToken, presenter);
+    try {
+      if (presenterManager.locationChangeHook(currentToken)) {
+        T presenter = presenters.get(currentToken);
+        if (presenter == null) {
+          presenter = presenterManager.createPresenter(currentToken);
+          if (presenter == null)
+            throw new IllegalStateException("Unhandled token='" + currentToken + "'");
+          presenters.put(currentToken, presenter);
+        }
+        currentPresenter = presenter;
+        presenterManager.show(currentPresenter);
       }
-      currentPresenter = presenter;
-      presenterManager.show(currentPresenter);
+    }
+    catch (Exception e) {
+      handleException(e);
     }
   }
 
