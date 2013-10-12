@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.data.client.source.IDataSource;
@@ -39,7 +40,7 @@ public class ToolPanel extends Composite {
   }
 
   public void addSpace(int i, Unit px) {
-    HTMLPanel w = new HTMLPanel("");
+    HTML w = new HTML();
     w.getElement().getStyle().setWidth(i, px);
     w.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
     panel.add(w);

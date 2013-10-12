@@ -17,8 +17,6 @@ package com.gwtao.ui.data.client.source;
 
 import org.shu4j.utils.permission.Permission;
 
-
-
 public class SimpleDataSource<T> extends AbstractDataSource<T> {
   private T data;
 
@@ -37,7 +35,7 @@ public class SimpleDataSource<T> extends AbstractDataSource<T> {
   }
 
   protected void onSetData() {
-    notifyChange();
+    fireDataChanged();
   }
 
   protected void setDataSilent(T data) {

@@ -139,7 +139,7 @@ public class ViewDriverFactoryGenerator extends Generator {
         field = modelType.getMethod("get" + modelFieldName, arr);
       }
       catch (NotFoundException e2) {
-        logger.log(Type.ERROR, e1.getMessage());
+        logger.log(Type.ERROR, "UiField '" + uiFieldName + "' : Missig getter/setter in model '" + modelType.getName() + "'");
         throw new UnableToCompleteException();
       }
     }

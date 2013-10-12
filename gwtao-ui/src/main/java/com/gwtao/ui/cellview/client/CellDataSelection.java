@@ -21,7 +21,7 @@ public class CellDataSelection extends AbstractDataSelection {
       @Override
       public void onSelectionChange(SelectionChangeEvent event) {
         data = model.getSelectedSet().toArray();
-        notifyChange();
+        fireDataChanged();
       }
     });
 
@@ -30,7 +30,7 @@ public class CellDataSelection extends AbstractDataSelection {
       public void onRangeChange(RangeChangeEvent event) {
         model.clear();
         data = model.getSelectedSet().toArray();
-        notifyChange();
+        fireDataChanged();
       }
     });
   }

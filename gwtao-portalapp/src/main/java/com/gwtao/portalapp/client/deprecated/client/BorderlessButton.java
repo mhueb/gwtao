@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.widgets.client;
+package com.gwtao.portalapp.client.deprecated.client;
 
 import org.apache.commons.lang.StringUtils;
 import org.shu4j.utils.permission.Permission;

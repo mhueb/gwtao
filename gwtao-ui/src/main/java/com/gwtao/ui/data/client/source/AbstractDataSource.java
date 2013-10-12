@@ -35,7 +35,7 @@ public abstract class AbstractDataSource<M> implements IDataSource<M> {
     return handlerManager.addHandler(type, handler);
   }
 
-  protected final void notifyChange() {
+  public void fireDataChanged() {
     fireEvent(new DataChangedEvent());
   }
 
