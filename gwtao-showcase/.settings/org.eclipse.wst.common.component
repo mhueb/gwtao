@@ -2,7 +2,11 @@
     <wb-module deploy-name="gwtao-showcase">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/version"/>
         <dependent-module archiveName="shu4j-utils-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/shu4j-utils/shu4j-utils">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gwtao-webapp-0.0.2-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gwtao-webapp/gwtao-webapp">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="gwtao-showcase"/>

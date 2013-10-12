@@ -59,7 +59,7 @@ public class CollectionPool {
     public void onSuccess(List<T> result) {
       data = result;
       fireEvent( new DataLoadEvent(null));
-      notifyChange();
+      fireDataChanged();
     }
   }
 

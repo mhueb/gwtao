@@ -29,6 +29,10 @@ public class SimplePagerEx extends SimplePager {
     super(location, RESOURCES, showFastForwardButton, fastForwardRows, showLastPageButton);
   }
 
+  public SimplePagerEx(TextLocation location, Resources resources, boolean showFastForwardButton, int fastForwardRows, boolean showLastPageButton) {
+    super(location, resources, showFastForwardButton, fastForwardRows, showLastPageButton);
+  }
+
   protected String createText() {
     NumberFormat formatter = NumberFormat.getFormat("#,###");
     HasRows display = getDisplay();

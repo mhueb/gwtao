@@ -265,7 +265,7 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
     this.model = model;
     this.params = converter.extract(model);
     onEdit();
-    notifyChange();
+    fireDataChanged();
   }
 
   protected abstract void onEdit();
@@ -274,7 +274,7 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
     unmask();
     state = State.FAILED;
     view.alert("Service Failure", caught.getMessage(), AsyncOkAnswere.OK);
-    notifyChange();
+    fireDataChanged();
   }
 
   protected void handleDriverErrors() {

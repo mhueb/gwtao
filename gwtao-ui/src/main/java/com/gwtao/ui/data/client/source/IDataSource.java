@@ -28,4 +28,6 @@ public interface IDataSource<M> {
   Permission getPermission();
 
   <H extends AbstractDataSourceEvent.Handler> HandlerRegistration addHandler(AbstractDataSourceEvent.Type<H> type, H handler);
+
+  void fireDataChanged();
 }

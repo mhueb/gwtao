@@ -1,13 +1,10 @@
 package com.gwtao.ui.widgets.client;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.shu4j.utils.util.DateUtil;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -17,16 +14,15 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasConstrainedValue;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
-public class DateTimeBox extends Composite implements HasConstrainedValue<Date>, IsEditor<TakesValueEditor<Date>> {
+public class DateTimeBox extends ComplexPanel implements HasValue<Date>, IsEditor<TakesValueEditor<Date>> {
   /**
    * Creates a new value every time a date is accessed.
    */
@@ -103,20 +99,18 @@ public class DateTimeBox extends Composite implements HasConstrainedValue<Date>,
       "11:00 PM",
       "11:30 PM" };
 
-  private HorizontalPanel panel = new HorizontalPanel();
   private DateBox dateBox = new DateBox(new DatePicker(), null, new DateBox.DefaultFormat(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
   private ListBox timeBox = new ListBox();
 
   private TakesValueEditor<Date> editor;
-  private List<ValueChangeHandler<Date>> valueChangeHandlers = new ArrayList<ValueChangeHandler<Date>>();
 
   public DateTimeBox() {
     this(TYPE.DATE_TIME);
   }
 
   public DateTimeBox(TYPE type) {
-    this.initWidget(panel);
-    panel.add(dateBox);
+    setElement(DOM.createDiv());
+
     dateBox.addStyleName("gwtao-datebox");
     dateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
       @Override
@@ -124,9 +118,10 @@ public class DateTimeBox extends Composite implements HasConstrainedValue<Date>,
         dateBoxValueChanged(event.getValue());
       }
     });
-    panel.setCellVerticalAlignment(dateBox, HasVerticalAlignment.ALIGN_MIDDLE);
+
+    insert(dateBox, getElement(), 0, true);
+
     if (type == TYPE.DATE_TIME) {
-      panel.add(timeBox);
       timeBox.addStyleName("gwtao-timebox");
       timeBox.addChangeHandler(new ChangeHandler() {
         @Override
@@ -137,7 +132,7 @@ public class DateTimeBox extends Composite implements HasConstrainedValue<Date>,
       for (String time : TIMES) {
         this.timeBox.addItem(time);
       }
-      panel.setCellVerticalAlignment(timeBox, HasVerticalAlignment.ALIGN_MIDDLE);
+      insert(timeBox, getElement(), 1, false);
     }
   }
 
@@ -151,16 +146,11 @@ public class DateTimeBox extends Composite implements HasConstrainedValue<Date>,
 
   private void fireValueChangedevent() {
     ValueChangeEvent<Date> event = new DateTimeChangeEvent(this.getValue());
-
-    for (ValueChangeHandler<Date> item : valueChangeHandlers) {
-      item.onValueChange(event);
-    }
+    fireEvent(event);
   }
 
   public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> valueChangeHandler) {
-    valueChangeHandlers.add(valueChangeHandler);
-
-    return null;
+    return addHandler(valueChangeHandler, ValueChangeEvent.getType());
   }
 
   /**
@@ -226,9 +216,4 @@ public class DateTimeBox extends Composite implements HasConstrainedValue<Date>,
       ValueChangeEvent.fireIfNotEqual(this, oldValue, newValue);
     }
   }
-
-  @Override
-  public void setAcceptableValues(Collection<Date> values) {
-  }
-
 }

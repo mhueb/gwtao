@@ -106,7 +106,7 @@ public abstract class AbstractEditContext<T> extends SimpleDataSource<T> impleme
 
   public void setDirty() {
     this.dirtyFlagForce = true;
-    notifyChange();
+    fireDataChanged();
   }
 
   public boolean isValid() {

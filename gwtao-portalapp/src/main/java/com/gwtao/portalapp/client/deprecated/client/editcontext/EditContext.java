@@ -91,7 +91,7 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
         uncaughtExceptionHandler.onUncaughtException(caught);
     }
 
-    notifyChange();
+    fireDataChanged();
   }
 
   /**

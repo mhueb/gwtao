@@ -136,7 +136,7 @@ public final class LocationManager<T> {
     }
   }
 
-  private void handleException(Exception e) {
+  private void handleException(Throwable e) {
     currentPresenter = null;
 
     String error;
@@ -173,7 +173,7 @@ public final class LocationManager<T> {
         presenterManager.show(currentPresenter);
       }
     }
-    catch (Exception e) {
+    catch (Throwable e) {
       handleException(e);
     }
   }
