@@ -33,9 +33,11 @@ import com.google.gwt.core.ext.typeinfo.JField;
 import com.google.gwt.core.ext.typeinfo.JMethod;
 import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.editor.rebind.model.ModelUtils;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 import com.gwtao.ui.cellview.client.BooleanCell;
@@ -90,6 +92,9 @@ public class ColumnFactoryGenerator extends Generator {
     composer.addImport(ArrayList.class.getName());
     composer.addImport(Column.class.getName());
     composer.addImport(viewType.getQualifiedSourceName());
+    composer.addImport(Unit.class.getName().replace("$","."));
+    composer.addImport(HasHorizontalAlignment.class.getName());
+     
 
     SourceWriter src = composer.createSourceWriter(context, printWriter);
     String viewName = viewType.getSimpleSourceName();
@@ -154,7 +159,7 @@ public class ColumnFactoryGenerator extends Generator {
       src.println("  view.%s.setDataStoreName( %s );", uiField.getName(), info.dataStoreName());
 
     if (info.align() != Align.DEFAULT)
-      src.println("  view.%s.setHorizontalAlignment(HorizontalAlignmentConstant.%s );", uiField.getName(), mapAlign(info.align()));
+      src.println("  view.%s.setHorizontalAlignment(HasHorizontalAlignment.%s );", uiField.getName(), mapAlign(info.align()));
 
     if (info.editable()) {
       src.println("  view.%s.setFieldUpdater( new FieldUpdater<%s,%s>( ) {", uiField.getName(), modelType.getQualifiedSourceName(), valueType.getQualifiedSourceName());
@@ -185,7 +190,7 @@ public class ColumnFactoryGenerator extends Generator {
       src.println("    grid.addColumn( view.%s, \"%s\" );", uiField.getName(), info.title());
 
     if (info.width() > 0.0) {
-      src.println("  grid.setColumnWidth( view.%s, %s, Unit.%s);", uiField.getName(), info.width(), info.unit().getType());
+      src.println("  grid.setColumnWidth( view.%s, %s, Unit.%s);", uiField.getName(), info.width(), info.unit().name());
     }
 
   }

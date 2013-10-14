@@ -73,6 +73,14 @@ public class GWTUtils {
 		$wnd.close();
   }-*/;
 
+  public static native int getBrowserX() /*-{
+		return $wnd.screenLeft | $wnd.screenX;
+  }-*/;
+
+  public static native int getBrowserY() /*-{
+		return $wnd.screenTop | $wnd.screenY;
+  }-*/;
+
   public static KeyInfo createKeyInfo(NativeEvent nativeEvent) {
     if (nativeEvent != null)
       return new KeyInfo(nativeEvent.getKeyCode(), nativeEvent.getShiftKey(), nativeEvent.getCtrlKey(), nativeEvent.getAltKey());
