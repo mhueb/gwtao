@@ -5,7 +5,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.data.client.source.IDataSource;
 import com.gwtao.ui.data.client.source.NullDataSource;
@@ -48,6 +47,10 @@ public class ToolPanel extends Composite {
 
   public void update(ICard actions) {
     // TODO Auto-generated method stub
-    
+
+  }
+
+  public void setAddStyleName(String name) {
+    addStyleName(name);
   }
 }
