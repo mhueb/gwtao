@@ -92,9 +92,8 @@ public class ColumnFactoryGenerator extends Generator {
     composer.addImport(ArrayList.class.getName());
     composer.addImport(Column.class.getName());
     composer.addImport(viewType.getQualifiedSourceName());
-    composer.addImport(Unit.class.getName().replace("$","."));
+    composer.addImport(Unit.class.getName().replace("$", "."));
     composer.addImport(HasHorizontalAlignment.class.getName());
-     
 
     SourceWriter src = composer.createSourceWriter(context, printWriter);
     String viewName = viewType.getSimpleSourceName();
@@ -155,8 +154,7 @@ public class ColumnFactoryGenerator extends Generator {
     if (info.sortable())
       src.println("  view.%s.setSortable( true );", uiField.getName());
 
-    if (!info.dataStoreName().isEmpty())
-      src.println("  view.%s.setDataStoreName( %s );", uiField.getName(), info.dataStoreName());
+    src.println("  view.%s.setDataStoreName( \"%s\" );", uiField.getName(), info.dataStoreName().isEmpty() ? modelFieldName : info.dataStoreName());
 
     if (info.align() != Align.DEFAULT)
       src.println("  view.%s.setHorizontalAlignment(HasHorizontalAlignment.%s );", uiField.getName(), mapAlign(info.align()));
