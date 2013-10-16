@@ -28,7 +28,12 @@ public class WidgetAdapter<M, V> {
   public boolean isDirty() {
     V value = tv.getValue();
     Integer currentHash = value == null ? null : value.hashCode();
-    return dirtyHash != currentHash || dirtyHash != null && currentHash != null && !dirtyHash.equals(currentHash);
+    if (dirtyHash == null)
+      return currentHash != null;
+    else if (currentHash == null)
+      return false;
+    else
+      return !dirtyHash.equals(currentHash);
   }
 
   public Widget getWidget() {
