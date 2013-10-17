@@ -4,10 +4,21 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FieldPanel extends ComplexPanel {
+public class FieldPanel extends Composite {
+
+  private final class PrivateFieldPanel extends ComplexPanel {
+    public PrivateFieldPanel() {
+      setElement(DOM.createDiv());
+    }
+
+    public void add(Widget child) {
+      insert(child, getElement(), getWidgetCount(), false);
+    }
+  }
 
   public static class FieldSet extends ComplexPanel {
     private double width;
@@ -59,6 +70,7 @@ public class FieldPanel extends ComplexPanel {
     }
   }
 
+  private ComplexPanel panel = new PrivateFieldPanel();
   private double width;
   private Unit unit;
 
@@ -67,8 +79,8 @@ public class FieldPanel extends ComplexPanel {
   }
 
   public FieldPanel(int width, Unit unit) {
-    setElement(DOM.createDiv());
-    setStyleName("gwtao-fieldPanel");
+    panel.setStyleName("gwtao-fieldPanel");
+    initWidget(panel);
     this.width = width;
     this.unit = unit;
   }
@@ -81,11 +93,10 @@ public class FieldPanel extends ComplexPanel {
   }
 
   public void addRow(FieldRow child) {
-    insert(child, getElement(), getWidgetCount(), false);
+    panel.add(child);
   }
 
   public void addSet(FieldSet fieldset) {
-    insert(fieldset, getElement(), getWidgetCount(), false);
+    panel.add(fieldset);
   }
-
 }

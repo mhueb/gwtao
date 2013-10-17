@@ -22,6 +22,7 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -60,26 +61,36 @@ public class SwitchPanel extends ComplexPanel implements RequiresResize, Provide
   }
 
   private void doShowWidget(final Widget w) {
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    new Timer() {
+
       @Override
-      public void execute() {
-        w.getElement().getStyle().clearDisplay();
-        w.setVisible(true);
-
-        // if (w instanceof ILayoutContainer)
-        // ((ILayoutContainer) w).measure();
-
-        // Element e = getParent().getElement();
-        // final String width = e.getClientWidth() + "px";
-        // final String height = e.getClientHeight() + "px";
-        String width = getOffsetWidth() + "px";
-        String height = getOffsetHeight() + "px";
-        w.setSize(width, height);
-
-        if (w instanceof RequiresResize)
-          ((RequiresResize) w).onResize();
+      public void run() {
+        delayedShow(w);
       }
-    });
+    }.schedule(20);
+    // Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    // @Override
+    // public void execute() {
+    // }
+    // });
+  }
+
+  protected void delayedShow(Widget w) {
+    w.getElement().getStyle().clearDisplay();
+    w.setVisible(true);
+
+    // if (w instanceof ILayoutContainer)
+    // ((ILayoutContainer) w).measure();
+
+    // Element e = getParent().getElement();
+    // final String width = e.getClientWidth() + "px";
+    // final String height = e.getClientHeight() + "px";
+    String width = getOffsetWidth() + "px";
+    String height = getOffsetHeight() + "px";
+    w.setSize(width, height);
+
+    if (w instanceof RequiresResize)
+      ((RequiresResize) w).onResize();
   }
 
   @Override
