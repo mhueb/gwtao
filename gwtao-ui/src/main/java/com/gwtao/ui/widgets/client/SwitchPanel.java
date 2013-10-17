@@ -61,13 +61,14 @@ public class SwitchPanel extends ComplexPanel implements RequiresResize, Provide
   }
 
   private void doShowWidget(final Widget w) {
-    new Timer() {
+    delayedShow(w);
+    // new Timer() {
 
-      @Override
-      public void run() {
-        delayedShow(w);
-      }
-    }.schedule(20);
+    // @Override
+    // public void run() {
+    // delayedShow(w);
+    // }
+    // }.schedule(20);
     // Scheduler.get().scheduleDeferred(new ScheduledCommand() {
     // @Override
     // public void execute() {
