@@ -67,7 +67,7 @@ public class TaskPanel extends ComplexPanel {
         link.setHref("#" + item.asToken().getToken());
         link.setInnerText(item.getDisplayTitle());
         itemGroup.appendChild(link);
-        Element gap = DOM.createSpan();
+        Element gap = DOM.createDiv();
         gap.setClassName(styleName + "-gap");
         gap.setInnerHTML("&nbsp;");
         itemGroup.appendChild(gap);
