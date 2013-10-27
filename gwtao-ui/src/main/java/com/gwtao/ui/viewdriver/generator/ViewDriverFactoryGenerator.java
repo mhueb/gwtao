@@ -128,35 +128,50 @@ public class ViewDriverFactoryGenerator extends Generator {
     else
       modelFieldName = uiFieldName;
 
+    String setter = "get";
     JType[] arr = new JType[0];
-    JMethod field;
-    try {
-      field = modelType.getMethod("get" + modelFieldName, arr);
+    JMethod field = getMethod(modelType, setter + modelFieldName, arr);
+    if (field == null) {
+      setter = "is";
+      field = getMethod(modelType, setter + modelFieldName, arr);
     }
-    catch (NotFoundException e1) {
-      try {
-        modelFieldName = WordUtils.uncapitalize(modelFieldName);
-        field = modelType.getMethod("get" + modelFieldName, arr);
-      }
-      catch (NotFoundException e2) {
-        logger.log(Type.ERROR, "UiField '" + uiFieldName + "' : Missig getter/setter in model '" + modelType.getName() + "'");
-        throw new UnableToCompleteException();
+    if (field == null) {
+      modelFieldName = WordUtils.uncapitalize(modelFieldName);
+      setter = "get";
+      field = getMethod(modelType, setter + modelFieldName, arr);
+      if (field == null) {
+        setter = "is";
+        field = getMethod(modelType, "is" + modelFieldName, arr);
       }
     }
+    if (field == null) {
+      logger.log(Type.ERROR, "UiField '" + uiFieldName + "' : Missing getter in model '" + modelType.getName() + "'");
+      throw new UnableToCompleteException();
+    }
+
+    // hack...
     String valueType = field.getReturnType().getQualifiedSourceName();
+    if (valueType.equals("boolean"))
+      valueType = "Boolean";
 
     src.println("  mgr.add( new WidgetAdapter<%s,%s>(view.%s, view.%s, new IValueAdapter<%s,%s>() {", modelType.getSimpleSourceName(), valueType, uiField.getName(), uiField.getName(), modelType.getSimpleSourceName(), valueType);
-
     src.println("    public %s getValue(%s model) {", valueType, modelType.getSimpleSourceName());
-    src.println("      return model.get%s();", modelFieldName);
+    src.println("      return model.%s%s();", setter, modelFieldName);
     src.println("    }");
     src.println();
     src.println("    public void setValue(%s model, %s value) {", modelType.getSimpleSourceName(), valueType);
     src.println("      model.set%s( value );", modelFieldName);
     src.println("    }");
-
     src.println("   }));");
-
     src.println();
+  }
+
+  private JMethod getMethod(JClassType modelType, String methodName, JType[] arr) {
+    try {
+      return modelType.getMethod(methodName, arr);
+    }
+    catch (NotFoundException e1) {
+      return null;
+    }
   }
 }
