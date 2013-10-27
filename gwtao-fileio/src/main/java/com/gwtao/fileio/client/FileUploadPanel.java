@@ -16,7 +16,7 @@
 package com.gwtao.fileio.client;
 
 import org.apache.commons.lang.StringUtils;
-import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.exception.MessageException;
 import org.shu4j.utils.message.MessageLevel;
 
 import com.google.gwt.core.client.JavaScriptException;
@@ -62,7 +62,7 @@ public class FileUploadPanel extends FormPanel {
       super.submit();
     }
     catch (JavaScriptException e) {
-      callback.onFailure(new ValidateException(e.getDescription(), MessageLevel.ERROR));
+      callback.onFailure(new MessageException(e.getDescription(), MessageLevel.ERROR));
     }
   }
 

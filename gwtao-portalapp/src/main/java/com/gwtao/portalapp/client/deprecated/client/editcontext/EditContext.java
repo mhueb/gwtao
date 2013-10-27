@@ -15,7 +15,7 @@
  */
 package com.gwtao.portalapp.client.deprecated.client.editcontext;
 
-import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.exception.MessageException;
 import org.shu4j.utils.message.IMessageReceiver;
 import org.shu4j.utils.message.IMessageSource;
 import org.shu4j.utils.message.Message;
@@ -72,8 +72,8 @@ public abstract class EditContext<T> extends AbstractEditContext<T> {
   }
 
   public void onServiceFailure(Throwable caught) {
-    if (caught instanceof ValidateException) {
-      ValidateException validateException = (ValidateException) caught;
+    if (caught instanceof MessageException) {
+      MessageException validateException = (MessageException) caught;
       serverMessages = new MessageList(validateException.getMessages());
 
       if (serverMessages != null && serverMessages.getWorstLevel() == MessageLevel.FATAL)

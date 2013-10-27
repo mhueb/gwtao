@@ -35,7 +35,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.shu4j.utils.exception.InvalidSessionException;
-import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.exception.MessageException;
 import org.shu4j.utils.progress.AbstractProgressMonitor;
 import org.shu4j.utils.progress.IProgressMonitor;
 import org.shu4j.utils.util.LoggerUtil;
@@ -115,10 +115,10 @@ public abstract class FileUploadServlet extends HttpServlet {
     try {
       String ident = request.getParameter("UPLOADID");
       if (ident == null)
-        throw new ValidateException("Invalid call. Missing UPLOADID");
+        throw new MessageException("Invalid call. Missing UPLOADID");
       status = FileUploadStatusMap.get(request.getSession()).start(ident);
     }
-    catch (ValidateException e) {
+    catch (MessageException e) {
       this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.VALIDATE_ERROR.encode(e.getMessage()));
       return;
@@ -160,7 +160,7 @@ public abstract class FileUploadServlet extends HttpServlet {
           }
         }
         else
-          throw new ValidateException("Unexpected content type " + item.getContentType() + ": " + item.getName());
+          throw new MessageException("Unexpected content type " + item.getContentType() + ": " + item.getName());
       }
       writer.write(FileIOTag.SUCCESS.encode(buff.toString()));
     }
@@ -172,7 +172,7 @@ public abstract class FileUploadServlet extends HttpServlet {
       this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.UPLOAD_ERROR.encode(e.getMessage()));
     }
-    catch (ValidateException e) {
+    catch (MessageException e) {
       this.log.log(Level.SEVERE, "upload failed", e);
       writer.write(FileIOTag.VALIDATE_ERROR.encode(e.getMessage()));
     }
@@ -200,7 +200,7 @@ public abstract class FileUploadServlet extends HttpServlet {
    * @param req the session
    * @param progress TODO
    * @return Info string for calling client
-   * @throws ValidateException
+   * @throws MessageException
    */
-  protected abstract String onFileReceived(IFile item, HttpServletRequest req, IProgressMonitor progress) throws ValidateException, InvalidSessionException;
+  protected abstract String onFileReceived(IFile item, HttpServletRequest req, IProgressMonitor progress) throws MessageException, InvalidSessionException;
 }

@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.exception.MessageException;
 import org.shu4j.utils.message.MessageLevel;
 
 import com.gwtao.fileio.shared.FileUploadStatus;
@@ -43,11 +43,11 @@ public class FileUploadStatusMap {
     return map;
   }
 
-  public FileUploadStatus start(String ident) throws ValidateException {
+  public FileUploadStatus start(String ident) throws MessageException {
     synchronized (statusMap) {
       FileUploadStatus value = new FileUploadStatus(ident);
       if (StringUtils.isEmpty(ident) || statusMap.containsKey(ident))
-        throw new ValidateException("Invalid upload identifier!", MessageLevel.FATAL);
+        throw new MessageException("Invalid upload identifier!", MessageLevel.FATAL);
       statusMap.put(ident, value);
       return value;
     }

@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.shu4j.utils.exception.InvalidSessionException;
-import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.exception.MessageException;
 import org.shu4j.utils.util.LoggerUtil;
 
 public abstract class FileDownloadServlet extends HttpServlet {
@@ -124,5 +124,5 @@ public abstract class FileDownloadServlet extends HttpServlet {
     return false;
   }
 
-  protected abstract IFile getData(HttpServletRequest req) throws ValidateException, InvalidSessionException;
+  protected abstract IFile getData(HttpServletRequest req) throws MessageException, InvalidSessionException;
 }

@@ -16,7 +16,7 @@
 package com.gwtao.fileio.client;
 
 import org.shu4j.utils.exception.InvalidSessionException;
-import org.shu4j.utils.exception.ValidateException;
+import org.shu4j.utils.exception.MessageException;
 import org.shu4j.utils.message.MessageLevel;
 import org.shu4j.utils.util.HexDump;
 
@@ -46,7 +46,7 @@ public class FileUploadCompleteHandler implements SubmitCompleteHandler {
     }
   }
 
-  private String processResults(String results) throws ValidateException, InvalidSessionException {
+  private String processResults(String results) throws MessageException, InvalidSessionException {
     if (results == null)
       throw new RuntimeException("Unexpected empty result");
 
@@ -57,13 +57,13 @@ public class FileUploadCompleteHandler implements SubmitCompleteHandler {
         return res.params;
 
       case NODATA_ERROR:
-        throw new ValidateException(res.params == null ? res.params : "No data received");
+        throw new MessageException(res.params == null ? res.params : "No data received");
 
       case SIZE_ERROR:
-        throw new ValidateException(res.params == null ? res.params : "Filesize not supported", MessageLevel.ERROR);
+        throw new MessageException(res.params == null ? res.params : "Filesize not supported", MessageLevel.ERROR);
 
       case VALIDATE_ERROR:
-        throw new ValidateException(res.params, MessageLevel.ERROR);
+        throw new MessageException(res.params, MessageLevel.ERROR);
 
       case RUNTIME_ERROR:
         throw new RuntimeException(res.params);
@@ -72,7 +72,7 @@ public class FileUploadCompleteHandler implements SubmitCompleteHandler {
         throw new InvalidSessionException(res.params);
 
       case UPLOAD_ERROR:
-        throw new ValidateException(res.params, MessageLevel.FATAL);
+        throw new MessageException(res.params, MessageLevel.FATAL);
       }
 
     throw new RuntimeException("Unexpected servlet result!<br><pre>" + new SafeHtmlBuilder().appendEscapedLines(new HexDump(16, true).dump(HexDump.convert(results.toCharArray()))) + "</pre>");
