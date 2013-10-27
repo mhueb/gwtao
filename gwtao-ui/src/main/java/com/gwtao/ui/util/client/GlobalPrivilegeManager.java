@@ -1,11 +1,11 @@
 package com.gwtao.ui.util.client;
 
-import org.shu4j.utils.permission.PrivilegeManager;
+import org.shu4j.utils.privilege.IPermissionSource;
 
-public class GlobalPrivilegeManager extends PrivilegeManager {
-  private static final GlobalPrivilegeManager INSTANCE = new GlobalPrivilegeManager();
+public class GlobalPrivilegeManager {
+  private static final IPermissionSource INSTANCE = null;
 
-  public static PrivilegeManager get() {
+  public static IPermissionSource get() {
     return INSTANCE;
   }
 }
