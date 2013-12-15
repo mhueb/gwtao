@@ -14,22 +14,35 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	
 	<scm>
 		<connection>scm:git:git@github.com:mhueb/gwtao.git</connection>
 		<url>scm:git:git@github.com:mhueb/gwtao.git</url>
 		<developerConnection>scm:git:git@github.com:mhueb/gwtao.git</developerConnection>
 	</scm>
+	
 	<developers>
 		<developer>
 			<name>mhueb</name>
 			<email>mhueb@pobox.com</email>
 		</developer>
 	</developers>
+	
+	<repositories>
+		<repository>
+			<id>mhueb-release</id>
+			<url>http://repository-mhueb.forge.cloudbees.com/release/</url>
+		</repository>
+		<repository>
+			<id>mhueb-snapshot</id>
+			<url>http://repository-mhueb.forge.cloudbees.com/snapshot/</url>
+		</repository>
+	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
-		<gwtVersion>2.5.0</gwtVersion>
+		<gwtVersion>2.5.1</gwtVersion>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<maven.compiler.debug>true</maven.compiler.debug>
