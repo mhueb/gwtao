@@ -112,25 +112,13 @@
 			</dependency>
 			<dependency>
 				<groupId>com.gwtao</groupId>
-				<artifactId>gwtao-emul</artifactId>
+				<artifactId>gwtao-client</artifactId>
 				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.gwtao</groupId>
-				<artifactId>gwtao-fileio</artifactId>
-				<version>${project.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.gwtao</groupId>
-				<artifactId>gwtao-ui</artifactId>
-				<version>${project.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.gwtao</groupId>
-				<artifactId>gwtao-crypt</artifactId>
+				<artifactId>gwtao-rpc</artifactId>
 				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>

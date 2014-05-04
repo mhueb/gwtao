@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>gwtao-client</artifactId>
+	<name>gwtao ui</name>
+	<packaging>jar</packaging>
+	<description>gwt ui add-ons</description>
+
+	<parent>
+		<groupId>com.gwtao</groupId>
+		<artifactId>gwtao-parent</artifactId>
+		<version>0.2.0-SNAPSHOT</version>
+		<relativePath>../gwtao-parent/pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.shu4j</groupId>
+			<artifactId>shu4j-gwt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.java</include>
+					<include>**/*.xml</include>
+					<include>**/*.css</include>
+					<include>**/*.gif</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
+</project>

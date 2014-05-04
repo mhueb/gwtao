@@ -21,7 +21,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.gwtao</groupId>
-			<artifactId>gwtao-emul</artifactId>
+			<artifactId>gwtao-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.shu4j</groupId>
