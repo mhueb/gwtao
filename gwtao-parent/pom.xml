@@ -56,7 +56,7 @@
 		<module>../gwtao-ui</module>
 		<module>../gwtao-webapp</module>
 		<module>../gwtao-portalapp</module>
-		<module>../gwtao-showcase</module>
+		<!-- module>../gwtao-showcase</module -->
 	</modules>
 
 	<dependencyManagement>
