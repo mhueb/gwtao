@@ -51,10 +51,10 @@
 
 	<modules>
 		<module>../gwtao-emul</module>
-		<module>../gwtao-fileio</module>
 		<module>../gwtao-crypt</module>
 		<module>../gwtao-ui</module>
 		<module>../gwtao-webapp</module>
+		<module>../gwtao-rpc</module>
 		<module>../gwtao-portalapp</module>
 		<module>../gwtao-showcase</module>
 	</modules>

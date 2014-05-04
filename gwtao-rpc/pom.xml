@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>gwtao-fileio</artifactId>
+	<artifactId>gwtao-rpc</artifactId>
 	<packaging>jar</packaging>
-	<name>gwtao fileio</name>
-	<description>gwt fileio</description>
+	<name>gwtao rpc</name>
+	<description>gwt rpc</description>
 
 	<parent>
 		<groupId>com.gwtao</groupId>
