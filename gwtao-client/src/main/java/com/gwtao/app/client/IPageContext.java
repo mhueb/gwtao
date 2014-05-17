@@ -15,6 +15,8 @@
  */
 package com.gwtao.app.client;
 
+import org.shu4j.utils.permission.IPermissionProvider;
+
 import com.google.gwt.event.shared.EventBus;
 
 public interface IPageContext {
@@ -31,4 +33,6 @@ public interface IPageContext {
   void updateTitle();
 
   EventBus getEventBus();
+  
+  IPermissionProvider getPermissionProvider();
 }

@@ -1,12 +1,12 @@
-package com.gwtao.app.client;
+package com.gwtao.ui.util.client;
 
 import com.google.gwt.user.client.History;
-import com.gwtao.app.client.i18n.WebAppConstants;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.i18n.UIConstants;
 
-public class AppActions {
-  public static final IAction backAction = new Action(WebAppConstants.CONST.back()) {
+public class HistoryActions {
+  public static final IAction backAction = new Action(UIConstants.c.back()) {
 
     @Override
     public void execute(Object... data) {
@@ -14,7 +14,7 @@ public class AppActions {
     }
   };
 
-  public static final IAction forwardAction = new Action(WebAppConstants.CONST.forward()) {
+  public static final IAction forwardAction = new Action(UIConstants.c.forward()) {
 
     @Override
     public void execute(Object... data) {

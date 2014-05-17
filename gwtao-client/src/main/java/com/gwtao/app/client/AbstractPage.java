@@ -18,11 +18,12 @@ package com.gwtao.app.client;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.gwtao.ui.util.client.mask.WaitMask;
 
-public abstract class AbstractPage extends Composite implements IPage, RequiresResize, ProvidesResize {
+public abstract class AbstractPage implements IPage, IsWidget, RequiresResize, ProvidesResize {
 
   private IPageContext ctx;
 
@@ -69,8 +70,8 @@ public abstract class AbstractPage extends Composite implements IPage, RequiresR
 
   @Override
   public void onResize() {
-    if (getWidget() instanceof RequiresResize) {
-      ((RequiresResize) getWidget()).onResize();
+    if (asWidget() instanceof RequiresResize) {
+      ((RequiresResize) asWidget()).onResize();
     }
   }
 

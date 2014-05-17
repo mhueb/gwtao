@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Matthias Huebner
  */
-public class TabbedPagesPanel extends Composite implements IPagesController {
+public class TabbedPagesPanel extends Composite implements IPageController {
 
   private TabLayoutPanel tabPanel;
   private boolean ignoreEvent;

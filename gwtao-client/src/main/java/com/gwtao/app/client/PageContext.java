@@ -17,20 +17,23 @@ package com.gwtao.app.client;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
+import org.shu4j.utils.permission.IPermissionProvider;
 
 import com.google.gwt.event.shared.EventBus;
-import com.gwtao.ui.location.client.Token;
+import com.gwtao.ui.place.client.Token;
 import com.gwtao.ui.util.client.IDisplayableItem;
 
 public final class PageContext implements IPageContext {
 
+  private final EventBus eventBus;
   private final IPage page;
   private final Token token;
-  private final IPagesController pagesCtrl;
-  private final EventBus eventBus;
+  private final IPageController pagesCtrl;
+  private final IPermissionProvider privilegeProvider;
 
-  public PageContext(EventBus eventBus, IPagesController pagesCtrl, IPage page, Token token) {
+  public PageContext(EventBus eventBus, IPermissionProvider privilegeProvider, IPageController pagesCtrl, IPage page, Token token) {
     this.eventBus = eventBus;
+    this.privilegeProvider = privilegeProvider;
     this.pagesCtrl = pagesCtrl;
     this.page = page;
     this.token = token;
@@ -81,5 +84,10 @@ public final class PageContext implements IPageContext {
   @Override
   public EventBus getEventBus() {
     return eventBus;
+  }
+
+  @Override
+  public IPermissionProvider getPermissionProvider() {
+    return privilegeProvider;
   }
 }

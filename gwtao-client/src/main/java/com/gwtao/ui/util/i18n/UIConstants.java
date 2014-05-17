@@ -19,7 +19,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
 
 public interface UIConstants extends Constants {
-  public final static UIConstants c =  GWT.create(UIConstants.class);
+  public final static UIConstants c = GWT.create(UIConstants.class);
 
   String loading();
+
+  String back();
+
+  String forward();
 }

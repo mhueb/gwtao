@@ -15,7 +15,7 @@
  */
 package com.gwtao.app.client;
 
-import com.gwtao.ui.location.client.HasTokenName;
+import com.gwtao.ui.place.client.HasTokenName;
 
 
 public interface IPageFactory extends HasTokenName {

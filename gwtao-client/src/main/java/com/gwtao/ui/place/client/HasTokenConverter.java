@@ -13,10 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.location.client;
+package com.gwtao.ui.place.client;
 
-public interface HasTokenName {
+public interface HasTokenConverter<P, M> extends HasTokenName {
 
-  String getTokenName();
+  IParameterConverter<P, M> getConverter();
 
 }

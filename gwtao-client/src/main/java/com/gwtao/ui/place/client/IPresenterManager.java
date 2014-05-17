@@ -13,14 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.location.client;
+package com.gwtao.ui.place.client;
 
-import com.gwtao.ui.util.client.ParameterList;
+public interface IPresenterManager<T> {
+  T createPresenter(Token token);
 
-public interface IParameterConverter<P, M> {
-  P extract(M m);
+  void show(T presenter);
 
-  P decode(ParameterList parameter);
+  boolean hide(T presenter);
 
-  void encode(ParameterList.Builder builder, P param);
+  T createErrorPresenter(Token token, String errorMessage);
+
+  String canClose(T presenter);
+
+  boolean locationChangeHook(Token token);
+
+  String canClose();
 }

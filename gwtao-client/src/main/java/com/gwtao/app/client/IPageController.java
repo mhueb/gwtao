@@ -13,10 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.location.client;
+package com.gwtao.app.client;
 
-public interface HasTokenConverter<P, M> extends HasTokenName {
+public interface IPageController {
+  void show(IPage page);
 
-  IParameterConverter<P, M> getConverter();
+  void close(IPage page);
+
+  void updateTitle(IPage page);
+
+  IPage getActivePage();
+
+  void clear();
 
 }

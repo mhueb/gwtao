@@ -13,17 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.app.client;
+package com.gwtao.ui.place.client;
 
-public interface IPagesController {
-  void show(IPage page);
+public interface HasTokenName {
 
-  void close(IPage page);
-
-  void updateTitle(IPage page);
-
-  IPage getActivePage();
-
-  void clear();
+  String getTokenName();
 
 }

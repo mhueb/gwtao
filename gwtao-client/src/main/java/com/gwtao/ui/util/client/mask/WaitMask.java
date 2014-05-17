@@ -19,6 +19,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -28,6 +29,10 @@ public class WaitMask implements IWaitMask {
   private VerticalPanel back;
   private WaitInfo waitInfo;
   private int showLock;
+
+  public WaitMask(IsWidget related) {
+    this(related.asWidget());
+  }
 
   public WaitMask(Widget related) {
     this.related = related;

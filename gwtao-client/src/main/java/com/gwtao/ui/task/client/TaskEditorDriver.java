@@ -23,7 +23,7 @@ import org.apache.commons.lang.NotImplementedException;
 
 import com.google.gwt.editor.client.EditorDriver;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
-import com.gwtao.ui.location.client.IParameterConverter;
+import com.gwtao.ui.place.client.IParameterConverter;
 
 public final class TaskEditorDriver<P, M> extends AbstractTaskController<P, M> {
 

@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.widgets.client.SwitchPanel;
 
-public class SwitchedPagesPanel implements IsWidget, IPagesController {
+public class SwitchedPagesPanel implements IsWidget, IPageController {
 
   private final SwitchPanel switchPanel = new SwitchPanel();
   private IWindowTitleSetter wts;

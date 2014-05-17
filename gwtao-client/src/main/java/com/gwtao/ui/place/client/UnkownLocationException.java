@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.location.client;
+package com.gwtao.ui.place.client;
 
 public class UnkownLocationException extends RuntimeException {
   private static final long serialVersionUID = 1L;

@@ -16,28 +16,28 @@
 package com.gwtao.app.client;
 
 import org.apache.commons.lang.StringUtils;
+import org.shu4j.utils.permission.IPermissionProvider;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.gwtao.app.client.i18n.WebAppConstants;
-import com.gwtao.ui.layout.client.RootLayoutPanel;
-import com.gwtao.ui.location.client.IPresenterManager;
-import com.gwtao.ui.location.client.LocationManager;
-import com.gwtao.ui.location.client.Token;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.place.client.IPresenterManager;
+import com.gwtao.ui.place.client.PlaceManager;
+import com.gwtao.ui.place.client.Token;
 
 public abstract class WebApp implements IWindowTitleSetter {
 
-  private IPagesController pages;
+  private IPageController pages;
 
-  private final LocationManager<PageContext> locationManager;
+  private final PlaceManager<PageContext> locationManager;
 
   private final EventBus eventbus;
 
   private final String appTitle;
-
-  private IsWidget frame;
 
   private IPresenterManager<PageContext> manager = new IPresenterManager<PageContext>() {
 
@@ -80,15 +80,13 @@ public abstract class WebApp implements IWindowTitleSetter {
   };
 
   protected WebApp() {
-    this.locationManager = new LocationManager<PageContext>(manager);
+    this.locationManager = new PlaceManager<PageContext>(manager);
     this.eventbus = new SimpleEventBus();
     this.appTitle = StringUtils.trimToNull(Document.get().getTitle());
   }
 
-  protected void init(IsWidget frame, IPagesController pages) {
+  protected void init(IPageController pages) {
     this.pages = pages;
-    this.frame = frame;
-    RootLayoutPanel.get().add(frame);
   }
 
   public void replacePage(IPage page) {
@@ -97,14 +95,68 @@ public abstract class WebApp implements IWindowTitleSetter {
   }
 
   private PageContext createContext(Token token, IPage document) {
-    return new PageContext(eventbus, pages, document, token);
+    return new PageContext(eventbus, getPrivilegeProvider(), pages, document, token);
+  }
+
+  private IPermissionProvider getPrivilegeProvider() {
+    return null;
   }
 
   protected IPage createPage(String id) {
     return PageFactoryRegistry.REGISTRY.create(id);
   }
 
-  protected abstract IPage createErrorPage(Token token, String errorMessage);
+  protected IPage createErrorPage(Token token, String errorMessage)
+  {
+    SafeHtmlBuilder buff = new SafeHtmlBuilder();
+    buff.appendHtmlConstant("<h1>Unhandled Exception</h1>");
+    buff.appendEscapedLines(errorMessage);
+    final HTMLPanel html = new HTMLPanel(buff.toSafeHtml());
+      return new IPage() {
+        
+        @Override
+        public String getDisplayTooltip() {
+          return null;
+        }
+        
+        @Override
+        public String getDisplayTitle() {
+          return "Error";
+        }
+        
+        @Override
+        public String getDisplayIcon() {
+          return null;
+        }
+        
+        @Override
+        public Widget asWidget() {
+          return html;
+        }
+        
+        @Override
+        public void onShow() {
+          
+        }
+        
+        @Override
+        public void onHide() {
+        }
+        
+        @Override
+        public void onClose() {
+        }
+        
+        @Override
+        public void init(IPageContext ctx) {
+        }
+        
+        @Override
+        public String canClose() {
+          return null;
+        }
+      };
+  }
 
   protected boolean placeChangeHook(Token token) {
     return true;
@@ -132,14 +184,10 @@ public abstract class WebApp implements IWindowTitleSetter {
   }
 
   public void rebuildPage() {
-    locationManager.rebuildLocation();
+    locationManager.rebuildPlace();
   }
 
   public void reset() {
     locationManager.reset();
-  }
-
-  public IsWidget getFrame() {
-    return frame;
   }
 }

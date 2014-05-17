@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.location.client;
+package com.gwtao.ui.place.client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,9 +37,9 @@ import com.google.gwt.user.client.Window.ClosingHandler;
  * 
  * @author Matthias Hübner
  * 
- * @param <T> Type of the location presenter.
+ * @param <T> Type of the presenter.
  */
-public final class LocationManager<T> {
+public final class PlaceManager<T> {
   private final IPresenterManager<T> presenterManager;
 
   private boolean started;
@@ -56,7 +56,7 @@ public final class LocationManager<T> {
 
   private boolean canPopState;
 
-  public LocationManager(IPresenterManager<T> presenterManager) {
+  public PlaceManager(IPresenterManager<T> presenterManager) {
     this.presenterManager = presenterManager;
   }
 
@@ -122,14 +122,14 @@ public final class LocationManager<T> {
         if (currentToken.equals(token))
           return;
         if (!presenterManager.hide(currentPresenter)) {
-          popLocation();
+          popPlace();
           return;
         }
       }
 
       currentToken = token;
 
-      rebuildLocation();
+      rebuildPlace();
     }
     catch (Exception e) {
       handleException(e);
@@ -159,7 +159,7 @@ public final class LocationManager<T> {
     }
   }
 
-  public void rebuildLocation() {
+  public void rebuildPlace() {
     try {
       if (presenterManager.locationChangeHook(currentToken)) {
         T presenter = presenters.get(currentToken);
@@ -178,7 +178,7 @@ public final class LocationManager<T> {
     }
   }
 
-  private void popLocation() {
+  private void popPlace() {
     if (canPopState) {
       ignoreEvent = true;
       History.back();
@@ -211,7 +211,7 @@ public final class LocationManager<T> {
     }
   }
 
-  public void notifyLocationChange(T presenter, Token token) {
+  public void notifyPlaceChange(T presenter, Token token) {
     Token oldToken = findToken(presenter);
     if (oldToken != null) {
       presenters.remove(oldToken);
@@ -219,7 +219,7 @@ public final class LocationManager<T> {
       presenters.put(token, presenter);
       if (currentPresenter == presenter) {
         currentToken = token;
-        popLocation();
+        popPlace();
         History.newItem(token.getValue(), false);
       }
     }

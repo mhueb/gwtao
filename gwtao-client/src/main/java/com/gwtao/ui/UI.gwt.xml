@@ -14,7 +14,7 @@
 	<inherits name="com.gwtao.ui.task.Task" />
 	<inherits name="com.gwtao.ui.richtext.RichText" />
 	<inherits name="com.gwtao.ui.layout.Layout" />
-	<inherits name="com.gwtao.ui.location.Location" />
+	<inherits name="com.gwtao.ui.place.Place" />
 	<inherits name="com.gwtao.ui.dialog.Dialog" />
 	<inherits name="com.gwtao.ui.widgets.Widgets" />
 </module>
