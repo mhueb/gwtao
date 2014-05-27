@@ -35,34 +35,34 @@ public class SwitchedPagesPanel implements IsWidget, IPageController {
     return switchPanel;
   }
 
-  public void show(IPage page) {
-    int idx = switchPanel.getWidgetIndex(page);
+  public void show(IPageContext pageCtx) {
+    int idx = switchPanel.getWidgetIndex(pageCtx.getPage());
     if (idx == -1) {
-      switchPanel.add(page);
-      idx = switchPanel.getWidgetIndex(page);
+      switchPanel.add(pageCtx.getPage());
+      idx = switchPanel.getWidgetIndex(pageCtx.getPage());
     }
     switchPanel.showWidget(idx);
-    page.onShow();
+    pageCtx.getHandler().onShow();
   }
 
-  public void close(IPage page) {
-    int idx = switchPanel.getWidgetIndex(page);
+  public void close(IPageContext pageCtx) {
+    int idx = switchPanel.getWidgetIndex(pageCtx.getPage());
     if (idx != -1) {
-      page.onClose();
+      pageCtx.getHandler().onClose();
       switchPanel.remove(idx);
     }
   }
 
   @Override
-  public void updateTitle(IPage page) {
-    wts.updateWindowTitle(page.getDisplayTitle());
+  public void updateTitle(IPageContext page) {
+    wts.updateWindowTitle(page.getPage().getDisplayText());
   }
 
   @Override
-  public IPage getActivePage() {
+  public IPageContext getActivePage() {
     PageWrapper wrapper = (PageWrapper) switchPanel.getVisibleWidget();
     if (wrapper != null)
-      return wrapper.getPage();
+      return wrapper.getPageCtx();
     return null;
   }
 

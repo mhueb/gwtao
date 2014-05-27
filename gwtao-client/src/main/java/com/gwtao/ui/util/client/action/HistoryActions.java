@@ -1,8 +1,6 @@
-package com.gwtao.ui.util.client;
+package com.gwtao.ui.util.client.action;
 
 import com.google.gwt.user.client.History;
-import com.gwtao.ui.util.client.action.Action;
-import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.util.i18n.UIConstants;
 
 public class HistoryActions {

@@ -1,39 +1,72 @@
-.gwtao-waitmask-mask {
+.waitMaskParent {
+	position: relative !important;
+}
+
+.waitMaskGlass {
 	z-index: 10000;
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #CCC;
 	opacity: 0.3;
+	cursor: wait;
+	background: -moz-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.65)
+		0%, rgba(0, 0, 0, 0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%,
+		color-stop(0%, rgba(0, 0, 0, 0.65)), color-stop(100%, rgba(0, 0, 0, 0)));
+	/* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.65)
+		0%, rgba(0, 0, 0, 0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.65)
+		0%, rgba(0, 0, 0, 0) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.65)
+		0%, rgba(0, 0, 0, 0) 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65) 0%,
+		rgba(0, 0, 0, 0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000',
+		endColorstr='#00000000', GradientType=1);
+	/* IE6-9 fallback on horizontal gradient */
 }
 
-.gwtao-waitmask-back {
-	z-index: 10001;
+.waitMaskFrame {
 	position: absolute;
 	top: 0;
-	left: 0;
-	width: 100%;
+	left: 0; width : 100%;
 	height: 100%;
 	background: transparent;
+	width: 100%;
+	z-index: 10001;
 }
 
-.gwtao-waitmask-msg {
-	background: #eef;
-	border: 1px solid #6593cf;
-	padding: 2px;
-	cursor: wait;
+.waitMaskFloater {
+	float: left;
+	height: 40%;
 }
 
-.gwtao-waitmask-msg-inner {
+.waitMaskContent {
+	clear: both;
+	display: table;
 	background: #fff;
 	padding: 4px 8px;
 	border: 1px solid #a3bad9;
+	margin: 0 auto;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	overflow: hidden;
+	-webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 2px 2px 2px;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+	background: #fff;
+	cursor: wait;
 }
 
-.gwtao-waitmask-msg-text {
+.waitMaskIcon {
+	display: inline;
+}
+
+.waitMaskMsg {
+	display: inline;
 	padding: 0px 0px 0px 8px;
-	font: normal 11px tahoma, arial, helvetica, sans-serif;
 	color: #222;
 }

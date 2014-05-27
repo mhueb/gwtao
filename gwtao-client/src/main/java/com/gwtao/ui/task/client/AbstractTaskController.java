@@ -34,7 +34,7 @@ import com.gwtao.ui.task.client.events.TaskExecEvent;
 import com.gwtao.ui.task.client.events.TaskRefreshEvent;
 import com.gwtao.ui.task.client.events.TaskStartEvent;
 import com.gwtao.ui.task.client.i18n.DataConstants;
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 import com.gwtao.ui.util.client.mask.IWaitMask;
 import com.gwtao.ui.util.client.mask.WaitMask;
 
@@ -208,11 +208,11 @@ public abstract class AbstractTaskController<P, M> extends AbstractDataSource<M>
       else {
         handleDriverErrors();
         fireEvent(new TaskExecEvent(false));
-        view.alert(performer.getDisplayTitle(), AbstractTaskController.c.validateErrors(), AsyncOkAnswere.OK);
+        view.alert(performer.getDisplayText(), AbstractTaskController.c.validateErrors(), AsyncOkAnswere.OK);
       }
     }
     else
-      view.alert(performer.getDisplayTitle(), AbstractTaskController.c.nothingChanged(), AsyncOkAnswere.OK);
+      view.alert(performer.getDisplayText(), AbstractTaskController.c.nothingChanged(), AsyncOkAnswere.OK);
   }
 
   protected abstract void setConstraintViolations(Set<ConstraintViolation<?>> constraintViolations);

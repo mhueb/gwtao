@@ -16,7 +16,9 @@
 package com.gwtao.app.client.task;
 
 import com.google.gwt.core.shared.GWT;
-import com.gwtao.app.client.AbstractPage;
+import com.gwtao.app.client.DefaultPageHandler;
+import com.gwtao.app.client.IPage;
+import com.gwtao.app.client.IPageContext;
 import com.gwtao.ui.data.client.source.events.DataChangedEvent;
 import com.gwtao.ui.dialog.client.AsyncOkAnswere;
 import com.gwtao.ui.dialog.client.AsyncOkCancelAnswere;
@@ -33,7 +35,7 @@ import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 
-public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
+public abstract class TaskPage<P, M> implements IPage, ITaskView {
   private static final DataConstants DATA_CONSTS = GWT.create(DataConstants.class);
 
   private TaskController<P, M> editor;
@@ -43,6 +45,23 @@ public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
   private IAction refreshAction;
 
   private IParameterConverter<P, M> converter;
+
+  private IPageContext ctx;
+
+  @Override
+  public void init(IPageContext ctx) {
+    this.ctx = ctx;
+    this.ctx.addHandler(new DefaultPageHandler() {
+      @Override
+      public void onInit() {
+        start();
+      }
+    });
+  }
+
+  public IPageContext getCtx() {
+    return ctx;
+  }
 
   protected void initEditor(IViewDriver<M> viewMgr, IParameterConverter<P, M> converter, IAsyncDataReader<P, M> reader, IAsyncTaskPerformer<M> performer) {
     this.editor = new TaskController<P, M>(viewMgr, converter, reader, performer);
@@ -84,12 +103,6 @@ public abstract class TaskPage<P, M> extends AbstractPage implements ITaskView {
 
   public IAction getRefreshAction() {
     return refreshAction;
-  }
-
-  @Override
-  protected void deferedInit() {
-    super.deferedInit();
-    start();
   }
 
   protected void start() {

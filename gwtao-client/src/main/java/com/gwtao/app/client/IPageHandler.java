@@ -13,12 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.util.client;
+package com.gwtao.app.client;
 
-public interface IDisplayableItem {
-  String getDisplayTitle();
+public interface IPageHandler {
+  void onInit();
 
-  String getDisplayIcon();
+  String canClose();
 
-  String getDisplayTooltip();
+  void onShow();
+
+  void onHide();
+
+  void onClose();
+  
 }

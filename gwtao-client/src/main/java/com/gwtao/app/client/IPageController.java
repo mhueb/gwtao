@@ -16,14 +16,13 @@
 package com.gwtao.app.client;
 
 public interface IPageController {
-  void show(IPage page);
+  void show(IPageContext page);
 
-  void close(IPage page);
+  void close(IPageContext page);
 
-  void updateTitle(IPage page);
+  void updateTitle(IPageContext page);
 
-  IPage getActivePage();
+  IPageContext getActivePage();
 
   void clear();
-
 }

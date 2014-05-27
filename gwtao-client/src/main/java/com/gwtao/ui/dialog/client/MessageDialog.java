@@ -21,10 +21,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.gwtao.ui.dialog.client.i18n.DialogConstants;
-import com.gwtao.ui.util.client.DisplayableItem;
-import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.action.Action;
 import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.client.displayable.DisplayableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
 public class MessageDialog {
 
@@ -65,7 +65,7 @@ public class MessageDialog {
   }
 
   private static IAction createCancelAction(final ModalDialog dialog, final AsyncOkCancelAnswere answere) {
-    return new Action(new DisplayableItem(TEXTS.cancel())) {
+    return new Action(TEXTS.cancel()) {
 
       @Override
       public void execute(Object... data) {
@@ -76,7 +76,7 @@ public class MessageDialog {
   }
 
   private static IAction createOkAction(final ModalDialog dialog, IDisplayableItem okText, final AsyncOkAnswere asyncCallback) {
-    return new Action(okText) {
+    return new Action(okText.getDisplayText(), okText.getDisplayIcon(), okText.getDisplayTooltip()) {
 
       @Override
       public void execute(Object... data) {

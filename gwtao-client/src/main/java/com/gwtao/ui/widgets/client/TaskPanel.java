@@ -52,7 +52,7 @@ public class TaskPanel extends ComplexPanel {
 
     Element title = DOM.createDiv();
     title.setClassName(styleName + "-title");
-    title.setInnerText(set.getDisplayTitle());
+    title.setInnerText(set.getDisplayText());
 
     root.appendChild(title);
 
@@ -65,7 +65,7 @@ public class TaskPanel extends ComplexPanel {
         AnchorElement link = AnchorElement.as(DOM.createAnchor());
         link.setClassName(styleName + "-item");
         link.setHref("#" + item.asToken().getToken());
-        link.setInnerText(item.getDisplayTitle());
+        link.setInnerText(item.getDisplayText());
         itemGroup.appendChild(link);
         Element gap = DOM.createDiv();
         gap.setClassName(styleName + "-gap");

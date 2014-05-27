@@ -22,7 +22,7 @@ public abstract class AsyncSavePerformer<M> implements IAsyncTaskPerformer<M> {
   private static final DataConstants CONSTANTS = GWT.create(DataConstants.class);
 
   @Override
-  public String getDisplayTitle() {
+  public String getDisplayText() {
     return CONSTANTS.save();
   }
 

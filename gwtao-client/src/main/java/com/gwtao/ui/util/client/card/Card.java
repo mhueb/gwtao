@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
-import com.gwtao.ui.util.client.DisplayableItem;
-import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.NavigationItem;
 import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.client.displayable.DisplayableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
 /**
  * A set of displayable actions, organized in groups of cards
@@ -18,7 +18,7 @@ import com.gwtao.ui.util.client.action.IAction;
  * 
  */
 public class Card implements ICard {
-  private static final DisplayableItem ROOT = new DisplayableItem("ROOT");
+  private static final IDisplayableItem ROOT = new DisplayableItem("ROOT");
 
   private IDisplayableItem display;
   private List<CardItem> list = new ArrayList<CardItem>();
@@ -54,8 +54,8 @@ public class Card implements ICard {
   }
 
   @Override
-  public String getDisplayTitle() {
-    return display.getDisplayTitle();
+  public String getDisplayText() {
+    return display.getDisplayText();
   }
 
   public String getDisplayTooltip() {

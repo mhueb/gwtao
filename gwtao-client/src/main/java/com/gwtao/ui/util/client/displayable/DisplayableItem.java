@@ -13,10 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.util.client;
+package com.gwtao.ui.util.client.displayable;
 
 public class DisplayableItem implements IDisplayableItem {
-  public static final IDisplayableItem EMPTY = new DisplayableItem("");
+  public static final DisplayableItem EMPTY = new DisplayableItem("");
 
   private String icon;
   private String title;
@@ -53,7 +53,7 @@ public class DisplayableItem implements IDisplayableItem {
     return icon;
   }
 
-  public String getDisplayTitle() {
+  public String getDisplayText() {
     return title;
   }
 

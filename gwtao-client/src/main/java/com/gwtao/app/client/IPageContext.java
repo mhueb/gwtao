@@ -18,8 +18,13 @@ package com.gwtao.app.client;
 import org.shu4j.utils.permission.IPermissionProvider;
 
 import com.google.gwt.event.shared.EventBus;
+import com.gwtao.ui.util.client.mask.IWaitMask;
 
 public interface IPageContext {
+  IPage getPage();
+  
+  IPageHandler getHandler();
+
   void switchToken(String parameter);
 
   String getParameter();
@@ -33,6 +38,10 @@ public interface IPageContext {
   void updateTitle();
 
   EventBus getEventBus();
-  
+
   IPermissionProvider getPermissionProvider();
+
+  IWaitMask getWaitMask();
+  
+  void addHandler(IPageHandler handler);
 }

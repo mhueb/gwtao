@@ -3,26 +3,26 @@ package com.gwtao.app.client;
 import com.google.gwt.user.client.ui.Composite;
 
 public class PageWrapper extends Composite {
-  private IPage page;
+  private IPageContext pageCtx;
 
-  public PageWrapper(IPage page) {
-    this.page = page;
-    initWidget(page.asWidget());
+  public PageWrapper(IPageContext page) {
+    this.pageCtx = page;
+    initWidget(page.getPage().asWidget());
   }
 
-  public IPage getPage() {
-    return page;
+  public IPageContext getPageCtx() {
+    return pageCtx;
   }
 
   public void onHide() {
-    page.onHide();
+    pageCtx.getHandler().onHide();
   }
 
   public void onShow() {
-    page.onShow();
+    pageCtx.getHandler().onShow();
   }
 
   public void onClose() {
-    page.onClose();
+    pageCtx.getHandler().onClose();
   }
 }

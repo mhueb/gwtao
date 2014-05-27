@@ -18,16 +18,27 @@ package com.gwtao.ui.util.client.action;
 import org.shu4j.utils.permission.IPermissionDelegate;
 import org.shu4j.utils.permission.Permission;
 
-import com.gwtao.ui.util.client.displayable.IDisplayableItem;
+public abstract class AbstractAction implements IAction {
+  private final ActionWidgetHandler handler = new ActionWidgetHandler();
 
-public interface IAction extends IDisplayableItem {
-  final Object[] NODATA = new Object[0];
+  private IPermissionDelegate delegate;
 
-  void execute(Object... data);
+  protected AbstractAction() {
+  }
 
-  Permission getPermission(Object... data);
+  public AbstractAction setPermissionDelegate(IPermissionDelegate delegate) {
+    this.delegate = delegate;
+    return this;
+  }
 
-  IActionWidgetHandler getWidgetHandler();
+  public Permission getPermission(Object... data) {
+    if (delegate != null)
+      return delegate.getPermission(data);
+    return Permission.ALLOWED;
+  }
 
-  IAction setPermissionDelegate(IPermissionDelegate delegate);
+  @Override
+  public IActionWidgetHandler getWidgetHandler() {
+    return handler;
+  }
 }

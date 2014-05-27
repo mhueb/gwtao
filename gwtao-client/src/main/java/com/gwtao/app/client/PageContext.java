@@ -19,9 +19,13 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.shu4j.utils.permission.IPermissionProvider;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.EventBus;
 import com.gwtao.ui.place.client.Token;
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.displayable.HasDisplayText;
+import com.gwtao.ui.util.client.mask.IWaitMask;
+import com.gwtao.ui.util.client.mask.WaitMask;
 
 public final class PageContext implements IPageContext {
 
@@ -30,6 +34,8 @@ public final class PageContext implements IPageContext {
   private final Token token;
   private final IPageController pagesCtrl;
   private final IPermissionProvider privilegeProvider;
+  private final CompositePageHandler handler = new CompositePageHandler();
+  private WaitMask waitMask;
 
   public PageContext(EventBus eventBus, IPermissionProvider privilegeProvider, IPageController pagesCtrl, IPage page, Token token) {
     this.eventBus = eventBus;
@@ -39,9 +45,19 @@ public final class PageContext implements IPageContext {
     this.token = token;
     page.init(this);
     updateTitle();
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        handler.onInit();
+      }
+    });
   }
 
-  public IDisplayableItem asDisplayableItem() {
+  public IPage getPage() {
+    return page;
+  }
+
+  public HasDisplayText asDisplayableTitle() {
     return page;
   }
 
@@ -57,23 +73,23 @@ public final class PageContext implements IPageContext {
 
   @Override
   public void close() {
-    pagesCtrl.close(page);
+    pagesCtrl.close(this);
   }
 
   @Override
   public void show() {
-    pagesCtrl.show(page);
+    pagesCtrl.show(this);
     updateTitle();
   }
 
   @Override
   public void updateTitle() {
-    pagesCtrl.updateTitle(page);
+    pagesCtrl.updateTitle(this);
   }
 
   @Override
   public String canClose() {
-    return page.canClose();
+    return handler.canClose();
   }
 
   @Override
@@ -89,5 +105,21 @@ public final class PageContext implements IPageContext {
   @Override
   public IPermissionProvider getPermissionProvider() {
     return privilegeProvider;
+  }
+
+  public IWaitMask getWaitMask() {
+    if (waitMask == null)
+      waitMask = new WaitMask(page);
+    return waitMask;
+  }
+
+  @Override
+  public IPageHandler getHandler() {
+    return handler;
+  }
+
+  @Override
+  public void addHandler(IPageHandler handler) {
+    this.handler.add(handler);
   }
 }

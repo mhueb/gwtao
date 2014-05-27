@@ -16,17 +16,8 @@
 package com.gwtao.app.client;
 
 import com.google.gwt.user.client.ui.IsWidget;
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.displayable.HasDisplayText;
 
-public interface IPage extends IsWidget, IDisplayableItem {
-
+public interface IPage extends IsWidget, HasDisplayText {
   void init(IPageContext ctx);
-
-  String canClose();
-  
-  void onShow();
-
-  void onHide();
-  
-  void onClose();
 }

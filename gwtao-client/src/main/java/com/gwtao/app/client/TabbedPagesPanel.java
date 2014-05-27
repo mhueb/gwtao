@@ -78,7 +78,7 @@ public class TabbedPagesPanel extends Composite implements IPageController {
   }
 
   @Override
-  public void show(IPage page) {
+  public void show(IPageContext page) {
     PageWrapper tab = findTab(page);
     if (tab == null) {
       tab = new PageWrapper(page);
@@ -89,17 +89,17 @@ public class TabbedPagesPanel extends Composite implements IPageController {
     doUpdateTitle(tab);
   }
 
-  private PageWrapper findTab(IPage page) {
+  private PageWrapper findTab(IPageContext page) {
     for (Widget widget : tabPanel) {
       PageWrapper tab = (PageWrapper) widget;
-      if (tab.getPage() == page)
+      if (tab.getPageCtx() == page)
         return tab;
     }
     return null;
   }
 
   @Override
-  public void close(IPage page) {
+  public void close(IPageContext page) {
     PageWrapper wrapper = findTab(page);
     if (wrapper != null){
       tabPanel.remove(wrapper);
@@ -108,14 +108,14 @@ public class TabbedPagesPanel extends Composite implements IPageController {
   }
 
   @Override
-  public void updateTitle(IPage page) {
+  public void updateTitle(IPageContext page) {
     PageWrapper tab = findTab(page);
     if (tab != null)
       doUpdateTitle(tab);
   }
 
   private void doUpdateTitle(PageWrapper tab) {
-    String title = tab.getPage().getDisplayTitle();
+    String title = tab.getPageCtx().getPage().getDisplayText();
     if (StringUtils.isBlank(title))
       title = "<i>Missing Title</i>";
 
@@ -127,9 +127,9 @@ public class TabbedPagesPanel extends Composite implements IPageController {
     app.updateWindowTitle(title);
   }
 
-  public IPage getActivePage() {
+  public IPageContext getActivePage() {
     int idx = tabPanel.getSelectedIndex();
-    return idx == -1 ? null : ((PageWrapper) tabPanel.getWidget(idx)).getPage();
+    return idx == -1 ? null : ((PageWrapper) tabPanel.getWidget(idx)).getPageCtx();
   }
 
   @Override

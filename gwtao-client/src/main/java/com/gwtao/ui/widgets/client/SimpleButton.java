@@ -27,7 +27,7 @@ public class SimpleButton extends Button {
       @Override
       public void update() {
         super.update();
-        setText(action.getDisplayTitle());
+        setText(action.getDisplayText());
         setTitle(action.getDisplayTooltip());
       }
     };

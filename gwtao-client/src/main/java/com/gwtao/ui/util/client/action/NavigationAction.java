@@ -1,25 +1,33 @@
 package com.gwtao.ui.util.client.action;
 
 import com.google.gwt.user.client.History;
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.NavigationItem;
 
-public class NavigationAction extends Action {
+public class NavigationAction extends AbstractAction {
 
-  private String token;
+  private NavigationItem item;
 
-  public NavigationAction(String token, IDisplayableItem item) {
-    super(item);
-    this.token = token;
-  }
-
-  public NavigationAction(String token, String title) {
-    super(title);
-    this.token = token;
+  public NavigationAction(NavigationItem item) {
+    this.item = item;
   }
 
   @Override
   public void execute(Object... data) {
-    History.newItem(token);
+    History.newItem(item.getToken());
   }
 
+  @Override
+  public String getDisplayText() {
+    return item.getDisplayText();
+  }
+
+  @Override
+  public String getDisplayIcon() {
+    return item.getDisplayIcon();
+  }
+
+  @Override
+  public String getDisplayTooltip() {
+    return item.getDisplayTooltip();
+  }
 }

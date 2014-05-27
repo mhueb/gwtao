@@ -39,8 +39,8 @@ public class ActionAdapter implements IAction {
     return this.action.getDisplayIcon();
   }
 
-  public String getDisplayTitle() {
-    return this.action.getDisplayTitle();
+  public String getDisplayText() {
+    return this.action.getDisplayText();
   }
 
   public String getDisplayTooltip() {

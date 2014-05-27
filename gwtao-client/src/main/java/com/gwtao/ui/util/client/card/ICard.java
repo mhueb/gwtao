@@ -1,6 +1,6 @@
 package com.gwtao.ui.util.client.card;
 
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
 public interface ICard extends IDisplayableItem, Iterable<CardItem> {
 

@@ -16,7 +16,7 @@
 package com.gwtao.ui.task.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
 public interface IAsyncTaskPerformer<M> extends IDisplayableItem {
   String getWaitMessage();

@@ -21,10 +21,6 @@ import org.shu4j.utils.permission.IPermissionProvider;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.place.client.IPresenterManager;
 import com.gwtao.ui.place.client.PlaceManager;
 import com.gwtao.ui.place.client.Token;
@@ -106,56 +102,8 @@ public abstract class WebApp implements IWindowTitleSetter {
     return PageFactoryRegistry.REGISTRY.create(id);
   }
 
-  protected IPage createErrorPage(Token token, String errorMessage)
-  {
-    SafeHtmlBuilder buff = new SafeHtmlBuilder();
-    buff.appendHtmlConstant("<h1>Unhandled Exception</h1>");
-    buff.appendEscapedLines(errorMessage);
-    final HTMLPanel html = new HTMLPanel(buff.toSafeHtml());
-      return new IPage() {
-        
-        @Override
-        public String getDisplayTooltip() {
-          return null;
-        }
-        
-        @Override
-        public String getDisplayTitle() {
-          return "Error";
-        }
-        
-        @Override
-        public String getDisplayIcon() {
-          return null;
-        }
-        
-        @Override
-        public Widget asWidget() {
-          return html;
-        }
-        
-        @Override
-        public void onShow() {
-          
-        }
-        
-        @Override
-        public void onHide() {
-        }
-        
-        @Override
-        public void onClose() {
-        }
-        
-        @Override
-        public void init(IPageContext ctx) {
-        }
-        
-        @Override
-        public String canClose() {
-          return null;
-        }
-      };
+  protected IPage createErrorPage(Token token, String errorMessage) {
+    return new ErrorPage(token, errorMessage);
   }
 
   protected boolean placeChangeHook(Token token) {

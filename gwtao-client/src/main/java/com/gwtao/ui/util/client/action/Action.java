@@ -15,28 +15,28 @@
  */
 package com.gwtao.ui.util.client.action;
 
-import org.shu4j.utils.permission.IPermissionDelegate;
-import org.shu4j.utils.permission.Permission;
+import org.apache.commons.lang.Validate;
 
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.displayable.DisplayableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
-public abstract class Action implements IAction {
-  private final ActionWidgetHandler handler = new ActionWidgetHandler();
-
-  private IPermissionDelegate delegate;
-
-  private String icon;
-  private String title;
-  private String tooltip;
+public abstract class Action extends AbstractAction {
+  private final IDisplayableItem item;
 
   protected Action() {
+    this(DisplayableItem.EMPTY);
+  }
+
+  public Action(IDisplayableItem item) {
+    Validate.notNull(item);
+    this.item = item;
   }
 
   /**
    * @param title Title of the action
    */
   public Action(String title) {
-    this.title = title;
+    this(new DisplayableItem(title));
   }
 
   /**
@@ -44,45 +44,22 @@ public abstract class Action implements IAction {
    * @param icon Icon css class
    */
   public Action(String title, String icon) {
-    this.title = title;
-    this.icon = icon;
+    this(new DisplayableItem(title, icon));
   }
 
-  /**
-   * @param title Title of the action
-   * @param icon Icon css class
-   */
-  public Action(IDisplayableItem info) {
-    this.title = info.getDisplayTitle();
-    this.tooltip = info.getDisplayTooltip();
-    this.icon = info.getDisplayIcon();
+  public Action(String title, String icon, String tooltip) {
+    this(new DisplayableItem(title, icon, tooltip));
   }
 
   public String getDisplayIcon() {
-    return icon;
+    return item.getDisplayIcon();
   }
 
-  public String getDisplayTitle() {
-    return title;
+  public String getDisplayText() {
+    return item.getDisplayIcon();
   }
 
   public String getDisplayTooltip() {
-    return tooltip;
-  }
-
-  public Action setPermissionDelegate(IPermissionDelegate delegate) {
-    this.delegate = delegate;
-    return this;
-  }
-
-  public Permission getPermission(Object... data) {
-    if (delegate != null)
-      return delegate.getPermission(data);
-    return Permission.ALLOWED;
-  }
-
-  @Override
-  public IActionWidgetHandler getWidgetHandler() {
-    return handler;
+    return item.getDisplayTooltip();
   }
 }

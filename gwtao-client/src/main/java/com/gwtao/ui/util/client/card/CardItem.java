@@ -2,9 +2,9 @@ package com.gwtao.ui.util.client.card;
 
 import org.apache.commons.lang.Validate;
 
-import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.NavigationItem;
 import com.gwtao.ui.util.client.action.IAction;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
 public class CardItem implements IDisplayableItem {
   private Card set;
@@ -36,8 +36,8 @@ public class CardItem implements IDisplayableItem {
   }
 
   @Override
-  public String getDisplayTitle() {
-    return display.getDisplayTitle();
+  public String getDisplayText() {
+    return display.getDisplayText();
   }
 
   public String getDisplayTooltip() {
