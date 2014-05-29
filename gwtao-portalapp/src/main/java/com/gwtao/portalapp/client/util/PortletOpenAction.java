@@ -32,12 +32,12 @@ public class PortletOpenAction implements IAction {
 
   public PortletOpenAction(IPortletDescriptor pd) {
     this.pd = pd;
-    this.delegate = Permission.ALLOWED; 
+    this.delegate = Permission.ALLOWED;
   }
 
   @Override
-  public String getDisplayTitle() {
-    return pd.getDisplayTitle();
+  public String getDisplayText() {
+    return pd.getDisplayText();
   }
 
   @Override
@@ -64,6 +64,7 @@ public class PortletOpenAction implements IAction {
   public IActionWidgetHandler getWidgetHandler() {
     return handler;
   }
+
   @Override
   public IAction setPermissionDelegate(IPermissionDelegate delegate) {
     this.delegate = delegate;

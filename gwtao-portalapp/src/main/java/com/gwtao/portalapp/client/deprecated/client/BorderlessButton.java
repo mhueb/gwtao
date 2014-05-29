@@ -44,12 +44,12 @@ public class BorderlessButton extends Button {
   }
 
   public BorderlessButton(final IAction action, int style) {
-    this((style & TEXT) == 0 ? null : action.getDisplayTitle(), action.getDisplayIcon(), 0, (style & UNDERLINE) == UNDERLINE);
+    this((style & TEXT) == 0 ? null : action.getDisplayText(), action.getDisplayIcon(), 0, (style & UNDERLINE) == UNDERLINE);
     init(action);
   }
 
   public BorderlessButton(final IAction action, int style, String altIcon) {
-    this((style & TEXT) == 0 ? null : action.getDisplayTitle(), action.getDisplayIcon() == null ? altIcon : action.getDisplayIcon(), 0, (style & UNDERLINE) == UNDERLINE);
+    this((style & TEXT) == 0 ? null : action.getDisplayText(), action.getDisplayIcon() == null ? altIcon : action.getDisplayIcon(), 0, (style & UNDERLINE) == UNDERLINE);
     init(action);
   }
 

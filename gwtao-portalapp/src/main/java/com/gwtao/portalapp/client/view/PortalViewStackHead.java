@@ -103,7 +103,7 @@ public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite
     }
 
     private void update() {
-      title.setHTML(SafeHtmlUtils.fromString(item.getDisplayInfo().getDisplayTitle()));
+      title.setHTML(SafeHtmlUtils.fromString(item.getDisplayInfo().getDisplayText()));
     }
   }
 

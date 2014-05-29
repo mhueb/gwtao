@@ -29,7 +29,6 @@ import com.gwtao.portalapp.client.document.InvalidDocumentView;
 import com.gwtao.portalapp.client.frame.IPortalFrame;
 import com.gwtao.portalapp.client.frame.NotstartedFrame;
 import com.gwtao.portalapp.client.frame.PortalFrame;
-import com.gwtao.portalapp.client.i18n.PortalConstants;
 import com.gwtao.portalapp.client.layout.IPortalLookFactory;
 import com.gwtao.portalapp.client.layout.PortalLayout;
 import com.gwtao.portalapp.client.layout.PortalLookRegistry;
@@ -41,15 +40,15 @@ import com.gwtao.portalapp.client.util.PortletOpenAction;
 import com.gwtao.portalapp.client.view.IPortalViewStackFactory;
 import com.gwtao.portalapp.client.view.PortalViewStack;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
-import com.gwtao.ui.location.client.IPresenterManager;
-import com.gwtao.ui.location.client.LocationManager;
-import com.gwtao.ui.location.client.Token;
-import com.gwtao.ui.location.client.TokenUtils;
-import com.gwtao.ui.util.client.DisplayableItem;
+import com.gwtao.ui.place.client.IPresenterManager;
+import com.gwtao.ui.place.client.PlaceManager;
+import com.gwtao.ui.place.client.Token;
+import com.gwtao.ui.place.client.TokenUtils;
 import com.gwtao.ui.util.client.SplashManager;
 import com.gwtao.ui.util.client.card.Card;
 import com.gwtao.ui.util.client.card.ICard;
 import com.gwtao.ui.util.client.card.ICardSupplier;
+import com.gwtao.ui.util.client.displayable.DisplayableItem;
 
 public class PortalApp implements IPortal {
 
@@ -59,7 +58,7 @@ public class PortalApp implements IPortal {
     return INSTANCE;
   }
 
-  private final LocationManager<IDocument> manager;
+  private final PlaceManager<IDocument> manager;
 
   private IPortalViewStackFactory stackFactory = PortalViewStack.FACTORY;
 
@@ -83,7 +82,7 @@ public class PortalApp implements IPortal {
   private boolean showDocumentsSeparate = true;
 
   private PortalApp() {
-    manager = new LocationManager<IDocument>(new IPresenterManager<IDocument>() {
+    manager = new PlaceManager<IDocument>(new IPresenterManager<IDocument>() {
 
       @Override
       public boolean hide(IDocument document) {

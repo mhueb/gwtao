@@ -52,8 +52,8 @@ public class DocumentOpenAction implements IAction {
   }
 
   @Override
-  public String getDisplayTitle() {
-    return this.descr.getDisplayTitle();
+  public String getDisplayText() {
+    return this.descr.getDisplayText();
   }
 
   @Override

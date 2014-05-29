@@ -15,8 +15,8 @@
  */
 package com.gwtao.portalapp.client.view;
 
-import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.card.ICard;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
 public interface IViewNavigatorItem {
   void init(IViewNavigator navigator);

@@ -202,7 +202,7 @@ public abstract class DocumentSelector<T> extends Document implements IDocumentS
    * @param t The model to delete
    */
   protected void delete(final T t) {
-    MessageDialog.confirm(getDisplayTitle(), PortalConstants.c.areYouSureToDelete(), new AsyncOkCancelAnswere() {
+    MessageDialog.confirm(getDisplayText(), PortalConstants.c.areYouSureToDelete(), new AsyncOkCancelAnswere() {
       @Override
       public void onOk() {
         doDelete(t);

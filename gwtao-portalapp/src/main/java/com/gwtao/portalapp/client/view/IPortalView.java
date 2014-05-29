@@ -16,7 +16,7 @@
 package com.gwtao.portalapp.client.view;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.util.client.IDisplayableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
 public interface IPortalView extends IDisplayableItem {
   void setViewContext(IPortalViewContext context);

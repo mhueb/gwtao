@@ -21,10 +21,10 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.portalapp.client.actionmanager.IActionManager;
-import com.gwtao.ui.util.client.IDisplayableItem;
 import com.gwtao.ui.util.client.action.IAction;
 import com.gwtao.ui.util.client.card.Card;
 import com.gwtao.ui.util.client.card.ICard;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 import com.gwtao.ui.widgets.client.SwitchPanel;
 
 public class ViewStackItem<T extends IPortalView> implements IViewNavigatorItem, IPortalViewContext, IActionManager {

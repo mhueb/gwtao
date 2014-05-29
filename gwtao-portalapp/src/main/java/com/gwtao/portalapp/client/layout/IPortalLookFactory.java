@@ -15,13 +15,16 @@
  */
 package com.gwtao.portalapp.client.layout;
 
-import com.gwtao.ui.util.client.IIdentifiableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
+
 
 /**
  * 
  * @author Matthias Huebner
  * 
  */
-public interface IPortalLookFactory extends IIdentifiableItem {
+public interface IPortalLookFactory extends IDisplayableItem {
+  String getId();
+  
   void createLook(IPortalLayout layout);
 }

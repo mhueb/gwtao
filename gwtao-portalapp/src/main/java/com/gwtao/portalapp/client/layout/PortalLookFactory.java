@@ -47,7 +47,7 @@ public abstract class PortalLookFactory implements IPortalLookFactory {
   }
 
   @Override
-  public String getDisplayTitle() {
+  public String getDisplayText() {
     return title;
   }
 

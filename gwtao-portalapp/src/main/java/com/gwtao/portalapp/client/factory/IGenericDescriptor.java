@@ -15,10 +15,11 @@
  */
 package com.gwtao.portalapp.client.factory;
 
-import com.gwtao.ui.util.client.IIdentifiableItem;
+import com.gwtao.ui.util.client.displayable.IDisplayableItem;
 
+public interface IGenericDescriptor<T> extends IDisplayableItem {
+  String getId();
 
-public interface IGenericDescriptor<T> extends IIdentifiableItem {
   /**
    * @return An instance of {@link T}
    */

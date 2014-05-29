@@ -99,7 +99,7 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
   }
 
   @Override
-  public String getDisplayTitle() {
+  public String getDisplayText() {
     StringBuilder buff = new StringBuilder();
     if (isDirty())
       buff.append("*");
@@ -107,7 +107,7 @@ public abstract class DocumentEditor<T> extends Document implements IDocumentEdi
       buff.append(PortalConstants.c.neW()).append(":");
 
     if (getEditContext().isNull()) {
-      String title = super.getDisplayTitle();
+      String title = super.getDisplayText();
       if (StringUtils.isEmpty(title))
         buff.append("<i>").append(PortalConstants.c.unknown()).append("</i>");
       else

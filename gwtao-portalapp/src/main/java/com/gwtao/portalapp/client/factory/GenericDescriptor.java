@@ -42,7 +42,7 @@ public abstract class GenericDescriptor<T> implements IGenericDescriptor<T> {
   }
 
   @Override
-  public String getDisplayTitle() {
+  public String getDisplayText() {
     return title;
   }
 
