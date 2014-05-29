@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.gwt.dev.util.Pair;
+import org.shu4j.utils.util.Pair;
+
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -33,7 +34,7 @@ public class BooleanCombobox extends Composite implements HasConstrainedValue<Bo
         if (selectedIndex < 0) {
           return; // Not sure why this happens during addValue
         }
-        Boolean newValue = values.get(selectedIndex).getRight();
+        Boolean newValue = values.get(selectedIndex).getSecond();
         setValue(newValue, true);
       }
     });

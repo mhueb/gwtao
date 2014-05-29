@@ -24,9 +24,6 @@
 		0%, rgba(0, 0, 0, 0) 100%); /* IE10+ */
 	background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65) 0%,
 		rgba(0, 0, 0, 0) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000',
-		endColorstr='#00000000', GradientType=1);
-	/* IE6-9 fallback on horizontal gradient */
 }
 
 .waitMaskFrame {

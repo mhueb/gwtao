@@ -120,6 +120,12 @@
 				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.gwtao</groupId>
+				<artifactId>gwtao-bootstrap</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
