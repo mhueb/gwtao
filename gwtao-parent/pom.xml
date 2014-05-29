@@ -50,10 +50,8 @@
 	</properties>
 
 	<modules>
-		<module>../gwtao-emul</module>
-		<module>../gwtao-crypt</module>
-		<module>../gwtao-ui</module>
-		<module>../gwtao-webapp</module>
+		<module>../gwtao-client</module>
+		<module>../gwtao-bootstrap</module>
 		<module>../gwtao-rpc</module>
 		<module>../gwtao-portalapp</module>
 		<!-- module>../gwtao-showcase</module -->
@@ -103,12 +101,12 @@
 			<dependency>
 				<groupId>org.shu4j</groupId>
 				<artifactId>shu4j-utils</artifactId>
-				<version>0.2.0-SNAPSHOT</version>
+				<version>0.3.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.shu4j</groupId>
 				<artifactId>shu4j-gwt</artifactId>
-				<version>0.2.0-SNAPSHOT</version>
+				<version>0.3.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.gwtao</groupId>
