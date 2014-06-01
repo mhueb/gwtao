@@ -13,3 +13,46 @@
 		padding-left: 140px;
 	}
 }
+
+@media ( min-width : 1200px) {
+	.navbar-static-side {
+		z-index: 1;
+		position: absolute;
+		width: 320px;
+		margin-right: 20px;
+		margin-top: 43px;
+		left: 0px;
+	}
+	.content-with-sidebar {
+		margin-left: 320px;
+	}
+	.navbar-top-links .dropdown-messages,.navbar-top-links .dropdown-tasks,.navbar-top-links .dropdown-alerts
+		{
+		margin-left: auto;
+	}
+}
+
+.sidebar-hidden {
+	display: none;
+}
+
+.content-without-sidebar {
+}
+
+@media ( min-width : 979px) and (max-width: 1199px) {
+	.navbar-static-side {
+		z-index: 1;
+		position: absolute;
+		width: 250px;
+		margin-right: 20px;
+		margin-top: 43px;
+		left: 0px;
+	}
+	.content-with-sidebar {
+		margin-left: 250px;
+	}
+	.navbar-top-links .dropdown-messages,.navbar-top-links .dropdown-tasks,.navbar-top-links .dropdown-alerts
+		{
+		margin-left: auto;
+	}
+}

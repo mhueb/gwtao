@@ -119,8 +119,8 @@ public final class PlaceManager<T> {
         return;
 
       if (currentToken != null) {
-        if (currentToken.equals(token))
-          return;
+        // if (currentToken.equals(token))
+        // return;
         if (!presenterManager.hide(currentPresenter)) {
           popPlace();
           return;

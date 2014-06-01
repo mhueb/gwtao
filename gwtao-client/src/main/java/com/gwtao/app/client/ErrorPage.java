@@ -15,6 +15,7 @@
  */
 package com.gwtao.app.client;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,6 +29,10 @@ final class ErrorPage implements IPage {
     buff.appendHtmlConstant("<h1>Unhandled Exception</h1>");
     buff.appendEscapedLines(errorMessage);
     html = new HTMLPanel(buff.toSafeHtml());
+    html.getElement().getStyle().setPadding(12.0, Unit.PX);
+    html.getElement().getStyle().setMarginLeft(12.0, Unit.PX);
+    html.getElement().getStyle().setMarginRight(12.0, Unit.PX);
+    html.getElement().getStyle().setBackgroundColor("#FFD4D4");
   }
 
   @Override
