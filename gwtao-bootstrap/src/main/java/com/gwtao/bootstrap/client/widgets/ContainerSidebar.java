@@ -15,6 +15,9 @@
  */
 package com.gwtao.bootstrap.client.widgets;
 
+import org.apache.commons.lang.Validate;
+
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -22,15 +25,15 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Sidebar extends ComplexPanel implements AcceptsOneWidget {
+public class ContainerSidebar extends ComplexPanel implements AcceptsOneWidget {
+
   private Element root;
 
   private IsWidget widget;
 
-  public Sidebar() {
+  public ContainerSidebar() {
     root = DOM.createDiv();
     setElement(root);
-    setStyleName("nav-collapse collapse navbar-static-side");
   }
 
   public void setWidget(IsWidget newWidget) {
@@ -43,5 +46,18 @@ public class Sidebar extends ComplexPanel implements AcceptsOneWidget {
 
   public void add(Widget child) {
     setWidget(child);
+  }
+
+  public void showSidebar(Sidebar sidebar, boolean show) {
+    if (show) {
+      addStyleName("content-with-sidebar");
+      removeStyleName("content-without-sidebar");
+      sidebar.removeStyleName("sidebar-hidden");
+    }
+    else {
+      addStyleName("content-without-sidebar");
+      removeStyleName("content-with-sidebar");
+      sidebar.addStyleName("sidebar-hidden");
+    }
   }
 }
