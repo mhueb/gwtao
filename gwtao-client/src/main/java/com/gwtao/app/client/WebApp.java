@@ -21,15 +21,15 @@ import org.shu4j.utils.permission.IPermissionProvider;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.gwtao.ui.place.client.IPresenterManager;
-import com.gwtao.ui.place.client.PlaceManager;
-import com.gwtao.ui.place.client.Token;
+import com.gwtao.ui.history.client.IPresenterManager;
+import com.gwtao.ui.history.client.HistoryManager;
+import com.gwtao.ui.history.client.Token;
 
 public abstract class WebApp implements IWindowTitleSetter {
 
   private IPageController pages;
 
-  private final PlaceManager<PageContext> locationManager;
+  private final HistoryManager<PageContext> locationManager;
 
   private final EventBus eventbus;
 
@@ -76,7 +76,7 @@ public abstract class WebApp implements IWindowTitleSetter {
   };
 
   protected WebApp() {
-    this.locationManager = new PlaceManager<PageContext>(manager);
+    this.locationManager = new HistoryManager<PageContext>(manager);
     this.eventbus = new SimpleEventBus();
     this.appTitle = StringUtils.trimToNull(Document.get().getTitle());
   }

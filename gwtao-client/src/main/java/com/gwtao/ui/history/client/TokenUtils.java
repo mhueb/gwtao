@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.place.client;
+package com.gwtao.ui.history.client;
 
 import org.apache.commons.lang.StringUtils;
 

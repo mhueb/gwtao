@@ -19,7 +19,7 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 
-import com.gwtao.ui.place.client.IParameterConverter;
+import com.gwtao.ui.history.client.IParameterConverter;
 import com.gwtao.ui.viewdriver.client.IViewDriver;
 
 public final class TaskController<P, M> extends AbstractTaskController<P, M> {

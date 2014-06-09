@@ -17,7 +17,7 @@ package com.gwtao.portalapp.client;
 
 import com.gwtao.portalapp.client.document.IDocument;
 import com.gwtao.portalapp.client.portlet.IPortlet;
-import com.gwtao.ui.place.client.Token;
+import com.gwtao.ui.history.client.Token;
 
 public interface IPortalListener {
   boolean beforChange(Token token);

@@ -52,6 +52,7 @@
 	<modules>
 		<module>../gwtao-client</module>
 		<module>../gwtao-bootstrap</module>
+		<module>../gwtao-rest</module>
 		<module>../gwtao-rpc</module>
 		<module>../gwtao-portalapp</module>
 		<!-- module>../gwtao-showcase</module -->

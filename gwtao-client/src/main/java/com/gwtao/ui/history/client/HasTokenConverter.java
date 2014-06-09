@@ -13,12 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.place.client;
+package com.gwtao.ui.history.client;
 
-public class UnkownLocationException extends RuntimeException {
-  private static final long serialVersionUID = 1L;
+public interface HasTokenConverter<P, M> extends HasTokenName {
 
-  public UnkownLocationException(Token token) {
-    super("Unknown location '" + token.getName() + "'");
-  }
+  IParameterConverter<P, M> getConverter();
+
 }

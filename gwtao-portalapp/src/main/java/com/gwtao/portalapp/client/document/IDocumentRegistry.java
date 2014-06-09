@@ -19,7 +19,7 @@ import java.util.List;
 
 import com.gwtao.portalapp.client.document.IDocumentDescriptor.Accordance;
 import com.gwtao.portalapp.client.factory.IGenericRegistry;
-import com.gwtao.ui.place.client.Token;
+import com.gwtao.ui.history.client.Token;
 
 public interface IDocumentRegistry extends IGenericRegistry<IDocument, IDocumentDescriptor> {
 

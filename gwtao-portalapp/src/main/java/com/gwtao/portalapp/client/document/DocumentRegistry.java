@@ -22,8 +22,8 @@ import java.util.List;
 
 import com.gwtao.portalapp.client.document.IDocumentDescriptor.Accordance;
 import com.gwtao.portalapp.client.factory.GenericRegistry;
-import com.gwtao.ui.place.client.Token;
-import com.gwtao.ui.place.client.TokenUtils;
+import com.gwtao.ui.history.client.Token;
+import com.gwtao.ui.history.client.TokenUtils;
 import com.gwtao.ui.util.client.ParameterList;
 
 public class DocumentRegistry extends GenericRegistry<IDocument, IDocumentDescriptor> implements IDocumentRegistry {

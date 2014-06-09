@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.place.client;
+package com.gwtao.ui.history.client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +39,7 @@ import com.google.gwt.user.client.Window.ClosingHandler;
  * 
  * @param <T> Type of the presenter.
  */
-public final class PlaceManager<T> {
+public final class HistoryManager<T> {
   private final IPresenterManager<T> presenterManager;
 
   private boolean started;
@@ -56,7 +56,7 @@ public final class PlaceManager<T> {
 
   private boolean canPopState;
 
-  public PlaceManager(IPresenterManager<T> presenterManager) {
+  public HistoryManager(IPresenterManager<T> presenterManager) {
     this.presenterManager = presenterManager;
   }
 

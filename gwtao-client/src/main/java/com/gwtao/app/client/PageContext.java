@@ -22,7 +22,7 @@ import org.shu4j.utils.permission.IPermissionProvider;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.EventBus;
-import com.gwtao.ui.place.client.Token;
+import com.gwtao.ui.history.client.Token;
 import com.gwtao.ui.util.client.displayable.HasDisplayText;
 import com.gwtao.ui.util.client.mask.IWaitMask;
 import com.gwtao.ui.util.client.mask.WaitMask;

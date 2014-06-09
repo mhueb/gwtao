@@ -16,7 +16,7 @@
 package com.gwtao.app.client.task;
 
 import com.gwtao.app.client.IPageFactory;
-import com.gwtao.ui.place.client.HasTokenConverter;
+import com.gwtao.ui.history.client.HasTokenConverter;
 
 public interface ITaskPageFactory<P, M> extends IPageFactory, HasTokenConverter<P, M> {
   TaskPage<P, M> createPage();

@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.portalapp.client.view.AbstractPortalView;
-import com.gwtao.ui.place.client.Token;
+import com.gwtao.ui.history.client.Token;
 import com.gwtao.ui.util.client.ParameterList;
 import com.gwtao.ui.util.client.ParameterList.Builder;
 

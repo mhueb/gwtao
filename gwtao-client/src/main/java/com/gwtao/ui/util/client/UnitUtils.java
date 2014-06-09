@@ -26,7 +26,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 
 public final class UnitUtils {
 

@@ -19,7 +19,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtao.ui.place.client.Token;
+import com.gwtao.ui.history.client.Token;
 
 final class ErrorPage implements IPage {
   private final HTMLPanel html;

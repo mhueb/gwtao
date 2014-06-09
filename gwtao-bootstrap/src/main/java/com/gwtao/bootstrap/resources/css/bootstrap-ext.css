@@ -14,45 +14,106 @@
 	}
 }
 
-@media ( min-width : 1200px) {
-	.navbar-static-side {
-		z-index: 1;
-		position: absolute;
-		width: 320px;
-		margin-right: 20px;
-		margin-top: 43px;
-		left: 0px;
-	}
-	.content-with-sidebar {
-		margin-left: 320px;
-	}
-	.navbar-top-links .dropdown-messages,.navbar-top-links .dropdown-tasks,.navbar-top-links .dropdown-alerts
-		{
-		margin-left: auto;
-	}
+/**
+* Sidebar-Container
+***/
+.sidebarcontainer {
+	padding-left: 250px;
+	transition: all 0.4s ease 0s;
 }
 
-.sidebar-hidden {
-	display: none;
+.sidebarcontainer-sidebar {
+	background: #F5F5F5;
+	position: fixed;
+	height: 100%;
+	overflow-y: auto;
+	z-index: 1000;
+	transition: all 0.4s ease 0s;
 }
 
-.content-without-sidebar {
+.sidebarcontainer-sidebar-content {
+	
+}
+
+.sidebarcontainer-content {
+	width: 100%;
+}
+
+.sidebarcontainer.sidebaroff .sidebarcontainer-sidebar {
+	visibility: hidden !important;
+	display: none !important;
+}
+
+.sidebarcontainer.sidebaroff .sidebarcontainer-button {
+	visibility: hidden !important;
+	display: none !important;
+}
+
+.sidebarcontainer.sidebaroff {
+	padding-left: 0px !important;
+}
+
+@media ( max-width : 978px) {
+	.sidebarcontainer {
+		padding-left: 0;
+	}
+	.sidebarcontainer-sidebar {
+		top: 0;
+		left: 0;
+		margin-left: -250px;
+		width: 250px;
+		position: fixed;
+	}
+	.sidebarcontainer.active .sidebarcontainer-sidebar {
+		left: 250px;
+		width: 250px;
+		transition: all 0.4s ease 0s;
+		height: 100%;
+	}
+	.sidebarcontainer-button {
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		width: 6px;
+		height: 100%;
+		background: #858585;
+		position: fixed;
+		transition: all 0.4s ease 0s;
+	}
+	.sidebarcontainer.active .sidebarcontainer-button {
+		left: 250px;
+	}
 }
 
 @media ( min-width : 979px) and (max-width: 1199px) {
-	.navbar-static-side {
-		z-index: 1;
-		position: absolute;
+	.sidebarcontainer {
+		padding-left: 250px;
+	}
+	.sidebarcontainer-sidebar {
+		margin-left: -250px;
+		left: 250px;
 		width: 250px;
-		margin-right: 20px;
-		margin-top: 43px;
-		left: 0px;
+		height: 100%;
 	}
-	.content-with-sidebar {
-		margin-left: 250px;
+	.sidebarcontainer-button {
+		visibility: hidden;
+		display: none;
 	}
-	.navbar-top-links .dropdown-messages,.navbar-top-links .dropdown-tasks,.navbar-top-links .dropdown-alerts
-		{
-		margin-left: auto;
+}
+
+@media ( min-width : 1200px) {
+	.sidebarcontainer {
+		padding-left: 320px;
+		transition: all 0.4s ease 0s;
+	}
+	.sidebarcontainer-sidebar {
+		margin-left: -320px;
+		left: 320px;
+		width: 320px;
+		height: 100%;
+	}
+	.sidebarcontainer-button {
+		visibility: hidden;
+		display: none;
 	}
 }

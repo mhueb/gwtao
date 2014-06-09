@@ -15,10 +15,42 @@
  */
 package com.gwtao.ui.util.client;
 
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Element;
 
 public final class CSSUtils {
 
+  public static void setStyleSheet(String id, String styleSheet) {
+    removeStyleSheet(id);
+    Element ss = Document.get().createElement("style");
+    ss.setAttribute("type", "text/css");
+    ss.setAttribute("id", id);
+    ss.appendChild(Document.get().createTextNode(styleSheet));
+    getHead().appendChild(ss);
+  }
+
+  public static void removeStyleSheet(String id) {
+    Element css = Document.get().getElementById(id);
+    if (css != null)
+      css.removeFromParent();
+  }
+
+  public static void changeStyleSheetRef(String id, String url) {
+    removeStyleSheet(id);
+    Element ss = Document.get().createElement("link");
+    ss.setAttribute("type", "text/css");
+    ss.setAttribute("id", id);
+    ss.setAttribute("rel", "stylesheet");
+    ss.setAttribute("href", url);
+    getHead().appendChild(ss);
+  }
+
+  private static Element getHead() {
+    NodeList<Element> head = Document.get().getElementsByTagName("head");
+    return head.getItem(0);
+  }
+  
   public static int calcMarginHeight(Element elem) {
     return calcSize(elem, "marginTop", true) + calcSize(elem, "marginBottom", true);
   }

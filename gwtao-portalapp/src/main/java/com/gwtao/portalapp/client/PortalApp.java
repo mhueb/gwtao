@@ -39,11 +39,11 @@ import com.gwtao.portalapp.client.portlet.PortletRegistry;
 import com.gwtao.portalapp.client.util.PortletOpenAction;
 import com.gwtao.portalapp.client.view.IPortalViewStackFactory;
 import com.gwtao.portalapp.client.view.PortalViewStack;
+import com.gwtao.ui.history.client.IPresenterManager;
+import com.gwtao.ui.history.client.HistoryManager;
+import com.gwtao.ui.history.client.Token;
+import com.gwtao.ui.history.client.TokenUtils;
 import com.gwtao.ui.layout.client.RootLayoutPanel;
-import com.gwtao.ui.place.client.IPresenterManager;
-import com.gwtao.ui.place.client.PlaceManager;
-import com.gwtao.ui.place.client.Token;
-import com.gwtao.ui.place.client.TokenUtils;
 import com.gwtao.ui.util.client.SplashManager;
 import com.gwtao.ui.util.client.card.Card;
 import com.gwtao.ui.util.client.card.ICard;
@@ -58,7 +58,7 @@ public class PortalApp implements IPortal {
     return INSTANCE;
   }
 
-  private final PlaceManager<IDocument> manager;
+  private final HistoryManager<IDocument> manager;
 
   private IPortalViewStackFactory stackFactory = PortalViewStack.FACTORY;
 
@@ -82,7 +82,7 @@ public class PortalApp implements IPortal {
   private boolean showDocumentsSeparate = true;
 
   private PortalApp() {
-    manager = new PlaceManager<IDocument>(new IPresenterManager<IDocument>() {
+    manager = new HistoryManager<IDocument>(new IPresenterManager<IDocument>() {
 
       @Override
       public boolean hide(IDocument document) {

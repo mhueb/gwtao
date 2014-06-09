@@ -13,20 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtao.ui.place.client;
+package com.gwtao.ui.history.client;
 
-public interface IPresenterManager<T> {
-  T createPresenter(Token token);
+public interface HasTokenName {
 
-  void show(T presenter);
+  String getTokenName();
 
-  boolean hide(T presenter);
-
-  T createErrorPresenter(Token token, String errorMessage);
-
-  String canClose(T presenter);
-
-  boolean locationChangeHook(Token token);
-
-  String canClose();
 }
