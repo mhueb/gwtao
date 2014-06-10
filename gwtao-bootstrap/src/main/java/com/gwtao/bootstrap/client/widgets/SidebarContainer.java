@@ -94,7 +94,6 @@ public class SidebarContainer extends ComplexPanel implements AcceptsOneWidget {
 
       @Override
       public void onResize(ResizeEvent event) {
-        System.out.println(event.getHeight());
         adjustHeight();
       }
     });
