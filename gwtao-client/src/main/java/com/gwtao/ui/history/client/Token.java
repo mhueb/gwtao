@@ -41,26 +41,26 @@ import org.shu4j.utils.util.Hasher;
 public final class Token {
   public static final Token NOWHERE = new Token("", null);
 
-  private final String name;
+  private final String place;
 
   private final String parameters;
 
-  protected Token(String name, String parameters) {
-    Validate.notNull(name);
-    this.name = name;
+  protected Token(String place, String parameters) {
+    Validate.notNull(place);
+    this.place = place;
     this.parameters = StringUtils.trimToNull(parameters);
   }
 
   public String getValue() {
-    return parameters == null ? name : name + "?" + parameters;
+    return parameters == null ? place : place + "?" + parameters;
   }
 
   public boolean isNoWhere() {
-    return name.length() == 0;
+    return place.length() == 0;
   }
 
-  public String getName() {
-    return name;
+  public String getPlace() {
+    return place;
   }
 
   public String getParameters() {
@@ -69,7 +69,7 @@ public final class Token {
 
   @Override
   public int hashCode() {
-    return new Hasher().add(name).add(parameters).getHash();
+    return new Hasher().add(place).add(parameters).getHash();
   }
 
   @Override
@@ -81,12 +81,12 @@ public final class Token {
     if (getClass() != obj.getClass())
       return false;
     Token other = (Token) obj;
-    return ObjectUtils.equals(name, other.name) && ObjectUtils.equals(parameters, other.parameters);
+    return ObjectUtils.equals(place, other.place) && ObjectUtils.equals(parameters, other.parameters);
   }
 
   @Override
   public String toString() {
-    return "Location [id=" + name + ", parameters=" + parameters + "]";
+    return "Token [place=" + place + ", parameters=" + parameters + "]";
   }
 
 }

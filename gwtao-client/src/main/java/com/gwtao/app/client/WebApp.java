@@ -21,8 +21,8 @@ import org.shu4j.utils.permission.IPermissionProvider;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.gwtao.ui.history.client.IPresenterManager;
 import com.gwtao.ui.history.client.HistoryManager;
+import com.gwtao.ui.history.client.IPresenterManager;
 import com.gwtao.ui.history.client.Token;
 
 public abstract class WebApp implements IWindowTitleSetter {
@@ -54,8 +54,12 @@ public abstract class WebApp implements IWindowTitleSetter {
 
     @Override
     public PageContext createPresenter(Token token) {
-      IPage document = createPage(token.getName());
-      return createContext(token, document);
+      IPage page = createPage(token.getPlace());
+      if (page == null)
+        page = createUnknownPage(token);
+      if (page == null)
+        return null;
+      return createContext(token, page);
     }
 
     @Override
@@ -104,6 +108,10 @@ public abstract class WebApp implements IWindowTitleSetter {
 
   protected IPage createErrorPage(Token token, String errorMessage) {
     return new ErrorPage(token, errorMessage);
+  }
+
+  protected IPage createUnknownPage(Token token) {
+    return new UnknownPage(token);
   }
 
   protected boolean placeChangeHook(Token token) {

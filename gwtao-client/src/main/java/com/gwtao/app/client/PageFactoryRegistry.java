@@ -30,7 +30,7 @@ public final class PageFactoryRegistry {
   public IPage create(String token) {
     IPageFactory factory = descriptorMap.get(token);
     if (factory == null)
-      throw new RuntimeException();
+      return null;
 
     return factory.createPage();
   }

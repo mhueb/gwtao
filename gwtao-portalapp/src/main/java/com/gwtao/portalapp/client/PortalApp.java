@@ -91,15 +91,15 @@ public class PortalApp implements IPortal {
 
       @Override
       public IDocument createPresenter(Token token) {
-        String id = token.getName();
+        String id = token.getPlace();
         if (StringUtils.isEmpty(id))
           return null;
 
         IDocumentDescriptor descr = DocumentRegistry.get().lookup(id);
         if (descr == null)
-          throw new java.lang.IllegalArgumentException("Document with id=" + token.getName() + " does not exists!");
+          throw new java.lang.IllegalArgumentException("Document with id=" + token.getPlace() + " does not exists!");
         Object parameter = descr.decodeParameter(TokenUtils.parse(token.getParameters()));
-        return openDocument(token.getName(), parameter);
+        return openDocument(token.getPlace(), parameter);
       }
 
       @Override

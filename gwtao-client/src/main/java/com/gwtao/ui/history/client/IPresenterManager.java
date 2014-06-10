@@ -15,6 +15,7 @@
  */
 package com.gwtao.ui.history.client;
 
+
 public interface IPresenterManager<T> {
   T createPresenter(Token token);
 

@@ -178,10 +178,10 @@ public class SidebarContainer extends ComplexPanel implements AcceptsOneWidget {
     if (enabled && this.show != show) {
       this.show = show;
       if (show) {
-        root.removeClassName("active");
+        root.addClassName("active");
       }
       else {
-        root.addClassName("active");
+        root.removeClassName("active");
       }
     }
   }
