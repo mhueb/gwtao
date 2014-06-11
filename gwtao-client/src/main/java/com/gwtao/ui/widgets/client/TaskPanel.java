@@ -17,8 +17,9 @@ package com.gwtao.ui.widgets.client;
 
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.gwtao.ui.util.client.GWTUtils;
 import com.gwtao.ui.util.client.action.SimpleActionSupplier;
 import com.gwtao.ui.util.client.card.Card;
 import com.gwtao.ui.util.client.card.CardItem;
@@ -36,7 +37,7 @@ public class TaskPanel extends ComplexPanel {
   private ICardSupplier supplier;
 
   public TaskPanel() {
-    setElement(DOM.createDiv());
+    setElement(GWTUtils.createDiv());
     setStylePrimaryName("gwtao-taskpanel");
   }
 

@@ -25,7 +25,6 @@ import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -85,7 +84,7 @@ public class PortalViewStackHead<T extends IViewNavigatorItem> extends Composite
 
     public TabField(T item) {
       this.item = item;
-      DOM.setStyleAttribute(title.getElement(), "whiteSpace", "nowrap");
+      title.getElement().getStyle().setProperty("whiteSpace", "nowrap");
       add(title);
       update();
     }

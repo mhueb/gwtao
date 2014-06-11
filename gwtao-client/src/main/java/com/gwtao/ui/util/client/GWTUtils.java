@@ -17,6 +17,7 @@ package com.gwtao.ui.util.client;
 
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.FieldSetElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -70,16 +71,16 @@ public class GWTUtils {
 
   public static native void closeBrowser()
   /*-{
-		$wnd.close();
+  	$wnd.close();
   }-*/;
 
   public static native int getBrowserX() /*-{
-		return $wnd.screenLeft | $wnd.screenX;
-  }-*/;
+                                         return $wnd.screenLeft | $wnd.screenX;
+                                         }-*/;
 
   public static native int getBrowserY() /*-{
-		return $wnd.screenTop | $wnd.screenY;
-  }-*/;
+                                         return $wnd.screenTop | $wnd.screenY;
+                                         }-*/;
 
   public static KeyInfo createKeyInfo(NativeEvent nativeEvent) {
     if (nativeEvent != null)
@@ -93,5 +94,13 @@ public class GWTUtils {
       return new EventInfo(nativeEvent.getClientX(), nativeEvent.getClientY(), nativeEvent.getShiftKey(), nativeEvent.getCtrlKey(), nativeEvent.getAltKey());
     else
       return null;
+  }
+
+  public static DivElement createDiv() {
+    return Document.get().createDivElement();
+  }
+
+  public static FieldSetElement createFieldSet() {
+    return Document.get().createFieldSetElement();
   }
 }

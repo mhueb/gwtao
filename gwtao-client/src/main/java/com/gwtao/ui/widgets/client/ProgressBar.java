@@ -17,7 +17,6 @@ package com.gwtao.ui.widgets.client;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.gwtao.ui.util.client.ProgressBarRenderer;
 
@@ -42,10 +41,10 @@ public class ProgressBar extends ComplexPanel {
   public void setWidth(String width) {
     super.setWidth(width);
     getElement().getStyle().setFloat(Float.LEFT);
-    DOM.setStyleAttribute(getElement(), "display", "inline");
+    getElement().getStyle().setProperty("display", "inline");
   }
 
   public void setFloat(String style) {
-    DOM.setStyleAttribute(getElement(), "float", style);
+    getElement().getStyle().setProperty("float", style);
   }
 }

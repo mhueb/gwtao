@@ -16,7 +16,7 @@
 package com.gwtao.ui.richtext.client;
 
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -36,7 +36,7 @@ public class RichTextAreaEx extends Composite {
         onRichTextLoad();
       }
     };
-    
+
     richtext.setStylePrimaryName("gwtao-RichText");
     richtext.setWidth("100%");
     richtext.setHeight("100%");
@@ -109,7 +109,7 @@ public class RichTextAreaEx extends Composite {
   }
 
   public void setReadOnly(boolean readonly) {
-      this.readonly = readonly;
+    this.readonly = readonly;
   }
 
   public void setHTML(String html) {

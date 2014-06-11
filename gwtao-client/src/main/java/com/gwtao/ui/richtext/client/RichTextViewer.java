@@ -15,8 +15,7 @@
  */
 package com.gwtao.ui.richtext.client;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
@@ -56,7 +55,7 @@ public class RichTextViewer extends Composite {
 
     initWidget(richtext);
 
-    DOM.setStyleAttribute(getElement(), "border", "0px");
+    getElement().getStyle().setProperty("border", "0px");
     // DOM.setStyleAttribute(getElement(), "overflow", "visible");
 
     // setBorder(true);
@@ -72,11 +71,11 @@ public class RichTextViewer extends Composite {
   public void setBorder(boolean b) {
     if (b) {
       this.setStyleName("gwtaf-RichTextAreaEx-Border");
-      DOM.setStyleAttribute(getElement(), "padding", "5px");
+      getElement().getStyle().setProperty("padding", "5px");
     }
     else {
       this.removeStyleName("gwtaf-RichTextAreaEx-Border");
-      DOM.setStyleAttribute(getElement(), "padding", "");
+      getElement().getStyle().setProperty("padding", "");
     }
   }
 

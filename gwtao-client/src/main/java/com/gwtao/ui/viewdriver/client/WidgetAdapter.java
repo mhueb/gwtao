@@ -17,7 +17,6 @@ package com.gwtao.ui.viewdriver.client;
 
 import org.shu4j.utils.permission.Permission;
 
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.ValueBoxBase;
 import com.google.gwt.user.client.ui.Widget;
@@ -69,7 +68,7 @@ public class WidgetAdapter<M, V> {
       ((ValueBoxBase<?>) widget).setReadOnly(readOnly);
     }
     else {
-      DOM.setElementPropertyBoolean(widget.getElement(), "disabled", readOnly);
+      widget.getElement().setPropertyBoolean("disabled", readOnly);
     }
   }
 

@@ -17,7 +17,6 @@ package com.gwtao.ui.layout.client;
 
 import java.util.Iterator;
 
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.Size;
@@ -72,12 +71,12 @@ public class SplitFlowLayout extends FlowLayout {
 
       if (isHorizontal()) {
         l.setWidth((ls + delta) + "px");
-        DOM.setStyleAttribute(r.getElement(), "left", (rp + delta) + "px");
+        r.getElement().getStyle().setProperty("left", (rp + delta) + "px");
         r.setWidth((rs - delta) + "px");
       }
       else {
         l.setHeight((ls + delta) + "px");
-        DOM.setStyleAttribute(r.getElement(), "top", (rp + delta) + "px");
+        r.getElement().getStyle().setProperty("top", (rp + delta) + "px");
         r.setHeight((rs - delta) + "px");
       }
       if (l instanceof RequiresResize)

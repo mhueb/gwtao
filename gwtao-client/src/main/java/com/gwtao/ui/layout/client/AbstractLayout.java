@@ -17,8 +17,7 @@ package com.gwtao.ui.layout.client;
 
 import java.util.Iterator;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.CSSUtils;
 import com.gwtao.ui.util.client.Size;
@@ -61,8 +60,9 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
 
   protected Size getClientSize() {
     Size size;
-     size = new Size(layoutPanel.getOffsetWidth(), layoutPanel.getOffsetHeight());
-    //size = new Size(layoutPanel.getOffsetWidth() + CSSUtils.calcMarginWidth(layoutPanel.getElement()), layoutPanel.getOffsetHeight() + CSSUtils.calcMarginHeight(layoutPanel.getElement()));
+    size = new Size(layoutPanel.getOffsetWidth(), layoutPanel.getOffsetHeight());
+    // size = new Size(layoutPanel.getOffsetWidth() + CSSUtils.calcMarginWidth(layoutPanel.getElement()),
+    // layoutPanel.getOffsetHeight() + CSSUtils.calcMarginHeight(layoutPanel.getElement()));
 
     // Element e = layoutPanel.getElement();
     // size = new Size(e.getClientWidth(), e.getClientHeight());
@@ -115,10 +115,10 @@ public abstract class AbstractLayout<T extends LayoutData> implements ILayout {
     mw += CSSUtils.calcPaddingWidth(elem);
     mh += CSSUtils.calcPaddingHeight(elem);
 
-    DOM.setStyleAttribute(elem, "overflow", "hidden");
-    DOM.setStyleAttribute(elem, POSITION, "absolute");
-    DOM.setStyleAttribute(elem, LEFT, (left + cx) + PX);
-    DOM.setStyleAttribute(elem, TOP, (top + cy) + PX);
+    elem.getStyle().setProperty("overflow", "hidden");
+    elem.getStyle().setProperty(POSITION, "absolute");
+    elem.getStyle().setProperty(LEFT, (left + cx) + PX);
+    elem.getStyle().setProperty(TOP, (top + cy) + PX);
     widget.setSize((width - mw) + PX, (height - mh) + PX);
 
   }

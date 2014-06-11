@@ -20,7 +20,6 @@ import org.shu4j.utils.permission.Permission;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.gwtao.ui.util.client.GWTUtils;
 import com.gwtao.ui.util.client.action.ActionFocusWidgetAdapter;
@@ -72,8 +71,8 @@ public class BorderlessButton extends Button {
 
     update();
 
-    DOM.setStyleAttribute(getElement(), "background", "transparent");
-    DOM.setStyleAttribute(getElement(), "border", "0");
+    getElement().getStyle().setProperty( "background", "transparent");
+    getElement().getStyle().setProperty( "border", "0");
   }
 
   private void init(final IAction action) {
@@ -96,7 +95,7 @@ public class BorderlessButton extends Button {
     if (title != null) {
       // int lines = StringUtil.count(title.toLowerCase(), "<br>");
       // if (lines > 1) {
-      // DOM.setStyleAttribute(getElement(), "height", String.valueOf(16 * lines));
+      // getElement().getStyle().setProperty( "height", String.valueOf(16 * lines));
       // style = "gwtaf-action-item-multiline";
       // }
     }

@@ -57,7 +57,6 @@ public class ActionAdapter implements IAction {
     return action.getWidgetHandler();
   }
 
-  @Deprecated
   public void enforcePermission() {
     getWidgetHandler().update();
   }

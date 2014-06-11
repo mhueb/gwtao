@@ -15,30 +15,32 @@
  */
 package com.gwtao.ui.widgets.client;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.util.client.GWTUtils;
 
 public class SwitchPanel extends ComplexPanel implements RequiresResize, ProvidesResize {
   public SwitchPanel() {
-    setElement(DOM.createDiv());
+    setElement(GWTUtils.createDiv());
   }
 
   @Override
   public void add(Widget w) {
     prepareWidget(w);
-    super.add(w, getElement());
+    Element elem = getElement();
+    super.add(w, elem);
   }
 
   public void insert(Widget w, int beforeIndex) {
     prepareWidget(w);
-    super.insert(w, getElement(), beforeIndex, true);
+    Element elem = getElement();
+    super.insert(w, elem, beforeIndex, true);
   }
 
   private void prepareWidget(Widget w) {

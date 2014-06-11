@@ -15,23 +15,24 @@
  */
 package com.gwtao.ui.widgets.client;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtao.ui.util.client.GWTUtils;
 
 public class FieldPanel extends Composite {
 
   private final class PrivateFieldPanel extends ComplexPanel {
     public PrivateFieldPanel() {
-      setElement(DOM.createDiv());
+      setElement(GWTUtils.createDiv());
     }
 
     public void add(Widget child) {
-      insert(child, getElement(), getWidgetCount(), false);
+      insert(child, (Element) getElement(), getWidgetCount(), false);
     }
   }
 
@@ -41,7 +42,7 @@ public class FieldPanel extends Composite {
     private Element legend;
 
     public FieldSet() {
-      setElement(DOM.createFieldSet());
+      setElement(GWTUtils.createFieldSet());
       setStyleName("gwtao-fieldSet");
       width = 120;
       unit = Unit.PX;
@@ -51,7 +52,7 @@ public class FieldPanel extends Composite {
       FieldRow child = new FieldRow();
       child.addLabel(labelText, width, unit);
       child.addWidget(field);
-      insert(child, getElement(), getWidgetCount(), false);
+      insert(child, (Element) getElement(), getWidgetCount(), false);
     }
 
     public void setLegend(String string) {
@@ -65,7 +66,7 @@ public class FieldPanel extends Composite {
 
   public static final class FieldRow extends ComplexPanel {
     public FieldRow() {
-      setElement(DOM.createDiv());
+      setElement(GWTUtils.createDiv());
       setStyleName("gwtao-fieldSetRow");
     }
 
@@ -74,7 +75,7 @@ public class FieldPanel extends Composite {
       label.addStyleName("gwtao-fieldSetLabel");
       label.getElement().getStyle().setWidth(width, unit);
       label.getElement().getStyle().setProperty("minWidth", label.getElement().getStyle().getWidth());
-      insert(label, getElement(), getWidgetCount(), false);
+      insert(label, (Element) getElement(), getWidgetCount(), false);
     }
 
     public void addWidget(Widget field) {

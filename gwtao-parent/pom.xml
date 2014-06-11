@@ -42,9 +42,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
-		<gwtVersion>2.5.1</gwtVersion>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
+		<gwt.version>2.6.1</gwt.version>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.debug>true</maven.compiler.debug>
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
@@ -69,19 +69,19 @@
 			<dependency>
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-servlet</artifactId>
-				<version>${gwtVersion}</version>
+				<version>${gwt.version}</version>
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-user</artifactId>
-				<version>${gwtVersion}</version>
+				<version>${gwt.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-dev</artifactId>
-				<version>${gwtVersion}</version>
+				<version>${gwt.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -176,17 +176,17 @@
 						<dependency>
 							<groupId>com.google.gwt</groupId>
 							<artifactId>gwt-user</artifactId>
-							<version>${gwtVersion}</version>
+							<version>${gwt.version}</version>
 						</dependency>
 						<dependency>
 							<groupId>com.google.gwt</groupId>
 							<artifactId>gwt-dev</artifactId>
-							<version>${gwtVersion}</version>
+							<version>${gwt.version}</version>
 						</dependency>
 						<dependency>
 							<groupId>com.google.gwt</groupId>
 							<artifactId>gwt-servlet</artifactId>
-							<version>${gwtVersion}</version>
+							<version>${gwt.version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>

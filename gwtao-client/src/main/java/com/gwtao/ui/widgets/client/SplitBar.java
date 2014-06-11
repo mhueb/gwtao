@@ -16,7 +16,6 @@
 package com.gwtao.ui.widgets.client;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,7 +50,7 @@ public abstract class SplitBar extends Widget {
     this.barsize = barsize;
     setElement(Document.get().createDivElement());
     sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE | Event.ONDBLCLICK);
-    DOM.setStyleAttribute(getElement(), "cursor", getCursor());
+    getElement().getStyle().setProperty("cursor", getCursor());
   }
 
   @Override
@@ -123,7 +122,7 @@ public abstract class SplitBar extends Widget {
 
     @Override
     public void movePosition(int pos) {
-      DOM.setStyleAttribute(getElement(), "left", pos + "PX");
+      getElement().getStyle().setProperty("left", pos + "PX");
     }
 
     @Override
@@ -151,7 +150,7 @@ public abstract class SplitBar extends Widget {
 
     @Override
     public void movePosition(int pos) {
-      DOM.setStyleAttribute(getElement(), "top", pos + "PX");
+      getElement().getStyle().setProperty("top", pos + "PX");
     }
 
     @Override

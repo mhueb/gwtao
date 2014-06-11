@@ -17,8 +17,7 @@ package com.gwtao.ui.layout.client;
 
 import java.util.Iterator;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtao.ui.util.client.CSSUtils;
 import com.gwtao.ui.util.client.Size;
@@ -40,8 +39,8 @@ public class FlowLayout extends AbstractLayout<FlowLayoutData> {
   protected void init() {
     super.init();
     Element element = getLayoutPanel().getElement();
-    DOM.setStyleAttribute(element, "position", "static");
-    DOM.setStyleAttribute(element, "overflow", "hidden");
+    element.getStyle().setProperty("position", "static");
+    element.getStyle().setProperty("overflow", "hidden");
   }
 
   @Override

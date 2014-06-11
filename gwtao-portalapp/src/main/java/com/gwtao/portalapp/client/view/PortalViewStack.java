@@ -120,7 +120,7 @@ public class PortalViewStack<T extends IPortalView> extends AbstractPortalPart i
     header.onChangeViewState();
   }
 
-  private void notifyViewChange() {
+  protected void notifyViewChange() {
     notifyTimer.cancel();
     notifyTimer.schedule(150);
   }
@@ -132,7 +132,7 @@ public class PortalViewStack<T extends IPortalView> extends AbstractPortalPart i
       it.next().onViewSwitch(view);
   }
 
-  private void notifyViewClose(T view) {
+  protected void notifyViewClose(T view) {
     SafeIterator<IPortalViewStackListener> it = new SafeIterator<IPortalViewStackListener>(listeners);
     while (it.hasNext())
       it.next().onViewClose(view);

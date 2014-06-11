@@ -20,7 +20,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -54,11 +53,11 @@ public class GlassPane {
     iDiv.getStyle().setPosition(Position.ABSOLUTE);
     iDiv.getStyle().setZIndex(10001);
 
-    com.google.gwt.user.client.Element elem1 = iFrame.cast();
-    DOM.appendChild(RootPanel.getBodyElement(), elem1);
+    com.google.gwt.dom.client.Element elem1 = iFrame.cast();
+    RootPanel.getBodyElement().appendChild(elem1);
 
-    com.google.gwt.user.client.Element elem2 = iDiv.cast();
-    DOM.appendChild(RootPanel.getBodyElement(), elem2);
+    com.google.gwt.dom.client.Element elem2 = iDiv.cast();
+    RootPanel.getBodyElement().appendChild(elem2);
   }
 
   public void update() {
@@ -71,18 +70,18 @@ public class GlassPane {
   }
 
   private void update(int left, int top, int width, int height) {
-    com.google.gwt.user.client.Element elem1 = iFrame.cast();
+    com.google.gwt.dom.client.Element elem1 = iFrame.cast();
     move(left, top, width, height, elem1);
 
-    com.google.gwt.user.client.Element elem2 = iDiv.cast();
+    com.google.gwt.dom.client.Element elem2 = iDiv.cast();
     move(left, top, width, height, elem2);
   }
 
-  private void move(int left, int top, int width, int height, com.google.gwt.user.client.Element elem) {
-    DOM.setStyleAttribute(elem, "left", left + "px");
-    DOM.setStyleAttribute(elem, "top", top + "px");
-    DOM.setStyleAttribute(elem, "width", width + "px");
-    DOM.setStyleAttribute(elem, "height", height + "px");
+  private void move(int left, int top, int width, int height, com.google.gwt.dom.client.Element elem) {
+    elem.getStyle().setProperty("left", left + "px");
+    elem.getStyle().setProperty("top", top + "px");
+    elem.getStyle().setProperty("width", width + "px");
+    elem.getStyle().setProperty("height", height + "px");
   }
 
   public void remove() {
@@ -101,8 +100,8 @@ public class GlassPane {
   }
 
   private void setCursor(String cursor) {
-    com.google.gwt.user.client.Element elem2 = iDiv.cast();
-    DOM.setStyleAttribute(elem2, "cursor", cursor);
+    com.google.gwt.dom.client.Element elem2 = iDiv.cast();
+    elem2.getStyle().setProperty("cursor", cursor);
   }
 
   public static GlassPane createGlassPane(Widget reference, String cursor) {

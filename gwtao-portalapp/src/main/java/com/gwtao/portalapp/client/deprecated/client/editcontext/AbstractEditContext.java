@@ -158,7 +158,6 @@ public abstract class AbstractEditContext<T> extends SimpleDataSource<T> impleme
   /**
    * TODO workaround - refactoring needed
    */
-  @Deprecated
   protected void resetFlags() {
     this.dirtyFlagForce = false;
     dirtyFlag = false;

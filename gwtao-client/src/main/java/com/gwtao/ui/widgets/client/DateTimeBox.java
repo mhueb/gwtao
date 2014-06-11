@@ -15,11 +15,11 @@
  */
 package com.gwtao.ui.widgets.client;
 
-import java.util.Collection;
 import java.util.Date;
 
 import org.shu4j.utils.util.DateUtil;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -124,7 +124,8 @@ public class DateTimeBox extends ComplexPanel implements HasValue<Date>, IsEdito
   }
 
   public DateTimeBox(TYPE type) {
-    setElement(DOM.createDiv());
+    Element div = DOM.createDiv();
+    setElement(div);
 
     dateBox.addStyleName("gwtao-datebox");
     dateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
@@ -134,7 +135,8 @@ public class DateTimeBox extends ComplexPanel implements HasValue<Date>, IsEdito
       }
     });
 
-    insert(dateBox, getElement(), 0, true);
+    Element element = getElement();
+    insert(dateBox, element, 0, true);
 
     if (type == TYPE.DATE_TIME) {
       timeBox.addStyleName("gwtao-timebox");
@@ -147,7 +149,8 @@ public class DateTimeBox extends ComplexPanel implements HasValue<Date>, IsEdito
       for (String time : TIMES) {
         this.timeBox.addItem(time);
       }
-      insert(timeBox, getElement(), 1, false);
+      Element elem = getElement();
+      insert(timeBox, elem, 1, false);
     }
   }
 
@@ -206,8 +209,8 @@ public class DateTimeBox extends ComplexPanel implements HasValue<Date>, IsEdito
       this.timeBox.setSelectedIndex(-1);
     }
     else {
-      int hour = value.getHours();
-      int minute = value.getMinutes();
+      int hour = DateUtil.getHours(value);
+      int minute = DateUtil.getMinutes(value);
       int index = hour * 2;
 
       if (minute >= 30) {

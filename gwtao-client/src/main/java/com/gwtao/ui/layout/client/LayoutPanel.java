@@ -17,6 +17,7 @@ package com.gwtao.ui.layout.client;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.ProvidesResize;
@@ -30,7 +31,8 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
   private boolean requiresLayout;
 
   public LayoutPanel() {
-    setElement(DOM.createDiv());
+    Element div = DOM.createDiv();
+    setElement(div);
   }
 
   public LayoutPanel(ILayout layout) {
@@ -61,10 +63,11 @@ public class LayoutPanel extends ComplexPanel implements RequiresResize, Provide
   }
 
   public void insert(Widget w, int beforeIndex) {
+    Element element = getElement();
     if (beforeIndex < getWidgetCount())
-      super.insert(w, getElement(), beforeIndex, true);
+      super.insert(w, element, beforeIndex, true);
     else
-      super.add(w, getElement());
+      super.add(w, element);
     layout.onAddChild(w);
     adjustLayout();
   }
