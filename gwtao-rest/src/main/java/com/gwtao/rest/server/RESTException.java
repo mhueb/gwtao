@@ -1,4 +1,4 @@
-package com.gwtao.rest.shared.utils;
+package com.gwtao.rest.server;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
